@@ -15,17 +15,17 @@ build:
 	@echo "\n${HR}"
 	@echo "Building Bootstrap..."
 	@echo "${HR}\n"
-	@jshint js/*.js --config js/.jshintrc
-	@jshint js/tests/unit/*.js --config js/.jshintrc
+	@jshint js/libs/bootstrap/*.js --config js/libs/bootstrap/.jshintrc
+	@jshint js/libs/bootstrap/tests/unit/*.js --config js/libs/bootstrap/.jshintrc
 	@echo "Running JSHint on javascript...             ${CHECK} Done"
 	@recess --compile ${BOOTSTRAP_LESS} > ${BOOTSTRAP}
 	@recess --compile ${BOOTSTRAP_RESPONSIVE_LESS} > ${BOOTSTRAP_RESPONSIVE}
 	@echo "Compiling LESS with Recess...               ${CHECK} Done"
-	@cat js/bootstrap-transition.js js/bootstrap-alert.js js/bootstrap-button.js js/bootstrap-carousel.js js/bootstrap-collapse.js js/bootstrap-dropdown.js js/bootstrap-modal.js js/bootstrap-tooltip.js js/bootstrap-popover.js js/bootstrap-scrollspy.js js/bootstrap-tab.js js/bootstrap-typeahead.js js/bootstrap-affix.js > js/cavium.js
-	@uglifyjs js/cavium.js -nc > js/cavium.min.tmp.js
-	@echo "/**\n* Bootstrap.js v2.2.2 by @fat & @mdo\n* Copyright 2012 Twitter, Inc.\n* http://www.apache.org/licenses/LICENSE-2.0.txt\n*/" > js/copyright.js
-	@cat js/copyright.js js/cavium.min.tmp.js > js/cavium.min.js
-	@rm js/copyright.js js/cavium.min.tmp.js
+	@cat js/libs/bootstrap/bootstrap-transition.js js/libs/bootstrap/bootstrap-alert.js js/libs/bootstrap/bootstrap-button.js js/libs/bootstrap/bootstrap-carousel.js js/libs/bootstrap/bootstrap-collapse.js js/libs/bootstrap/bootstrap-dropdown.js js/libs/bootstrap/bootstrap-modal.js js/libs/bootstrap/bootstrap-tooltip.js js/libs/bootstrap/bootstrap-popover.js js/libs/bootstrap/bootstrap-scrollspy.js js/libs/bootstrap/bootstrap-tab.js js/libs/bootstrap/bootstrap-typeahead.js js/libs/bootstrap/bootstrap-affix.js > js/libs/bootstrap/cavium.js
+	@uglifyjs js/libs/bootstrap/cavium.js -nc > js/libs/bootstrap/cavium.min.tmp.js
+	@echo "/**\n* Bootstrap.js v2.2.2 by @fat & @mdo\n* Copyright 2012 Twitter, Inc.\n* http://www.apache.org/licenses/LICENSE-2.0.txt\n*/" > js/libs/bootstrap/copyright.js
+	@cat js/libs/bootstrap/copyright.js js/libs/bootstrap/cavium.min.tmp.js > js/libs/bootstrap/cavium.min.js
+	@rm js/libs/bootstrap/copyright.js js/libs/bootstrap/cavium.min.tmp.js
 	@echo "Compiling and minifying javascript...       ${CHECK} Done"
 	@echo "\n${HR}"
 	@echo "Bootstrap successfully built at ${DATE}."
@@ -38,19 +38,19 @@ build:
 #
 
 test:
-	jshint js/*.js --config js/.jshintrc
-	jshint js/tests/unit/*.js --config js/.jshintrc
-	node js/tests/server.js &
-	phantomjs js/tests/phantom.js "http://localhost:3000/js/tests"
-	kill -9 `cat js/tests/pid.txt`
-	rm js/tests/pid.txt
+	jshint js/libs/bootstrap/*.js --config js/libs/bootstrap/.jshintrc
+	jshint js/libs/bootstrap/tests/unit/*.js --config js/libs/bootstrap/.jshintrc
+	node js/libs/bootstrap/tests/server.js &
+	phantomjs js/libs/bootstrap/tests/phantom.js "http://localhost:3000/js/libs/bootstrap/tests"
+	kill -9 `cat js/libs/bootstrap/tests/pid.txt`
+	rm js/libs/bootstrap/tests/pid.txt
 
 #
 # CLEANS THE ROOT DIRECTORY OF PRIOR BUILDS
 #
 
 clean:
-	rm -r bootstrap
+	rm -fr js/libs/bootstrap/cavium.min.js js/libs/bootstrap/cavium.js ${BOOTSTRAP} ${BOOTSTRAP_RESPONSIVE}
 
 #
 # BUILD SIMPLE BOOTSTRAP DIRECTORY
