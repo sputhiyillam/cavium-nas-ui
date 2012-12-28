@@ -1,8 +1,11 @@
 require.config({
     paths: {
-        jquery: 'libs/jquery/jquery',
-        underscore: 'libs/underscore/underscore',
-        backbone: 'libs/backbone/backbone'
+        jquery: 'libs/jquery-1.8.3.min',
+        underscore: 'libs/underscore-min',
+        backbone: 'libs/backbone-min',
+        mustache: 'libs/mustache',
+        text: 'libs/text',
+        i18n: 'libs/i18n'
     }
 });
 
