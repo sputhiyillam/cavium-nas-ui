@@ -5,7 +5,8 @@ require.config({
         backbone: 'libs/backbone-min',
         mustache: 'libs/mustache',
         text: 'libs/text',
-        i18n: 'libs/i18n'
+        i18n: 'libs/i18n',
+        templates: '../templates'
     }
 });
 

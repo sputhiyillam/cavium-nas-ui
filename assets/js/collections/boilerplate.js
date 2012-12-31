@@ -2,15 +2,15 @@ define(function(require) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
-        Shares = require('models/shares');
+        BoilerPlate = require('models/boilerplate');
 
-    var SharesCollection = Backbone.Collection.extend({
-        model: Shares,
+    var BoilerPlateCollection = Backbone.Collection.extend({
+        model: BoilerPlate,
         url: '/shares',
         initialize: function() {
         }
 
     });
 
-    return SharesCollection;
+    return BoilerPlateCollection;
 });

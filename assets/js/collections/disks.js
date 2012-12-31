@@ -2,15 +2,15 @@ define(function(require) {
     var $ = require('jquery'),
         _ = require('underscore'),
         Backbone = require('backbone'),
-        Shares = require('models/shares');
+        Disks = require('models/disks');
 
-    var SharesCollection = Backbone.Collection.extend({
-        model: Shares,
+    var DisksCollection = Backbone.Collection.extend({
+        model: Disks,
         url: '/shares',
         initialize: function() {
         }
 
     });
 
-    return SharesCollection;
+    return DisksCollection;
 });

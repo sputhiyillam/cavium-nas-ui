@@ -8,9 +8,9 @@ define(function(require) {
         // BaseView initialization code
         Backbone.View.apply(this, [options]);
     };
-    
+
     _.extend(BaseView.prototype, Backbone.View.prototype, {
-        el: $(".cav-content-panel"),
+        el: $(".cav-content-panel")
     });
 
     BaseView.extend = Backbone.View.extend;

@@ -18,9 +18,12 @@ define(function(require){
           'shares'      : 'showShares',
           'usergroups'  : 'showUserGroups',
           'backup'      : 'showBackup',
-          'settings'    : 'showSettings'
+          'settings'    : 'showSettings',
           //Default
           '*actions'    : 'showHome'
+        },
+
+        initialize: function() {
         },
 
         showDisks: function() {
@@ -51,7 +54,7 @@ define(function(require){
         showSettings: function() {
             var view = new SettingsView();
             view.render();
-        }
+        },
 
         showHome: function() {
             var view = new HomeView();
@@ -59,12 +62,13 @@ define(function(require){
         }
     });
 
-    var initialize = function(){
-        var app_router = new AppRouter;
-        Backbone.history.start();
-    };
-    
-    return { 
-        initialize: initialize
-    };
+    return AppRouter;
+    //var initialize = function(){
+    //    var app_router = new AppRouter();
+    //    Backbone.history.start();
+    //};
+
+    //return {
+    //    initialize: initialize
+    //};
 });
