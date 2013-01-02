@@ -12,5 +12,5 @@ define(function(require) {
 
     });
 
-    return UsergroupsCollection;
+    return new UsergroupsCollection;
 });

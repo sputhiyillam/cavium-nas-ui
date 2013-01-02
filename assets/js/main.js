@@ -7,9 +7,19 @@ require.config({
         text: 'libs/text',
         i18n: 'libs/i18n',
         templates: '../templates'
+    },
+    shim: {
+        underscore: {
+            exports: '_'
+        },
+        backbone: {
+            deps: ["underscore", "jquery"],
+            exports: "Backbone"
+        }
     }
 });
 
-require(['app'], function(App) {
+define(function(require){
+    var App = require('app');
     App.initialize();
 });
