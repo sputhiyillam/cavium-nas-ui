@@ -12,6 +12,7 @@ HR=\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\#\
 #
 
 build:
+	mkdir -p css
 	@echo "\n${HR}"
 	@echo "Building Bootstrap..."
 	@echo "${HR}\n"
@@ -23,6 +24,7 @@ build:
 	@echo "Compiling LESS with Recess...               ${CHECK} Done"
 	@cat js/libs/bootstrap/bootstrap-transition.js js/libs/bootstrap/bootstrap-alert.js js/libs/bootstrap/bootstrap-button.js js/libs/bootstrap/bootstrap-carousel.js js/libs/bootstrap/bootstrap-collapse.js js/libs/bootstrap/bootstrap-dropdown.js js/libs/bootstrap/bootstrap-modal.js js/libs/bootstrap/bootstrap-tooltip.js js/libs/bootstrap/bootstrap-popover.js js/libs/bootstrap/bootstrap-scrollspy.js js/libs/bootstrap/bootstrap-tab.js js/libs/bootstrap/bootstrap-typeahead.js js/libs/bootstrap/bootstrap-affix.js > js/libs/bootstrap/cavium.js
 	@uglifyjs js/libs/bootstrap/cavium.js -nc > js/libs/bootstrap/cavium.min.tmp.js
+	@r.js -o js/build.js
 	@echo "/**\n* Bootstrap.js v2.2.2 by @fat & @mdo\n* Copyright 2012 Twitter, Inc.\n* http://www.apache.org/licenses/LICENSE-2.0.txt\n*/" > js/libs/bootstrap/copyright.js
 	@cat js/libs/bootstrap/copyright.js js/libs/bootstrap/cavium.min.tmp.js > js/libs/bootstrap/cavium.min.js
 	@rm js/libs/bootstrap/copyright.js js/libs/bootstrap/cavium.min.tmp.js
@@ -50,7 +52,7 @@ test:
 #
 
 clean:
-	rm -fr js/libs/bootstrap/cavium.min.js js/libs/bootstrap/cavium.js ${BOOTSTRAP} ${BOOTSTRAP_RESPONSIVE}
+	rm -fr js/libs/bootstrap/cavium.min.js js/libs/bootstrap/cavium.js ${BOOTSTRAP} ${BOOTSTRAP_RESPONSIVE} js/main-built.js
 
 #
 # BUILD SIMPLE BOOTSTRAP DIRECTORY
