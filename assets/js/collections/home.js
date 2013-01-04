@@ -6,7 +6,7 @@ define(function(require) {
 
     var HomeCollection = Backbone.Collection.extend({
         model: Home,
-        url: '/shares',
+        url: 'index.php/shares/api/format/json',
         initialize: function() {
         }
 

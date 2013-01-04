@@ -3,42 +3,17 @@ define(function(require) {
         _ = require('underscore'),
         Backbone = require('backbone'),
         Mustache = require('mustache'),
-        BaseView = require('views/base'),
-        SidebarTemplate = require('text!templates/home_side.html'),
-        ContentTemplate = require('text!templates/home_main.html'),
-        Home = require('collections/home');
+        ContentTemplate = require('text!templates/navbar.html');
 
-    var HomeView = BaseView.extend({
-        sidebarTemplate: Mustache.compile(SidebarTemplate),
+    var NavbarView = Backbone.View.extend({
+        el: $('#navbar'),
         contentTemplate: Mustache.compile(ContentTemplate),
 
-        events: {
-          "click #create-home": "create"
-        },
-
         initialize: function (options) {
-            Home.on('add',    this.add,       this);
-            Home.on('remove', this.remove,    this);
-            Home.on('reset',  this.reset,     this);
-            Home.on('sort',   this.sort,      this);
-            Home.on('change', this.change,    this);
-            Home.on('change:[attribute]', this.change, this);
-            Home.on('destroy',this.destroy,   this);
-            Home.on('request',this.request,   this);
-            Home.on('sync',   this.sync,      this);
-            Home.on('error',  this.error,     this);
-            Home.on('route:[name]', this.route, this);
-            Home.on('all',    this.all,       this);
-            Home.fetch();
-        },
-
-        refresh: function() {
-            Home.fetch();
         },
 
         render: function() {
-            this.$('#sidebar').html(this.sidebarTemplate());
-            this.$('#main-content').html(this.contentTemplate());
+            this.$el.html(this.contentTemplate());
         },
 
         create: function() {
@@ -94,5 +69,5 @@ define(function(require) {
 
     });
 
-    return HomeView;
+    return NavbarView;
 });

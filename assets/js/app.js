@@ -1,5 +1,6 @@
 define(function(require){
     var $ = require('jquery'),
+        bootstrap = require('bootstrap'),
         _ = require('underscore'),
         Backbone = require('backbone'),
         AppRouter = require('router');

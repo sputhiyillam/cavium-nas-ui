@@ -10,7 +10,9 @@ define(function(require) {
     };
 
     _.extend(BaseView.prototype, Backbone.View.prototype, {
-        el: $(".cav-content-panel")
+        el: $("#content-panel"),
+        refresh: function() {
+        }
     });
 
     BaseView.extend = Backbone.View.extend;

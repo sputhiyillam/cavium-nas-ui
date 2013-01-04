@@ -5,10 +5,6 @@ define(function(require) {
 
     var BaseModel = function (options) {
         // BaseModel initialization code
-        setInterval(function() {
-            this.fetch();
-        }, 10000);
-
         Backbone.Model.apply(this, [options]);
     };
 

@@ -9,8 +9,11 @@ define(function(require){
         SharesView = require('views/shares'),
         UsergroupsView = require('views/usergroups'),
         BackupView = require('views/backup'),
-        SettingsView = require('views/settings');
+        SettingsView = require('views/settings'),
+        NavbarView = require('views/navbar');
 
+    var contentPanel = null;
+    var navbar = null;
     var AppRouter = Backbone.Router.extend({
         routes: {
           'disks'       : 'showDisks',
@@ -24,6 +27,10 @@ define(function(require){
         },
 
         initialize: function() {
+            navbar = new NavbarView();
+            setInterval(function() {
+                contentPanel.refresh();
+            }, 10000);
         },
 
         showDisks: function() {
@@ -57,8 +64,9 @@ define(function(require){
         },
 
         showHome: function() {
-            var view = new HomeView();
-            view.render();
+            contentPanel = new HomeView();
+            navbar.render();
+            contentPanel.render();
         }
     });
 
