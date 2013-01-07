@@ -2,6 +2,7 @@
     baseUrl: ".",
     paths: {
         jquery: 'libs/jquery-1.8.3.min',
+        bootstrap: 'libs/bootstrap/cavium',
         underscore: 'libs/underscore-min',
         backbone: 'libs/backbone-min',
         mustache: 'libs/mustache',
