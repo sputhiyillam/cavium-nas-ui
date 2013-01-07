@@ -1,5 +1,5 @@
 BOOTSTRAP = ./css/cavium.css
-BOOTSTRAP_LESS = ./less/bootstrap.less
+BOOTSTRAP_LESS = ./less/caviumbootstrap.less
 BOOTSTRAP_RESPONSIVE = ./css/cavium-responsive.css
 BOOTSTRAP_RESPONSIVE_LESS = ./less/responsive.less
 DATE=$(shell date +%I:%M%p)

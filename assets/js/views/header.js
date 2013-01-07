@@ -3,10 +3,10 @@ define(function(require) {
         _ = require('underscore'),
         Backbone = require('backbone'),
         Mustache = require('mustache'),
-        ContentTemplate = require('text!templates/navbar.html');
+        ContentTemplate = require('text!templates/header.html');
 
-    var NavbarView = Backbone.View.extend({
-        el: $('#navbar'),
+    var HeaderView = Backbone.View.extend({
+        el: $('#header'),
         contentTemplate: Mustache.compile(ContentTemplate),
 
         initialize: function (options) {
@@ -69,5 +69,5 @@ define(function(require) {
 
     });
 
-    return NavbarView;
+    return HeaderView;
 });

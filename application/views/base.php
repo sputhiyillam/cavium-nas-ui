@@ -16,10 +16,10 @@
 </head>
 <body>
   <div class="container">
-    <div id="navbar" class="navbar">
+    <div id="header">
     <!-- Navigation Bar -->
     </div>
-    <div id="content-panel" class="container-fluid">
+    <div id="content-panel">
       <div class="row-fluid">
         <div id="sidebar" class="span3">
           <!-- Sidebar -->

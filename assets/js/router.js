@@ -10,10 +10,10 @@ define(function(require){
         UsergroupsView = require('views/usergroups'),
         BackupView = require('views/backup'),
         SettingsView = require('views/settings'),
-        NavbarView = require('views/navbar');
+        HeaderView = require('views/header');
 
     var contentPanel = null;
-    var navbar = null;
+    var header = null;
     var AppRouter = Backbone.Router.extend({
         routes: {
           'disks'       : 'showDisks',
@@ -27,7 +27,7 @@ define(function(require){
         },
 
         initialize: function() {
-            navbar = new NavbarView();
+            header = new HeaderView();
             setInterval(function() {
                 contentPanel.refresh();
             }, 10000);
@@ -65,7 +65,7 @@ define(function(require){
 
         showHome: function() {
             contentPanel = new HomeView();
-            navbar.render();
+            header.render();
             contentPanel.render();
         }
     });
