@@ -2,6 +2,23 @@
 @logoPath:          "../img/cavium_logo_new.jpg";
 
 //
+
+/*
+  To override .navbar properties...
+*/
+
+.cav-navbar {
+  margin-bottom: 0px;
+}
+
+.logobar {
+  .navbar-inner;
+  border-radius: 0px;
+  .logo {
+    margin: 5px 0px 0px 0px;
+  }
+}
+
 .logo {
   .navbar .brand;
   width: 165px;
@@ -10,75 +27,100 @@
   background-repeat: no-repeat;
 }
 
-.logobar {
+/* Added weightage to overrite existing css property */
+.navbar .cav-navbar-inner {
   .navbar-inner;
-  border-radius: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  .border-radius( 0px );
+  .divider-vertical {
+    margin: 0px;
+    border-right: 1px solid;
+    border-left: 1px solid #4071B0;
+  }
+  .container {
+    background-color: #344B6F;
+    background-image: -moz-linear-gradient(top, #4772b2, #344b6f);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#4772b2), to(#344b6f));
+    background-image: -webkit-linear-gradient(top, #4772b2, #344b6f);
+    background-image: -o-linear-gradient(top, #4772b2, #344b6f);
+    background-image: linear-gradient(to bottom, #4772b2, #344b6f);
+  }
+
+  /*
+    Customising top menu item css
+  */
+  .nav > li {
+    > a ,
+    > a :hover,
+    > a :focus {
+      color: @white;
+      font-size: 14px;
+      text-shadow: none;      
+    }
+  }
+
+  .nav .active {
+    > a, 
+    > a :hover,
+    > a :focus {
+      background-color: #4071B0;
+      @shadow: 0 3px 8px rgba(0, 0, 0, 0.575) inset;
+      .box-shadow(@shadow);
+      color: @white;
+      font-size: 14px;
+      text-shadow: none;   
+    }
+  }
+
+  .cav-menu-item{
+    width: 150px;  
+  }  
 }
 
 .cav-sidenav {
-  width: 228px;
-  margin: 0px 0px 10px 0px;
   padding: 0;
   background-color: #fff;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-  -webkit-box-shadow: 0 1px 4px rgba(0,0,0,.065);
-     -moz-box-shadow: 0 1px 4px rgba(0,0,0,.065);
-          box-shadow: 0 1px 4px rgba(0,0,0,.065);
+  margin-bottom: 5px;
+  > li > a {
+    display: block;
+    *width: 190px;
+    margin: 0 0 -1px;
+    padding: 8px 14px;
+    border: 1px solid #e5e5e5;
+    @shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
+    .box-shadow(@shadow);
+    background-color: #373D47;
+    background-image: -moz-linear-gradient(top, #373d47, #2e323b);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#373d47), to(#2e323b));
+    background-image: -webkit-linear-gradient(top, #373d47, #2e323b);
+    background-image: -o-linear-gradient(top, #373d47, #2e323b);
+    background-image: linear-gradient(to bottom, #373d47, #2e323b);
+    color: @white;
+  }
+  .cav-sidenav-no-txt {
+    height: 25px;
+  }
 }
-.cav-sidenav > li > a {
-  display: block;
-  *width: 190px;
-  margin: 0 0 -1px;
-  padding: 8px 14px;
-  border: 1px solid #e5e5e5;
-}
-.cav-sidenav > li:first-child > a {
-  -webkit-border-radius: 6px 6px 0 0;
-     -moz-border-radius: 6px 6px 0 0;
-          border-radius: 6px 6px 0 0;
-}
-.cav-sidenav > li:last-child > a {
-  -webkit-border-radius: 0 0 6px 6px;
-     -moz-border-radius: 0 0 6px 6px;
-          border-radius: 0 0 6px 6px;
-}
-.cav-sidenav > .active > a {
-  position: relative;
-  z-index: 2;
-  padding: 9px 15px;
-  border: 0;
-  text-shadow: 0 1px 0 rgba(0,0,0,.15);
-  -webkit-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-     -moz-box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-          box-shadow: inset 1px 0 0 rgba(0,0,0,.1), inset -1px 0 0 rgba(0,0,0,.1);
-}
-/* Chevrons */
-.cav-sidenav .icon-chevron-right {
-  float: right;
-  margin-top: 2px;
-  margin-right: -6px;
-  opacity: .25;
-}
-.cav-sidenav > li > a:hover {
-  background-color: #f5f5f5;
-}
-.cav-sidenav a:hover .icon-chevron-right {
-  opacity: .5;
-}
-.cav-sidenav .active .icon-chevron-right,
-.cav-sidenav .active a:hover .icon-chevron-right {
-  background-image: url(../img/glyphicons-halflings-white.png);
-  opacity: 1;
-}
-.cav-sidenav.affix {
-  top: 40px;
-}
-.cav-sidenav.affix-bottom {
-  position: absolute;
-  top: auto;
-  bottom: 270px;
+#cav-sidebar-accordion {
+  .accordion-group {
+    .border-radius( 0px );
+    margin-bottom: 0px;
+  }
+  .accordion-heading {
+    background-color: #B0B0B0;
+    background-image: -moz-linear-gradient(top, #e3e3e3, #b0b0b0);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e3e3e3), to(#b0b0b0));
+    background-image: -webkit-linear-gradient(top, #e3e3e3, #b0b0b0);
+    background-image: -o-linear-gradient(top, #e3e3e3, #b0b0b0);
+    background-image: linear-gradient(to bottom, #e3e3e3, #b0b0b0);
+    border: 1px solid #71767E;
+    a{
+      color: @black;
+      text-decoration: none;
+      font-weight: 500;
+    }
+  }
 }
 
 

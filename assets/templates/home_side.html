@@ -1,15 +1,26 @@
 <ul class="nav nav-list cav-sidenav">
-  <li><a href="#">Create Shared Folder</a></li>
-  <li><a href="#">Create iSCSI Shared Folder</a></li>
+  <li class="cav-sidenav-no-txt">
+    <a href="#" >&nbsp;</a>
+  </li>
+  <li>
+    <a href="#">
+      <i class="icon-folder-close icon-white"></i>Create Shared Folder
+    </a>
+  </li>
+  <li>
+    <a href="#">
+      <i class="icon-file icon-white"></i>Create iSCSI Shared Folder
+    </a>
+  </li>
 </ul>
-<div class="accordion" id="accordion2">
+<div class="accordion" id="cav-sidebar-accordion">
   <div class="accordion-group">
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#cav-sidebar-accordion" href="#cav-sidebar-sf-items">
       Shared Folders
       </a>
     </div>
-    <div id="collapseTwo" class="accordion-body collapse">
+    <div id="cav-sidebar-sf-items" class="accordion-body collapse">
       <div class="accordion-inner">
       My Project
       </div>
@@ -23,11 +34,11 @@
   </div>
   <div class="accordion-group">
     <div class="accordion-heading">
-      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#cav-sidebar-accordion" href="#cav-sidebar-iscsi-items">
       iSCSI Shared Folders
       </a>
     </div>
-    <div id="collapseOne" class="accordion-body collapse in">
+    <div id="cav-sidebar-iscsi-items" class="accordion-body collapse in">
       <div class="accordion-inner">
       iSCSI Share 1
       </div>
