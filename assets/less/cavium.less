@@ -17,6 +17,7 @@
   .logo {
     margin: 5px 0px 0px 0px;
   }
+  border-bottom: 1px solid #4071B0;
 }
 
 .logo {
@@ -32,6 +33,8 @@
   padding-left: 0px;
   padding-right: 0px;
   .border-radius( 0px );
+  border: 1px solid #526E96;
+  min-height: 0px;
   .divider-vertical {
     margin: 0px;
     border-right: 1px solid;
@@ -44,6 +47,10 @@
     background-image: -webkit-linear-gradient(top, #4772b2, #344b6f);
     background-image: -o-linear-gradient(top, #4772b2, #344b6f);
     background-image: linear-gradient(to bottom, #4772b2, #344b6f);
+    .btn-navbar {
+      background-color: #344B6F;
+      background-image: none;
+    }
   }
 
   /*
@@ -55,6 +62,7 @@
     > a :focus {
       color: @white;
       font-size: 14px;
+      outline: none;
       text-shadow: none;      
     }
   }
@@ -68,25 +76,52 @@
       .box-shadow(@shadow);
       color: @white;
       font-size: 14px;
-      text-shadow: none;   
+      text-shadow: none;
+      outline: none; 
     }
   }
 
-  .cav-menu-item{
-    width: 150px;  
-  }  
+  @media (min-width: 1200px) {
+    .cav-menu-item{
+      font-size: 14px;
+      font-weight: bold;
+      width: 152px;
+      i {
+        margin-right: 5px;
+      }
+    }
+
+    .cav-menu-item-home {
+      width: 20px;
+    }
+  }
+
+  .nav-collapse .nav > li > a:hover {
+    background-color: inherit;
+  }
+}
+
+#content-panel .row-fluid{
+  background-color: #EEEEEE;
+}
+
+/* 
+  Styling sidebar nav
+*/
+#sidebar {
+  background-color: #353C46;
 }
 
 .cav-sidenav {
   padding: 0;
-  background-color: #fff;
   margin-bottom: 5px;
   > li > a {
+    outline: none;
     display: block;
     *width: 190px;
     margin: 0 0 -1px;
     padding: 8px 14px;
-    border: 1px solid #e5e5e5;
+    border-top: 1px solid #6C7279;
     @shadow: 0 -1px 10px rgba(0, 0, 0, 0.1);
     .box-shadow(@shadow);
     background-color: #373D47;
@@ -98,26 +133,58 @@
     color: @white;
   }
   .cav-sidenav-no-txt {
-    height: 25px;
+    height: 20px;
+    a {
+      border-top: 0px;
+      outline: none;
+    }
   }
 }
+
 #cav-sidebar-accordion {
+  margin-bottom: 0px;
   .accordion-group {
     .border-radius( 0px );
     margin-bottom: 0px;
+    border-right: 1px solid #353C46;
+    border-left: 1px solid #353C46;
   }
   .accordion-heading {
     background-color: #B0B0B0;
+    border-bottom: 1px solid #353C46;
     background-image: -moz-linear-gradient(top, #e3e3e3, #b0b0b0);
     background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#e3e3e3), to(#b0b0b0));
     background-image: -webkit-linear-gradient(top, #e3e3e3, #b0b0b0);
     background-image: -o-linear-gradient(top, #e3e3e3, #b0b0b0);
     background-image: linear-gradient(to bottom, #e3e3e3, #b0b0b0);
-    border: 1px solid #71767E;
     a{
+      outline: none;
       color: @black;
       text-decoration: none;
       font-weight: 500;
+      i {
+        float: right;
+        margin-top: 2px;
+        margin-right: -6px;
+      }
+    }
+  }
+  .accordion-inner {
+    background-color: @white;
+    border-top: 1px solid #E9E9E9;
+    height: 40px;
+    a,
+    a :hover *,
+    a :focus *{
+      text-decoration: none;
+      color: #3F454F;
+      outline: none;
+    }
+  }
+  .cav-active{
+    background-color: #DD4A38;
+    b {
+      color: @white;
     }
   }
 }
