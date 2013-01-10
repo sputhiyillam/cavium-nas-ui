@@ -24,9 +24,58 @@ The following is a generic storage api::
           "uuid": "",
           "status": "",
           "vendor": "",
-          "volumes": [],
+          "volumes": [
+            {
+              "name": "",
+              "id": "",
+              "size": "",
+              "used": "",
+              "status": "",
+            }
+          ],
           "temperature": "",
+          "model": "",
           "serial": "",
+          "smart" : {
+            "status": "",
+            "short_test": {
+              "status": "",
+              "progress": "",
+              "time_to_complete": "",
+              "date_of_completion": "",
+              "last_tested": "",
+              "attributes": [
+                {
+                  "name": "",
+                  "flag": "",
+                  "value": {
+                      "normalized": "",
+                      "raw": ""
+                  },
+                  "worst": "",
+                  "threshold": "",
+                  "type": "",
+                  "updated": "",
+                  "when_failed": "",
+                }
+              ]
+            },
+            "attributes": [
+              {
+                "name": "",
+                "flag": "",
+                "value": {
+                    "normalized": "",
+                    "raw": ""
+                },
+                "worst": "",
+                "threshold": "",
+                "type": "",
+                "updated": "",
+                "when_failed": "",
+              }
+            ]
+          },
           "actions": {
             "eject": true,
             "claim": true
@@ -38,12 +87,23 @@ The following is a generic storage api::
           "id": "",
           "name": "",
           "description": "",
-          "size": {
-            "used": "",
-            "total": ""
-          },
+          "raid": "",
+          "size": "",
+          "used": "",
           "status": "",
-          "disks": [],
+          "additional_info": {
+            "rate_of_progress": "",
+            "estimated_time": "",
+            "disk_speed": ""
+          },
+          "disks": [
+            {
+              "name": "",
+              "id": "",
+              "status": "",
+              "size": ""
+            }
+          ],
           "actions": {
             "edit": true,
             "delete" : true,
@@ -81,67 +141,149 @@ The following represents a disk object::
         "uuid": "",
         "status": "",
         "vendor": "",
-        "volumes": [],
+        "volumes": [
+          {
+            "name": "",
+            "id": "",
+            "size": "",
+            "used": "",
+            "status": "",
+          }
+        ],
         "temperature": "",
+        "model": "",
         "serial": "",
+        "smart" : {
+          "status": "",
+          "short_test": {
+            "status": "",
+            "progress": "",
+            "time_to_complete": "",
+            "date_of_completion": "",
+            "last_tested": "",
+            "attributes": [
+              {
+                "name": "",
+                "flag": "",
+                "value": {
+                    "normalized": "",
+                    "raw": ""
+                },
+                "worst": "",
+                "threshold": "",
+                "type": "",
+                "updated": "",
+                "when_failed": "",
+              }
+            ]
+          },
+          "attributes": [
+            {
+              "name": "",
+              "flag": "",
+              "value": {
+                  "normalized": "",
+                  "raw": ""
+              },
+              "worst": "",
+              "threshold": "",
+              "type": "",
+              "updated": "",
+              "when_failed": "",
+            }
+          ]
+        },
         "actions": {
-            "eject": true,
-            "claim": true
+          "eject": true,
+          "claim": true
         }
       }
     ]
 
-+----------------+-----------------------------+
-| Name           | Value                       |
-|                |                             |
-+================+=============================+
-|                |                             |
-| id             | The primary key unique id   |
-|                | by which the disk can be    |
-|                | identified                  |
-|                |                             |
-+----------------+-----------------------------+
-| name           | The name of the disk        |
-+----------------+-----------------------------+
-| description    | Description of the disk     |
-+----------------+-----------------------------+
-| path           | The physical path of the    |
-|                | disk in the NAS device.     |
-|                |                             |
-+----------------+-----------------------------+
-| size           | Total size of the disk in   |
-|                | bytes.                      |
-|                |                             |
-+----------------+-----------------------------+
-| uuid           | Unique hardware id of the   |
-|                | disk.                       |
-|                |                             |
-+----------------+-----------------------------+
-| status         | Status of the disk. Can be  |
-|                | one of the four values      |
-|                |                             |
-|                | - good                      |
-|                |                             |
-|                | - bad                       |
-|                |                             |
-|                | - foreign                   |
-|                |                             |
-|                | - uninstalled               |
-|                |                             |
-+----------------+-----------------------------+
-| volumes        | An array containing ids (pr |
-|                | imary keys) of volumes crea |
-|                | ted in this disk.           |
-|                |                             |
-+----------------+-----------------------------+
-| temperature    | Temperature of the disk.    |
-+----------------+-----------------------------+
-| serial         | Disk manufacturer serial    |
-|                | number.                     |
-+----------------+-----------------------------+
-| actions        | Actions which can be done   |
-|                | on the disk                 |
-+----------------+-----------------------------+
+.. note::
+      By default all values are strings. If the value is an array or boolean,
+      it would be mentioned.
+
++----------------+----------------------------------------------------------+
+| Name           | Value                                                    |
+|                |                                                          |
++================+==========================================================+
+| id             | The primary key unique id by which the disk can be       |
+|                | identified                                               |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| name           | The name of the disk                                     |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| description    | Description of the disk                                  |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| path           | The physical path of the disk in the NAS device.         |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| size           | Total size of the disk in bytes.                         |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| uuid           | Unique hardware id of the disk.                          |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| status         | Status of the disk. Can be one of the four values        |
+|                |                                                          |
+|                | - good                                                   |
+|                |                                                          |
+|                | - bad                                                    |
+|                |                                                          |
+|                | - foreign                                                |
+|                |                                                          |
+|                | - uninstalled                                            |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| vendor         | Manufacturing vendor of the disk.                        |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| volumes        | **Array** containing brief information of volumes        |
+|                | created in this disk.                                    |
+|                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | name      | The name of the volume.                      |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | id        | The primary key unique id by which           |
+|                |           | volume can be identified.                    |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | size      | Total size of the volume in bytes.           |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | used      | Size of the volume used in bytes.            |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | status    | Status of the volume. Can                    |
+|                |           | be one of the four values                    |
+|                |           |                                              |
+|                |           | - good                                       |
+|                |           |                                              |
+|                |           | - degraded                                   |
+|                |           |                                              |
+|                |           | - failed                                     |
+|                |           |                                              |
+|                |           | - resizing                                   |
+|                |           |                                              |
+|                |           | - building                                   |
+|                |           |                                              |
+|                |           | - transferring                               |
+|                |           |                                              |
++----------------+-----------+----------------------------------------------+
+| temperature    | Temperature of the disk.                                 |
++----------------+-----------+----------------------------------------------+
+| model          | Model of the disk.                                       |
++----------------+----------------------------------------------------------+
+| serial         | Disk manufacturer serial                                 |
+|                | number.                                                  |
++----------------+----------------------------------------------------------+
+| actions        | Actions which can be done                                |
+|                | on the disk                                              |
++----------------+----------------------------------------------------------+
 
 .. _volumes-label:
 
@@ -161,67 +303,139 @@ The following represents a volume object::
         "id": "",
         "name": "",
         "description": "",
-        "size": {
-          "used": "",
-          "total": ""
-        },
+        "raid": "",
+        "size": "",
+        "used": "",
         "status": "",
-        "disks": [],
+        "additional_info": {
+          "rate_of_progress": "",
+          "estimated_time": "",
+          "disk_speed": ""
+        },
+        "disks": [
+          {
+            "name": "",
+            "id": "",
+            "status": "",
+            "size": ""
+          }
+        ],
         "actions": {
           "edit": true,
           "delete" : true,
           "migrate": {
-              "to_raid5": true,
-              "to_raid10": false
           },
           "extend": {
-              "disks": []
-          },
-          "recover": {
-              "disks": []
           }
         }
       }
     ]
 
-+----------------+-----------------------------+
-| Name           | Value                       |
-|                |                             |
-+================+=============================+
-|                |                             |
-| id             | The primary key unique id   |
-|                | by which the volume can be  |
-|                | identified                  |
-|                |                             |
-+----------------+-----------------------------+
-| name           | The name of the volume      |
-|                |                             |
-+----------------+-----------------------------+
-| description    | Description of the volume   |
-|                |                             |
-+----------------+-----------------------------+
-| size           | An entity which gives       |
-|                | size details of the volume. |
-|                | Will follow the semantics   |
-|                | mentioned in `Volume Size   |
-|                | <#volume-size-label>`_      |
-|                |                             |
-+----------------+-----------------------------+
-| status         | Status of the volume. Can   |
-|                | be one of the four values   |
-|                |                             |
-|                | - good                      |
-|                |                             |
-|                | - degraded                  |
-|                |                             |
-|                | - failed                    |
-|                |                             |
-+----------------+-----------------------------+
-| disks          | An array containing ids (pr |
-|                | imary keys) of disks        |
-|                | used for this volume.       |
-|                |                             |
-+----------------+-----------------------------+
+.. note::
+      By default all values are strings. If the value is an array or boolean,
+      it would be mentioned.
+
++----------------+----------------------------------------------------------+
+| Name           | Value                                                    |
+|                |                                                          |
++================+==========================================================+
+| id             | The primary key unique id by which the volume can be     |
+|                | identified                                               |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| name           | The name of the volume                                   |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| description    | Description of the volume                                |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| raid           | Raid type of the volume                                  |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| size           | An entity which gives                                    |
+|                | size details of the volume.                              |
+|                | Will follow the semantics                                |
+|                | mentioned in `Volume Size                                |
+|                | <#volume-size-label>`_                                   |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| status         | Status of the volume. Can                                |
+|                | be one of the four values                                |
+|                |                                                          |
+|                | - good                                                   |
+|                |                                                          |
+|                | - degraded                                               |
+|                |                                                          |
+|                | - failed                                                 |
+|                |                                                          |
+|                | - resizing                                               |
+|                |                                                          |
+|                | - building                                               |
+|                |                                                          |
+|                | - transferring                                           |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| disks          | **Array** containing ids (primary keys                   |
+|                | of disks used for this volume.                           |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| encrypted      | **Boolean** value which says                             |
+|                | whether the volume is                                    |
+|                | encrypted or not.                                        |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| actions        |                                                          |
+|                |                                                          |
+|                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | edit      | **Boolean** value which says whether editing |
+|                |           | this volume is possible.                     |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | delete    | **Boolean** value which says whether deleting|
+|                |           | this volume is possible.                     |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | migrate   | Details of migrations possible in this       |
+|                |           | volume.                                      |
+|                |           |                                              |
+|                |           +------------+---------------------------------+
+|                |           | to_raid5   | Boolean - to                    |
+|                |           |            | raid5                           |
+|                |           |            |                                 |
+|                |           +------------+---------------------------------+
+|                |           | to_raid10  | Boolean - to                    |
+|                |           |            | raid10                          |
+|                |           |            |                                 |
+|                +-----------+------------+---------------------------------+
+|                | extend    | Details of whether the raid can be extended  |
+|                |           | with additional disks.                       |
+|                |           |                                              |
+|                |           +------------+---------------------------------+
+|                |           | disks      | **Array** of disks ids which    |
+|                |           |            | can be used for extending.      |
+|                |           |            | extending.                      |
+|                |           |            |                                 |
+|                +-----------+------------+---------------------------------+
+|                | recover   |                                              |
+|                |           |                                              |
+|                |           |                                              |
++----------------+-----------+----------------------------------------------+
+|                |                                                          |
+|                |                                                          |
+|                |                                                          |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+|                |                                                          |
+|                |                                                          |
+|                |                                                          |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+|                |                                                          |
+|                |                                                          |
+|                |                                                          |
+|                |                                                          |
++----------------+----------------------------------------------------------+
 
 .. _volume-size-label:
 
