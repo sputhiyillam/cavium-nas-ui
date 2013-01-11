@@ -56,7 +56,7 @@ The following is a generic storage api::
                   "threshold": "",
                   "type": "",
                   "updated": "",
-                  "when_failed": "",
+                  "failing": "",
                 }
               ]
             },
@@ -72,7 +72,7 @@ The following is a generic storage api::
                 "threshold": "",
                 "type": "",
                 "updated": "",
-                "when_failed": "",
+                "failing": "",
               }
             ]
           },
@@ -155,6 +155,21 @@ The following represents a disk object::
         "serial": "",
         "smart" : {
           "status": "",
+          "attributes": [
+            {
+              "name": "",
+              "flag": "",
+              "value": {
+                  "normalized": "",
+                  "raw": ""
+              },
+              "worst": "",
+              "threshold": "",
+              "type": "",
+              "updated": "",
+              "failing": "",
+            }
+          ],
           "short_test": {
             "status": "",
             "progress": "",
@@ -173,25 +188,10 @@ The following represents a disk object::
                 "threshold": "",
                 "type": "",
                 "updated": "",
-                "when_failed": "",
+                "failing": "",
               }
             ]
-          },
-          "attributes": [
-            {
-              "name": "",
-              "flag": "",
-              "value": {
-                  "normalized": "",
-                  "raw": ""
-              },
-              "worst": "",
-              "threshold": "",
-              "type": "",
-              "updated": "",
-              "when_failed": "",
-            }
-          ]
+          }
         },
         "actions": {
           "eject": true,
@@ -275,14 +275,87 @@ The following represents a disk object::
 |                |           |                                              |
 +----------------+-----------+----------------------------------------------+
 | temperature    | Temperature of the disk.                                 |
+|                |                                                          |
 +----------------+-----------+----------------------------------------------+
 | model          | Model of the disk.                                       |
+|                |                                                          |
 +----------------+----------------------------------------------------------+
 | serial         | Disk manufacturer serial                                 |
 |                | number.                                                  |
+|                |                                                          |
 +----------------+----------------------------------------------------------+
-| actions        | Actions which can be done                                |
-|                | on the disk                                              |
+| smart          | Self-Monitoring, Analysis and Reporting Technology       |
+|                | System details                                           |
+|                +------------+---------------------------------------------+
+|                | status     | Overall S. M. A. R. T health status of the  |
+|                |            | disk                                        |
+|                |            |                                             |
+|                +------------+---------------------------------------------+
+|                | attributes | Vendor specific attributes                  |
+|                |            +-----------+---------------------------------+
+|                |            | name      | Name of the attribute.          |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | flag      | Attribute flag.                 |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | value     | Value of the attribute          |
+|                |            |           +------------+--------------------+
+|                |            |           | normalized | Normalized value of|
+|                |            |           |            | the attribute.     |
+|                |            |           |            |                    |
+|                |            |           +------------+--------------------+
+|                |            |           | raw        | Raw value of the   |
+|                |            |           |            | attribute.         |
+|                |            |           |            |                    |
+|                |            +-----------+------------+--------------------+
+|                |            | worst     | Smallest (closest to failure)   |
+|                |            |           | value that the disk has recorded|
+|                |            |           | at any time during its lifetime |
+|                |            |           | when SMART was enabled.         |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | threshold | If the Normalized value is less |
+|                |            |           | than or equal to the Threshold  |
+|                |            |           | value, then the Attribute is    |
+|                |            |           | said to have failed.            |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | type      | Type of the Attribute. Can      |
+|                |            |           | be one of the two values        |
+|                |            |           |                                 |
+|                |            |           | - prefail                       |
+|                |            |           |                                 |
+|                |            |           | - oldage                        |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | updated   | Shows if the SMART Attribute    |
+|                |            |           | values are updated during both  |
+|                |            |           | normal operation and off-line   |
+|                |            |           | testing, or only during         |
+|                |            |           | offline testing. Can be one of  |
+|                |            |           | the two values                  |
+|                |            |           |                                 |
+|                |            |           | - always                        |
+|                |            |           |                                 |
+|                |            |           | - offline                       |
+|                |            |           |                                 |
++----------------+------------+-----------+---------------------------------+
+| .. _flabel:    |            | failing   | Shows whether attribute's       |
+|                |            |           | current Normalized value is     |
+|                |            |           | less than or equal to the       |
+|                |            |           | threshold value. Can be one of  |
+|                |            |           | the three values                |
+|                |            |           |                                 |
+|                |            |           | - now                           |
+|                |            |           |                                 |
+|                |            |           | - past                          |
+|                |            |           |                                 |
+|                |            |           | - no                            |
+|                |            |           |                                 |
++----------------+------------+-----------+---------------------------------+
+| actions        | Actions which can be done on the disk.                   |
+|                |                                                          |
 +----------------+----------------------------------------------------------+
 
 .. _volumes-label:
