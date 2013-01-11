@@ -6,6 +6,28 @@ define(function(require) {
 
     var VolumesModel = BaseModel.extend({
         defaults: {
+            id: null,
+            name: "",
+            description: "",
+			type: "",
+            size: "",
+            status: "",
+            RAID: "",
+            disks: [],
+            actions: {
+                "edit" : false,
+                "delete" : false,
+                "migrate" : {
+                    "to_raid5" : false,
+                    "to_raid10" : false,
+                },
+                "extend" : {
+                    "disks" : []
+                },
+                "recover" : {
+                    "disks" : []
+                }
+            }
         },
 
         initialize: function() {
