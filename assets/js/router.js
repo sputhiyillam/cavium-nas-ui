@@ -17,7 +17,8 @@ define(function(require){
     var AppRouter = Backbone.Router.extend({
         routes: {
           'disks'       : 'showDisks',
-          'volumes'     : 'showVolumes',
+          'volumes'     : 'routeVolumes',
+          'volumes/:action/:id' : 'routeVolumes',
           'shares'      : 'showShares',
           'usergroups'  : 'showUserGroups',
           'backup'      : 'showBackup',
@@ -28,44 +29,44 @@ define(function(require){
 
         initialize: function() {
             header = new HeaderView();
+            header.render();/* This is added here, to render header in all pages.*/
             setInterval(function() {
                 contentPanel.refresh();
             }, 10000);
         },
 
         showDisks: function() {
-            var view = new DisksView();
-            view.render();
+            contentPanel = new DisksView();
+            contentPanel.render();
         },
 
-        showVolumes: function() {
-            var view = new VolumesView();
-            view.render();
+        routeVolumes: function(action, id) {
+            contentPanel = new VolumesView();
+            contentPanel.navigator(action, id);
         },
 
         showShares: function() {
-            var view = new SharesView();
-            view.render();
+            contentPanel = new SharesView();
+            contentPanel.render();
         },
 
         showUserGroups: function() {
-            var view = new UsergroupsView();
-            view.render();
+            contentPanel = new UsergroupsView();
+            contentPanel.render();
         },
 
         showBackup: function() {
-            var view = new BackupView();
-            view.render();
+            contentPanel = new BackupView();
+            contentPanel.render();
         },
 
         showSettings: function() {
-            var view = new SettingsView();
-            view.render();
+            contentPanel = new SettingsView();
+            contentPanel.render();
         },
 
         showHome: function() {
             contentPanel = new HomeView();
-            header.render();
             contentPanel.render();
         }
     });

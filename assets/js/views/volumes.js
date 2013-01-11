@@ -5,13 +5,17 @@ define(function(require) {
         Mustache = require('mustache'),
         BaseView = require('views/base'),
         SidebarTemplate = require('text!templates/volumes_side.html'),
-        ContentTemplate = require('text!templates/volumes_main.html'),
-        Volumes = require('collections/volumes');
+        ContentTemplateHelp = require('text!templates/volumes_help.html'),
+        ContentTemplateDetails = require('text!templates/volumes_details.html'),
+        Volumes = require('collections/volumes'),
+        VolumesModel = require('models/volumes'),
+        VolObj = [],
+        VolJson = {};
 
     var VolumesView = BaseView.extend({
         sidebarTemplate: Mustache.compile(SidebarTemplate),
-        contentTemplate: Mustache.compile(ContentTemplate),
-
+        contentTemplateHelp: Mustache.compile(ContentTemplateHelp),
+        ContentTemplateDetails: Mustache.compile(ContentTemplateDetails),      
         events: {
           "click #create-volumes": "create"
         },
@@ -29,16 +33,22 @@ define(function(require) {
             Volumes.on('error',  this.error,     this);
             Volumes.on('route:[name]', this.route, this);
             Volumes.on('all',    this.all,       this);
+
+            Volumes.on('navigator', this.navigator, this);
+            
         },
 
-        render: function() {
+        refresh: function() {
+            Volumes.fetch();
         },
 
         create: function() {
         },
 
         add: function(model, collection, options) {
+
             // when a model is added to a collection.
+            VolObj.push(model.toJSON());
         },
 
         remove: function(model, collection, options) {
@@ -47,6 +57,15 @@ define(function(require) {
 
         reset: function(collection, options) {
             // when the collection's entire contents have been replaced.
+            VolObj = [];
+            collection.each(this.add, this);
+            VolJson = {};
+            VolJson.volumes = VolObj;
+        },
+
+        render: function() {
+            this.$('#sidebar').html(this.sidebarTemplate(VolJson));
+            this.$('#main-content').html(this.contentTemplateHelp());
         },
 
         sort: function (collection, options) {
@@ -83,6 +102,56 @@ define(function(require) {
 
         all: function() {
             //this special event fires for any triggered event, passing the event name as the first argument.
+        },
+
+        /*
+            Below method navigate user to different operations like delete, edit and display 112
+        */
+        navigator: function(action, id) {
+            /*
+                Loading only for only once..not every router routes to 
+                same main path.
+            */
+            var self = this;
+            if(action === undefined || id === undefined) {
+                Volumes.fetch().complete(function(){
+                    self.render();
+                });
+            } else {
+                /*
+                    if user directly enters url then sidebar we need to load,for that we check for
+                    empty.
+                */
+
+                if(jQuery.isEmptyObject(VolJson)){
+                    Volumes.fetch().done(function(){
+                        self.manageNavigator(action, id);
+                    });
+                } else {
+                    this.manageNavigator(action, id);
+                }
+            }
+        },
+        manageNavigator: function(action , id){
+            var self = this;
+            if(action === 'show') {
+                //to display specific volume information
+                _.find(VolJson.volumes, function(item){
+                    if(JSON.stringify(item.id) === id) {
+                        VolJson.volume = '';
+                        VolJson.volume = item;
+                        self.$('#sidebar').html(self.sidebarTemplate(VolJson));
+                        self.$('#main-content').html(self.ContentTemplateDetails(VolJson));
+                        /*to select side bar menu item..*/
+                        $('#cav-sidebar-vr-items .accordion-inner a[href$="#'+Backbone.history.fragment+'"]').parent().addClass('cav-active');
+                    }
+                });
+                
+            }  
+            else
+            {
+                alert("No such action available!!");
+            }
         }
 
     });

@@ -149,6 +149,7 @@
     margin-bottom: 0px;
     border-right: 1px solid #353C46;
     border-left: 1px solid #353C46;
+    border-bottom: 1px solid #353C46;
   }
   .accordion-heading {
     background-color: #B0B0B0;
@@ -190,4 +191,77 @@
   }
 }
 
+.cav-vol-intro {
+  margin-top: 10px;
 
+  .cav-vol-bar {
+    width: 95%;
+    height: 35px;
+
+    .bar {
+      font-size: 14px;
+    }
+
+  }
+
+  .cav-vol-bar-info {
+    color: #646472;
+    font-size: 16px;
+  }
+
+}
+
+/*
+  Reusable class..
+*/
+
+.cav-module-details {
+  margin-top: 15px;
+  .span3 .dropdown-menu {
+    display: block;
+    position: relative;
+    .pull-right;
+    .border-radius(0);
+    @shadow : -2px 3px 10px rgba(0, 0, 0, 0.2);
+    .box-shadow(@shadow);
+    border-right: 0px;
+  }
+}
+
+.cav-module-title {
+  color: #646472;
+  font-size: 14px;
+}
+
+.cav-module-item-name {
+    color: black;
+    font-size: 26px;
+    font-weight: bolder;
+}
+
+.cav-module-item-desc {
+  font-size: 13px;
+  color: #646472;
+}
+
+.cav-module-details-sec2 {
+  margin-top: 10px;
+  .cav-vol-bar-shares {
+    width: 98%;
+    height: 45px;
+    margin-bottom: 0px;
+    .bar {
+      padding-top: 10px;
+      a {
+        font-size: 13px;
+        color: @white;
+      }
+    }
+    .cav-bar-remain-space {
+      margin-right: 10px;
+      .pull-right;
+      margin-top: 10px;
+      font-size: 13px;
+    }
+  }
+}
