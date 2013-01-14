@@ -1,0 +1,40 @@
+<div class="row-fluid cav-module-details">
+	{{#volume}}
+	<div class="row-fluid cav-module-details-sec1">
+		<div class="span9">
+			<div class="cav-module-title">
+				Volume
+			</div>
+			<p class="cav-module-item-name">
+				{{name}}
+			</p>
+			<p class="cav-module-item-desc">
+				{{description}}
+			</p>
+		</div>
+		<div class="span3">
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+				{{#actions.edit}}
+			    <li>
+			    	<a tabindex="-1" href="#volumes/edit/{{id}}"><i class="icon-edit"></i>&nbsp;Edit</a>
+			    </li>
+			    <li class="divider"></li>
+			    {{/actions.edit}}
+			    {{#actions.delete}}
+			    <li><a tabindex="-1" href="#volumes/delete/{{id}}"><i class="icon-minus-sign"></i>&nbsp;Delete</a></li>
+			    {{/actions.delete}}
+		    </ul>
+		</div>
+	</div>
+	<div class="row-fluid cav-module-details-sec2">
+		<div class="progress cav-vol-bar-shares">
+			<div class="bar bar-success" style="width: 10%;"><a href="#shares/show/1">Share1</a></div>
+			<div class="bar bar-warning" style="width: 10%;"><a href="#shares/show/1">Share1</a></div>
+			<span class="cav-bar-remain-space" >400GB Free</span>
+		</div>
+		<p>
+			{{size.used}} GB of {{size.total}} GB
+		</p>
+	</div>
+	{{/volume}}
+</div>
