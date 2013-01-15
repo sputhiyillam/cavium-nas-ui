@@ -5,7 +5,7 @@ define(function(require) {
         Volumes = require('models/volumes');
     var VolumesCollection = Backbone.Collection.extend({
         model: Volumes,
-        url: 'index.php/volumes/api/format/json',
+        url: 'index.php/volumes/api',
         initialize: function() {
         }
     });

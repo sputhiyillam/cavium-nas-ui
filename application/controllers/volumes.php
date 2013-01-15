@@ -20,6 +20,7 @@ class Volumes extends REST_Controller
     
     function api_delete()
     {
+        echo "coming here"; exit;
         //$this->some_model->deletesomething( $this->get('id') );
         $message = array('id' => $this->get('id'), 'message' => 'DELETED!');
         
@@ -29,62 +30,7 @@ class Volumes extends REST_Controller
     function api_get()
     {
 
-        $volumes = array(
-            array(
-                'id' => 1,
-                'name' => 'volume11',
-                'description' => 'description about volume1',
-                'size' => array(
-                    'used' => '10 GB',
-                    'total' => '100 GB',
-                    ),
-                'status' => 'Good',
-                'RAID' => 'SPAN',
-                'disks' => array('HDD1'),
-                'actions' => array(
-                    'edit' => true,
-                    'delete' => true,
-                    'migrate' => array(
-                        'to_raid1' => false,
-                        'to_raid5' => false,
-                        'to_raid10' => false,
-                        ),
-                    'extend' => array(
-                        'disks' => array('HDD2','HDD3','HDD4'),
-                        ),
-                    'recover' => array(
-                        'disks' => array(),
-                        ),
-                    ),
-                ),
-            array(
-                'id' => 2,
-                'name' => 'volume2',
-                'description' => 'description about volume2',
-                'size' => array(
-                    'used' => '100 GB',
-                    'total' => '100 TB',
-                    ),
-                'status' => 'Good',
-                'type' => 'RAID1',
-                'disks' => array('HDD1', 'HDD2'),
-                'actions' => array(
-                    'edit' => true,
-                    'delete' => true,
-                    'migrate' => array(
-                        'to_raid1' => false,
-                        'to_raid5' => false,
-                        'to_raid10' => false,
-                        ),
-                    'extend' => array(
-                        'disks' => array('HDD3','HDD4'),
-                        ),
-                    'recover' => array(
-                        'disks' => array(),
-                        ),
-                    ),
-                ),
-            );
+        $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
         
         if($volumes)
         {

@@ -42,7 +42,7 @@ define(function(require){
 
         routeVolumes: function(action, id) {
             contentPanel = new VolumesView();
-            contentPanel.navigator(action, id);
+            contentPanel.render(action, id);
         },
 
         showShares: function() {
