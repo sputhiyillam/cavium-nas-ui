@@ -8,8 +8,6 @@ define(function(require) {
         ContentTemplateHelp = require('text!templates/volumes_help.html'),
         ContentTemplateDetails = require('text!templates/volumes_details.html'),
         Volumes = require('collections/volumes'),
-        VolumesModel = require('models/volumes'),
-        VolObj = [],
         VolJson = {};
 
     var VolumesView = BaseView.extend({
@@ -17,7 +15,9 @@ define(function(require) {
         contentTemplateHelp: Mustache.compile(ContentTemplateHelp),
         ContentTemplateDetails: Mustache.compile(ContentTemplateDetails),      
         events: {
-          "click #create-volumes": "create"
+          "click #cav-vol-save" : "create",
+          "click #cav-vol-del"  : "VolumeDel",
+          "click #cav-vol-save" : "VolumeCreate", 
         },
 
         initialize: function (options) {
@@ -33,39 +33,83 @@ define(function(require) {
             Volumes.on('error',  this.error,     this);
             Volumes.on('route:[name]', this.route, this);
             Volumes.on('all',    this.all,       this);
-
-            Volumes.on('navigator', this.navigator, this);
+            Volumes.on('create', this.create,   this);
             
         },
 
         refresh: function() {
-            Volumes.fetch();
+            this.render()
         },
 
-        create: function() {
+        VolumeCreate: function() {
+            var volDel = new Volumes({id: ''});
+           /* volObj.create({
+                id : '',
+                name: 's'
+            });
+           /* var volObj = new Volumes({
+                id : '',
+                name: $('#cav-vr-name').val(),
+            });
+            console.log(volObj);
+            this.create(volObj); */
+        },
+
+        create: function(attributes, options) {
+           
         },
 
         add: function(model, collection, options) {
-
             // when a model is added to a collection.
-            VolObj.push(model.toJSON());
+
         },
 
         remove: function(model, collection, options) {
             // when a model is removed from a collection.
+           console.log(this.model);
+
         },
 
         reset: function(collection, options) {
             // when the collection's entire contents have been replaced.
-            VolObj = [];
-            collection.each(this.add, this);
             VolJson = {};
-            VolJson.volumes = VolObj;
+            VolJson.volumes = collection.toJSON();
         },
 
         render: function() {
-            this.$('#sidebar').html(this.sidebarTemplate(VolJson));
-            this.$('#main-content').html(this.contentTemplateHelp());
+            var self = this;
+            console.log(Backbone.history.fragment);
+            var cavRoutes = Backbone.history.fragment.split("/");
+            var action = cavRoutes[1], id = cavRoutes[2];
+
+            if(action === undefined || id === undefined) {
+                Volumes.fetch({add: true}).complete(function(){
+                    self.$('#main-content').html(self.contentTemplateHelp());
+                    self.$('#sidebar').html(self.sidebarTemplate(VolJson));
+                });
+            } else if(action === 'show' && id !== '') {
+                Volumes.fetch({add: true}).done(function(){
+                    var PageFound = false; 
+                    _.find(VolJson.volumes, function(item){
+                        if(JSON.stringify(item.id) === id) {
+                            VolJson.volume = '';
+                            VolJson.volume = item;
+                            self.$('#sidebar').html(self.sidebarTemplate(VolJson));
+                            self.$('#main-content').html(self.ContentTemplateDetails(VolJson));
+                            //  To select side bar menu item..
+                            $('#cav-sidebar-vr-items .accordion-inner a[href$="#'+Backbone.history.fragment+'"]').parent().addClass('cav-active');
+                            PageFound = true;
+                        }
+                    });
+                    // if page not found !!
+                    if(!PageFound) {
+                        self.$('#sidebar').html(self.sidebarTemplate(VolJson));
+                        self.$('#main-content').html(self.contentTemplateHelp());
+                    }
+                });
+            } else {
+                alert(" Page not found !!");
+            }
         },
 
         sort: function (collection, options) {
@@ -81,6 +125,8 @@ define(function(require) {
         },
 
         destroy: function(model, collection, options) {
+            console.log("calling destroy");
+            console.log(this.model);
             //when a model is destroyed.
         },
 
@@ -104,54 +150,10 @@ define(function(require) {
             //this special event fires for any triggered event, passing the event name as the first argument.
         },
 
-        /*
-            Below method navigate user to different operations like delete, edit and display 112
-        */
-        navigator: function(action, id) {
-            /*
-                Loading only for only once..not every router routes to 
-                same main path.
-            */
-            var self = this;
-            if(action === undefined || id === undefined) {
-                Volumes.fetch().complete(function(){
-                    self.render();
-                });
-            } else {
-                /*
-                    if user directly enters url then sidebar we need to load,for that we check for
-                    empty.
-                */
-
-                if(jQuery.isEmptyObject(VolJson)){
-                    Volumes.fetch().done(function(){
-                        self.manageNavigator(action, id);
-                    });
-                } else {
-                    this.manageNavigator(action, id);
-                }
-            }
-        },
-        manageNavigator: function(action , id){
-            var self = this;
-            if(action === 'show') {
-                //to display specific volume information
-                _.find(VolJson.volumes, function(item){
-                    if(JSON.stringify(item.id) === id) {
-                        VolJson.volume = '';
-                        VolJson.volume = item;
-                        self.$('#sidebar').html(self.sidebarTemplate(VolJson));
-                        self.$('#main-content').html(self.ContentTemplateDetails(VolJson));
-                        /*to select side bar menu item..*/
-                        $('#cav-sidebar-vr-items .accordion-inner a[href$="#'+Backbone.history.fragment+'"]').parent().addClass('cav-active');
-                    }
-                });
-                
-            }  
-            else
-            {
-                alert("No such action available!!");
-            }
+        VolumeDel: function() {
+            //var volDel = new Volumes({id: 1});
+            //this.model.destroy();
+            this.remove();
         }
 
     });
