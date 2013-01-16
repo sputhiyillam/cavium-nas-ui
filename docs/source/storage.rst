@@ -41,7 +41,7 @@ The following is a generic storage api::
             "short_test": {
               "status": "",
               "progress": "",
-              "time_to_complete": "",
+              "duration_to_complete": "",
               "date_of_completion": "",
               "last_tested": "",
               "attributes": [
@@ -173,7 +173,7 @@ The following represents a disk object::
           "short_test": {
             "status": "",
             "progress": "",
-            "time_to_complete": "",
+            "duration_to_complete": "",
             "date_of_completion": "",
             "last_tested": "",
             "attributes": [
@@ -203,6 +203,9 @@ The following represents a disk object::
 .. note::
       By default all values are strings. If the value is an array or boolean,
       it would be mentioned.
+
+Disk Object Details
+--------------------
 
 +----------------+----------------------------------------------------------+
 | Name           | Value                                                    |
@@ -259,13 +262,15 @@ The following represents a disk object::
 |                |           |                                              |
 |                +-----------+----------------------------------------------+
 |                | status    | Status of the volume. Can                    |
-|                |           | be one of the four values                    |
+|                |           | be one of the seven values                   |
 |                |           |                                              |
 |                |           | - good                                       |
 |                |           |                                              |
 |                |           | - degraded                                   |
 |                |           |                                              |
 |                |           | - failed                                     |
+|                |           |                                              |
+|                |           | - recovering                                 |
 |                |           |                                              |
 |                |           | - resizing                                   |
 |                |           |                                              |
@@ -291,7 +296,10 @@ The following represents a disk object::
 |                |            | disk                                        |
 |                |            |                                             |
 |                +------------+---------------------------------------------+
+|                | .. _attr:  |                                             |
+|                |            |                                             |
 |                | attributes | Vendor specific attributes                  |
+|                |            |                                             |
 |                |            +-----------+---------------------------------+
 |                |            | name      | Name of the attribute.          |
 |                |            |           |                                 |
@@ -340,8 +348,8 @@ The following represents a disk object::
 |                |            |           |                                 |
 |                |            |           | - offline                       |
 |                |            |           |                                 |
-+----------------+------------+-----------+---------------------------------+
-| .. _flabel:    |            | failing   | Shows whether attribute's       |
+|                |            +-----------+---------------------------------+
+|                |            | failing   | Shows whether attribute's       |
 |                |            |           | current Normalized value is     |
 |                |            |           | less than or equal to the       |
 |                |            |           | threshold value. Can be one of  |
@@ -354,9 +362,61 @@ The following represents a disk object::
 |                |            |           | - no                            |
 |                |            |           |                                 |
 +----------------+------------+-----------+---------------------------------+
+|                | short_test | SMART short test output                     |
+|                |            |                                             |
+|                |            +-----------+---------------------------------+
+|                |            | status    | SMART short test running status |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | progress  | SMART short test running status |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | duration  |                                 |
+|                |            | _to       | Duration to complete short test |
+|                |            | _complete |                                 |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | date_of   | Advanced date and time when the |
+|                |            | _complet  | short test would complete       |
+|                |            | ion       |                                 |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | last      | Date and time when the last     |
+|                |            | _tested   | short test was performed        |
+|                |            |           |                                 |
+|                |            +-----------+---------------------------------+
+|                |            | attributes| SMART test attributes. Refer    |
+|                |            |           | `Attributes <#attr>`_           |
++----------------+------------+-----------+---------------------------------+
 | actions        | Actions which can be done on the disk.                   |
 |                |                                                          |
 +----------------+----------------------------------------------------------+
+
+Get Disks
+----------
+Returns `Disk object <#disk-object-label>`_ containing the disks present
+in the NAS device.
+
+    **Resource URL** http://<nas_box_ip_address>/index.php/disks/api
+
+    **HTTP Method** GET
+
+    **Input** None
+
+    **Response** `Disk object <#disk-object-label>`_
+
+Claim Disk
+----------
+Takes `Disk object <#disk-object-label>`_ containing the disks present
+in the NAS device.
+
+    **Resource URL** http://<nas_box_ip_address>/index.php/disks/api
+
+    **HTTP Method** POST
+
+    **Input** `Disk object <#disk-object-label>`_
+
+    **Response** `Disk object <#disk-object-label>`_
 
 .. _volumes-label:
 
@@ -433,13 +493,15 @@ The following represents a volume object::
 |                |                                                          |
 +----------------+----------------------------------------------------------+
 | status         | Status of the volume. Can                                |
-|                | be one of the four values                                |
+|                | be one of the seven values                               |
 |                |                                                          |
 |                | - good                                                   |
 |                |                                                          |
 |                | - degraded                                               |
 |                |                                                          |
 |                | - failed                                                 |
+|                |                                                          |
+|                | - recovering                                             |
 |                |                                                          |
 |                | - resizing                                               |
 |                |                                                          |

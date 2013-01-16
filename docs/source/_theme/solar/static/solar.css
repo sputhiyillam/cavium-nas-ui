@@ -26,6 +26,7 @@ div.document {
     background-color: #fcfcfc;
     text-align: left;
     background-repeat: repeat-x;
+    min-height: 1000px;
 }
 
 div.bodywrapper {
@@ -80,6 +81,8 @@ div.related ul li a:hover {
 
 div.sphinxsidebarwrapper {
     padding: 0;
+    position: fixed;
+    width: 210px;
 }
 
 div.sphinxsidebar {
