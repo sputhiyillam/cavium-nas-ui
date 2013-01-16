@@ -13,15 +13,15 @@
     <div class="accordion-heading">
       <a class="accordion-toggle" data-toggle="collapse" data-parent="#cav-sidebar-accordion" href="#cav-sidebar-vr-items">Volumes<i class="icon-chevron-down"></i></a>
     </div>
-    {{#volumes}}
     <div id="cav-sidebar-vr-items" class="accordion-body collapse in">
+      {{#.}}
       <div class="accordion-inner">
         <a href="#volumes/show/{{id}}">
           <b>{{name}}</b>
           <p>{{size.used}} of {{size.total}} used</p>
         </a>
       </div>
-      {{/volumes}}
+      {{/.}}
     </div>
   </div>
 </div>

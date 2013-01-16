@@ -30,7 +30,6 @@ define(function(require) {
             Shares.on('error',  this.error,     this);
             Shares.on('route:[name]', this.route, this);
             Shares.on('all',    this.all,       this);
-            Shares.fetch();
         },
 
         render: function() {

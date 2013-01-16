@@ -29,7 +29,6 @@ define(function(require) {
             Home.on('error',  this.error,     this);
             Home.on('route:[name]', this.route, this);
             Home.on('all',    this.all,       this);
-            Home.fetch();
         },
 
         refresh: function() {

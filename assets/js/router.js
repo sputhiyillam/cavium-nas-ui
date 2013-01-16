@@ -12,8 +12,7 @@ define(function(require){
         SettingsView = require('views/settings'),
         HeaderView = require('views/header');
 
-    var contentPanel = null;
-    var header = null;
+    var header, volumes, shares, home, disks, usergroups, backup, settings;
     var AppRouter = Backbone.Router.extend({
         routes: {
           'disks'       : 'showDisks',
@@ -29,45 +28,42 @@ define(function(require){
 
         initialize: function() {
             header = new HeaderView();
-            header.render();/* This is added here, to render header in all pages.*/
-            setInterval(function() {
-                contentPanel.refresh();
-            }, 10000);
+            volumes = new VolumesView();
+            shares = new SharesView();
+            home = new HomeView();
+            disks = new DisksView();
+            usergroups = new UsergroupsView();
+            backup = new BackupView();
+            settings = new SettingsView();
+            this.on('route', header.render, header);
         },
 
         showDisks: function() {
-            contentPanel = new DisksView();
-            contentPanel.render();
+            disks.render();
         },
 
         routeVolumes: function(action, id) {
-            contentPanel = new VolumesView();
-            contentPanel.render(action, id);
+            volumes.load();
         },
 
         showShares: function() {
-            contentPanel = new SharesView();
-            contentPanel.render();
+            shares.render();
         },
 
         showUserGroups: function() {
-            contentPanel = new UsergroupsView();
-            contentPanel.render();
+            usergroups.render();
         },
 
         showBackup: function() {
-            contentPanel = new BackupView();
-            contentPanel.render();
+            backup.render();
         },
 
         showSettings: function() {
-            contentPanel = new SettingsView();
-            contentPanel.render();
+            settings.render();
         },
 
         showHome: function() {
-            contentPanel = new HomeView();
-            contentPanel.render();
+            home.render();
         }
     });
 

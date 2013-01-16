@@ -14,6 +14,9 @@ define(function(require) {
 
         render: function() {
             this.$el.html(this.contentTemplate());
+            $(".cav-navbar .nav li").removeClass('active');
+            var route = Backbone.history.fragment.split("/");
+            $(".cav-navbar .nav li a[href$='#"+route[0]+"']").parent('li').addClass('active');
         },
 
         create: function() {
