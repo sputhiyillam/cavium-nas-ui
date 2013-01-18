@@ -17,7 +17,7 @@ define(function(require){
         routes: {
           'disks'       : 'showDisks',
           'volumes'     : 'routeVolumes',
-          'volumes/:action/:id' : 'routeVolumes',
+          'volumes/:id' : 'routeVolumes',
           'shares'      : 'showShares',
           'usergroups'  : 'showUserGroups',
           'backup'      : 'showBackup',
@@ -35,35 +35,44 @@ define(function(require){
             usergroups = new UsergroupsView();
             backup = new BackupView();
             settings = new SettingsView();
-            this.on('route', header.render, header);
+           /* this.on('routes', function(page) {
+                console.log("coming here...");
+            });
+*/
         },
-
         showDisks: function() {
             disks.render();
+            header.render();
         },
 
-        routeVolumes: function(action, id) {
+        routeVolumes: function(id) {
             volumes.load();
+            header.render();
         },
 
         showShares: function() {
             shares.render();
+            header.render();
         },
 
         showUserGroups: function() {
             usergroups.render();
+            header.render();
         },
 
         showBackup: function() {
             backup.render();
+            header.render();
         },
 
         showSettings: function() {
             settings.render();
+            header.render();
         },
 
         showHome: function() {
             home.render();
+            header.render();
         }
     });
 

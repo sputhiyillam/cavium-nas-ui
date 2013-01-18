@@ -3,7 +3,7 @@
     <a href="#" >&nbsp;</a>
   </li>
   <li>
-    <a href="#cav-vr-add-edit-modal" data-toggle="modal">
+    <a href="#cav-vr-add-edit-modal" id="cav-vr-add-vol" data-toggle="modal">
       <i class="icon-folder-close icon-white"></i>Create a Volume
     </a>
   </li>
@@ -16,9 +16,9 @@
     <div id="cav-sidebar-vr-items" class="accordion-body collapse in">
       {{#.}}
       <div class="accordion-inner">
-        <a href="#volumes/show/{{id}}">
+        <a href="#volumes/{{id}}">
           <b>{{name}}</b>
-          <p>{{size.used}} of {{size.total}} used</p>
+          <p>{{used}} of {{size}} used</p>
         </a>
       </div>
       {{/.}}
@@ -29,10 +29,10 @@
 <!-- Adding model for add and edit panel -->
 
 <form class="form-horizontal" >
-  <div id="cav-vr-add-edit-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div id="cav-vr-add-edit-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="cav-add-model-label" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h4 id="myModalLabel">Create a New Volume</h4>
+      <h4 id="cav-add-model-label">Create a New Volume</h4>
     </div>
     <div class="modal-body">
       <div class="control-group">
@@ -51,16 +51,16 @@
         <label class="control-label" for="cav-vr-disks">Disks</label>
         <div class="controls">
           <label class="checkbox inline">
-            <input type="checkbox" id="cav-vr-hdd1" name="disks" value="HDD1"> HDD1
+            <input type="checkbox" name="disks" value="HDD1"> HDD1
           </label>
           <label class="checkbox inline">
-            <input type="checkbox" id="cav-vr-hdd2" name="disks" value="HDD2"> HDD2
+            <input type="checkbox" name="disks" value="HDD2"> HDD2
           </label>
           <label class="checkbox inline">
-            <input type="checkbox" id="cav-vr-hdd3" name="disks" value="HDD3"> HDD3
+            <input type="checkbox" name="disks" value="HDD3"> HDD3
           </label>
           <label class="checkbox inline">
-            <input type="checkbox" id="cav-vr-hdd4" name="disks" value="HDD4"> HDD4
+            <input type="checkbox" name="disks" value="HDD4"> HDD4
           </label>
         </div>
       </div>      
@@ -100,7 +100,8 @@
     </div>
     <div class="modal-footer">
       <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      <button type="button" class="btn btn-primary" id="cav-vol-save">Save changes</button>
+      <button type="button" class="btn btn-primary" id="cav-vol-save">Save</button>
+      <button type="button" class="btn btn-primary" id="cav-vol-update">Update</button>
     </div>
   </div>
 </form>

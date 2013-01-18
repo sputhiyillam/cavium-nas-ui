@@ -12,10 +12,13 @@ define(function(require) {
     var VolumesView = BaseView.extend({
         sidebarTemplate: Mustache.compile(SidebarTemplate),
         helpTemplate: Mustache.compile(HelpTemplate),
-        contentTemplate: Mustache.compile(ContentTemplate),      
+        contentTemplate: Mustache.compile(ContentTemplate),
         events: {
-          "click #cav-vol-save" : "create",
+          "click #cav-vr-add-vol" : "resetAddPanel",
+          "click #cav-vol-save" : "createVolume",
           "click #cav-vol-delete"  : "deleteVolume",
+          "click #cav-vr-edit-vol" : "updateEditPanel",
+          "click #cav-vol-update" : "updateVolume",
         },
 
         initialize: function (options) {
@@ -34,8 +37,10 @@ define(function(require) {
         },
 
         fetchCollection: function(self) {
+          if(!$(".modal").hasClass('in')) {
+          // if any modal window opened then stop from fetch() operation.
             Volumes.fetch({
-                update: true, remove: true,
+                update: true,
                 success: _.bind(function() {
                     self.render();
                     // TODO: Show growl notification
@@ -44,6 +49,7 @@ define(function(require) {
                     // TODO: Show growl notification
                 }, self)
             });
+          }
         },
 
         load: function() {
@@ -53,13 +59,9 @@ define(function(require) {
             } else {
                 this.render();
             }
-            //setInterval(function() {
-            //    self.fetchCollection(self);
-            //}, 2000);
-        },
-
-        refresh: function() {
-            this.render();
+            setInterval(function() {
+              self.fetchCollection(self);
+            }, 5000);
         },
 
         create: function(attributes, options) {
@@ -76,20 +78,117 @@ define(function(require) {
             console.log('Model removed from collection');
         },
 
+        resetAddPanel: function() {
+          //To reset add panel.
+          $("#cav-add-model-label").html("Create a New Volume");
+          $("#cav-vol-save").show();
+          $("#cav-vol-update").hide();
+          this.resetUpdatePanel();
+        },
+
+        doSync: function(model, action) {
+          var self = this, navigate_url = '#volumes';
+
+          if(model.get('id') !== ''){
+            navigate_url = "#volumes/" + model.get('id');
+          }
+          Backbone.sync(action, model, {
+            url: 'index.php/volumes/api',
+            success: function(data){
+              self.fetchCollection(self);
+              Backbone.history.navigate(navigate_url, true);
+            },
+            error: function(data){
+              alert(data.error);
+              console.log('Model addition failed');
+            }
+          });
+        },
+
+        resetUpdatePanel: function() {
+          //To reset add and update panel.
+          $('#cav-vr-name').val('');
+          $('#cav-vr-desc').val('');
+          $('#cav-vr-size').val('');
+          $('#cav-vr-encr').prop("checked", false);
+          $('#cav-vr-raw').prop("checked", false);
+          $('#cav-vr-raid').val('SPAN');
+          $("input[name = 'disks']").each(function(){
+              $(this).prop('checked', false);
+          });
+        },
+
+        createVolume: function() {
+          //To create volume
+          var id = '', action = 'create' ;
+          this.updateVolume('create', id);
+        },
+
         deleteVolume: function() {
-            console.log('Delete Volume Called');
-            var fragment = Backbone.history.fragment;
-            var route = fragment.split("/");
-            Backbone.sync('delete', Volumes.get(route[2]), {
-                url: Volumes.get(route[2]).url,
-                success: function() {
-                    console.log('Model deleted successfully');
-                },
-                error: function() {
-                    console.log('Model deleted failed');
-                }
-            });
-            // when a model is removed from a collection.
+          var fragment = Backbone.history.fragment;
+          var route = fragment.split("/");
+          $('.modal').modal('hide');
+          var self = this;
+          var modal = Volumes.get(route[1]);
+          Backbone.sync('delete', Volumes.get(route[1]), {
+            url: 'index.php/volumes/api/id/'+ route[1],
+            success: function(data) {
+              self.fetchCollection(self);
+              Backbone.history.navigate('#volumes', true);
+            },
+            error: function(data) {
+              alert(data.error);
+              console.log('Model deleted failed');
+            }
+          });
+        },
+        
+        updateVolume: function(operation, vol_id) {
+          if(vol_id === undefined) {
+            var route = Backbone.history.fragment.split('/');
+            vol_id = route[1];
+            operation = 'update';
+          }
+          var disks = $("input[name = 'disks']"),
+          disk_arr = "[";
+          var self = this;
+          disks.each(function(){
+            disk_arr += $(this).is(':checked') ? "'"+$(this).val()+"' : true ," :  "'"+$(this).val()+"' : false ,";
+          });
+          disk_arr += "]";
+          var volume = new Volumes.model({
+            "id"  : vol_id,
+            "name"  : $("#cav-vr-name").val(),
+            "description" : $("#cav-vr-desc").val(),
+            "used" : "0 GB",
+            "size" : $("#cav-vr-size").val(),
+            "raid" : $("#cav-vr-raid :selected").val(),
+            "disks" : disk_arr,
+            "raw" : $("#cav-vr-raw").is(':checked'),
+            "encryption" : $("#cav-vr-encr").is(":checked")
+          });
+          $('.modal').modal('hide');
+          this.doSync(volume, operation);
+        },
+
+        updateEditPanel: function() {
+          //to populate edit panel with selected model data
+          this.resetUpdatePanel();
+          $("#cav-add-model-label").html("Update Volume");
+          $("#cav-vol-save").hide();
+          $("#cav-vol-update").show();
+
+          var route = Backbone.history.fragment.split('/');
+          var volume = Volumes.get(route[1]); //TODO
+          $('#cav-vr-name').val(volume.get('name'));
+          $('#cav-vr-desc').val(volume.get('description'));
+          $('#cav-vr-size').val(volume.get('size').split(" ")[0]);
+          $('#cav-vr-encr').prop("checked", volume.get('encryption'));
+          $('#cav-vr-raw').prop("checked", volume.get('raw'));
+          $('#cav-vr-raid').val(volume.get('raid'));
+          _.each(volume.get('disks'),function(disk){
+            $(':checkbox[value='+disk.name+']').prop("checked",true);
+          });
         },
 
         reset: function(collection, options) {
@@ -102,10 +201,10 @@ define(function(require) {
             var fragment = Backbone.history.fragment;
             var route = fragment.split("/");
             $('#cav-sidebar-vr-items a[href$="#'+fragment+'"]').parent().addClass('cav-active');
-            var action = route[1], id = route[2], object = {}, mainTemplate = null;
-            if(action === undefined || id === undefined) {
+            var id = route[1], object = {}, mainTemplate = null;
+            if( id === undefined) {
                 mainTemplate = this.helpTemplate;
-            } else if(action === 'show' && id !== '') {
+            } else if(id !== '') {
                 mainTemplate = this.contentTemplate;
                 object = Volumes.get(id).toJSON();
             }
@@ -135,8 +234,9 @@ define(function(require) {
         },
 
         request: function(model, xhr, options) {
-            //when a model (or collection) has started a request to the server.
-            // TODO: Start animating the refresh icon here
+          $(".cav-spinner").show();
+          //when a model (or collection) has started a request to the server.
+          // TODO: Start animating the refresh icon here
         },
 
         sync: function(model, resp, options) {
