@@ -12,6 +12,7 @@ class Volumes extends REST_Controller
 {
     function api_post()
     {
+        sleep(4);
         $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
         $new_volumes = array();
         $i = 0 ;
@@ -29,6 +30,7 @@ class Volumes extends REST_Controller
     
     function api_delete()
     {
+        sleep(3);
         $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
         $new_volumes = array();
         $i = 0 ;
@@ -47,13 +49,14 @@ class Volumes extends REST_Controller
     
     function api_get()
     {
-        sleep(1);
+        sleep(5);
         $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
         $this->response($volumes, 200);
     }
 
     public function api_put()
     {
+        sleep(4);
         json_encode($this->put());
         $message = array('message' => 'Successfully updated !!');
         $this->response($message, 200); // 200 being the HTTP response code

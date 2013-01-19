@@ -36,32 +36,49 @@ define(function(require) {
             Volumes.on('all',    this.all,       this);
         },
 
+        pollVolume: function(){
+          // to poll collections
+          var self = this;
+          setTimeout(function() {
+              self.fetchCollection(self);
+            }, 10000);
+        },
+        clearAllTimeout: function() {
+          //to clear previous setTimeout events.
+          var highest_timeout_id = setTimeout(";");
+          for(var j=0; j<highest_timeout_id; j++){
+            clearTimeout(j);
+          }
+        },
         fetchCollection: function(self) {
           if(!$(".modal").hasClass('in')) {
+            console.log("coming inside fetchCollection!!");
           // if any modal window opened then stop from fetch() operation.
             Volumes.fetch({
                 update: true,
                 success: _.bind(function() {
                     self.render();
+                    self.pollVolume();
                     // TODO: Show growl notification
                 }, self),
                 error: _.bind(function() {
+                   self.pollVolume();
                     // TODO: Show growl notification
                 }, self)
             });
+          } else {
+            console.log("Coming inside else fetchCollection !!");
+            // calling pollVolume callback again, if modal window opened.
+            self.pollVolume();
           }
         },
 
         load: function() {
-            var self = this;
             if (Volumes.isEmpty()) {
                 this.fetchCollection(this);
             } else {
                 this.render();
             }
-            setInterval(function() {
-              self.fetchCollection(self);
-            }, 5000);
         },
 
         create: function(attributes, options) {
@@ -76,6 +93,7 @@ define(function(require) {
         remove: function(model, collection, options) {
             // when a model is removed from a collection.
             console.log('Model removed from collection');
+            $(".modal-backdrop").remove();
         },
 
         resetAddPanel: function() {
@@ -87,14 +105,16 @@ define(function(require) {
         },
 
         doSync: function(model, action) {
+          // common method to sync for create and update method
           var self = this, navigate_url = '#volumes';
-
+          this.clearAllTimeout();
           if(model.get('id') !== ''){
             navigate_url = "#volumes/" + model.get('id');
           }
           Backbone.sync(action, model, {
             url: 'index.php/volumes/api',
             success: function(data){
+              $(".modal-backdrop").remove();
               self.fetchCollection(self);
               Backbone.history.navigate(navigate_url, true);
             },
@@ -125,11 +145,12 @@ define(function(require) {
         },
 
         deleteVolume: function() {
+          $('.modal').modal('hide');
           var fragment = Backbone.history.fragment;
           var route = fragment.split("/");
-          $('.modal').modal('hide');
           var self = this;
           var modal = Volumes.get(route[1]);
+          this.clearAllTimeout(); //To clear remaining timeout.
           Backbone.sync('delete', Volumes.get(route[1]), {
             url: 'index.php/volumes/api/id/'+ route[1],
             success: function(data) {
@@ -144,6 +165,7 @@ define(function(require) {
         },
         
         updateVolume: function(operation, vol_id) {
+          // to route create and update method based on id.
           if(vol_id === undefined) {
             var route = Backbone.history.fragment.split('/');
             vol_id = route[1];
@@ -167,7 +189,7 @@ define(function(require) {
             "raw" : $("#cav-vr-raw").is(':checked'),
             "encryption" : $("#cav-vr-encr").is(":checked")
           });
-          $('.modal').modal('hide');
+          $('#cav-vr-add-edit-modal').hide().removeClass('in');
           this.doSync(volume, operation);
         },
 
@@ -197,6 +219,9 @@ define(function(require) {
         },
 
         render: function() {
+
+          if(!$(".modal").hasClass('in')) {
+          // If modal window opened stop updating views
             this.$('#sidebar').html(this.sidebarTemplate(Volumes.toJSON()));
             var fragment = Backbone.history.fragment;
             var route = fragment.split("/");
@@ -211,6 +236,7 @@ define(function(require) {
             this.$('#main-content').html(mainTemplate(object));
             // TODO Handle page not found
             return this;
+          }
         },
 
         sort: function (collection, options) {
@@ -225,11 +251,13 @@ define(function(require) {
 
         change_attribute: function(model, value, options) {
             //when a specific attribute has been updated.
+            console.log('Model Changed for Volume');
         },
 
         destroy: function(model, collection, options) {
             console.log("calling destroy");
             console.log(this.model);
+
             //when a model is destroyed.
         },
 
