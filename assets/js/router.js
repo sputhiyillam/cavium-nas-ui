@@ -19,7 +19,9 @@ define(function(require){
           'volumes'     : 'routeVolumes',
           'volumes/:id' : 'routeVolumes',
           'shares'      : 'showShares',
-          'usergroups'  : 'showUserGroups',
+          'usergroups'  : 'routeUserGroups',
+          'usergroups/user/:id'  : 'routeUserGroups',
+          'usergroups/group/:id'  : 'routeUserGroups',
           'backup'      : 'showBackup',
           'settings'    : 'showSettings',
           //Default
@@ -55,8 +57,8 @@ define(function(require){
             header.render();
         },
 
-        showUserGroups: function() {
-            usergroups.render();
+        routeUserGroups: function(catagory,id) {
+            usergroups.load();
             header.render();
         },
 

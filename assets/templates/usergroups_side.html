@@ -1,0 +1,169 @@
+<ul class="nav nav-list cav-sidenav">
+  <li class="cav-sidenav-no-txt">
+    <a href="#" >&nbsp;</a>
+  </li>
+  <li>
+    <a href="#cav-ug-add-edit-modal" id="cav-ug-add-user" data-toggle="modal">
+      <i class="icon-folder-close icon-white"></i>Create New User
+    </a>
+  </li>
+  <li>
+    <a href="#cav-group-add-edit-modal" id="cav-add-group" data-toggle="modal">
+      <i class="icon-folder-close icon-white"></i>Create New Group
+    </a>
+  </li>
+</ul>
+<div class="accordion" id="cav-sidebar-accordion">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#cav-sidebar-accordion" href="#cav-sidebar-user-items">User<i class="icon-chevron-down"></i></a>
+    </div>
+    <div id="cav-sidebar-user-items" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        <a href="#usergroups/user/1">
+          <b>user1</b>
+          <p>Administrator</p>
+        </a>
+      </div>
+      <div class="accordion-inner">
+        <a href="#usergroups/user/2">
+          <b>user2</b>
+          <p>Normal User</p>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#cav-sidebar-accordion" href="#cav-sidebar-group-items">Group<i class="icon-chevron-down"></i></a>
+    </div>
+    <div id="cav-sidebar-group-items" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        <a href="#usergroups/group/1">
+          <b>group1</b>
+        </a>
+      </div>
+      <div class="accordion-inner">
+        <a href="#usergroups/group/2">
+          <b>group2</b>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Adding model for add and edit panel -->
+
+<form class="form-horizontal" >
+  <div id="cav-ug-add-edit-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="cav-ug-add-edit-model-label" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h4 id="cav-ug-add-edit-model-label">Create User</h4>
+    </div>
+    <div class="modal-body">
+      <div class="control-group">
+        <label class="control-label" for="cav-vr-name">Username</label>
+        <div class="controls">
+          <input type="text" id="cav-ug-username" placeholder="Enter Username">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="cav-ug-fullname">Full Name</label>
+        <div class="controls">
+          <input type="text" id="cav-ug-fullname" placeholder="Enter Full Name">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="cav-ug-email">E-mail</label>
+        <div class="controls">
+          <input type="text" id="cav-ug-email" placeholder="Enter Email Address">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="cav-ug-pwd">Password</label>
+        <div class="controls">
+          <input type="password" id="cav-ug-pwd" placeholder="Enter Password">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="cav-ug-pwd">Confirm Password</label>
+        <div class="controls">
+          <input type="password" id="cav-ug-conf-pwd" placeholder="Enter Confirm Password">
+        </div>
+      </div>
+      <h5>Privileges</h5>
+      <hr />
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox" ><input type="checkbox" id="cav-ug-allow-admin"> Allow user to administer this device</label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" >Add to groups</label>
+        <div class="controls">
+          <label class="checkbox">
+            <input type="checkbox" class="cav-ug-groups" value="Family">
+            Family
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" class="cav-ug-groups" value="Collegues">
+            Collegues
+          </label>
+        </div>
+      </div>
+      <h5>Private Shared Folder</h5>
+      <hr />
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox" ><input type="checkbox" id="cav-ug-private-sf">Create a private shared folder for this user.</label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="cav-ug-volume">On Volume</label>
+        <div class="controls">
+          <select id="cav-ug-volume" >
+            <option value="" >-Select-</option>
+            <option value="volume1" >volume1</option>
+            <option value="volume2" >volume2</option>
+          </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" >Allow File Protocols</label>
+        <div class="controls">
+          <label class="checkbox">
+            <input type="checkbox" class="cav-ug-http" >
+            HTTP
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" class="cav-ug-https" >
+            HTTPS
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" class="cav-ug-ftp" >
+            FTP
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" class="cav-ug-ftp-ssl" >
+            FTP SSL/TLS
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" class="cav-ug-nfs" >
+            NFS
+          </label>          
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox" for="cav-ug-sf-encr"><input type="checkbox" id="cav-ug-sf-encr" >Encrypt this folder</label>
+        </div>
+      </div>
+     
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      <button type="button" class="btn btn-primary" id="cav-ug-user-save">Create User</button>
+      <button type="button" class="btn btn-primary" id="cav-ug-user-update">Update User</button>
+    </div>
+  </div>
+</form>
