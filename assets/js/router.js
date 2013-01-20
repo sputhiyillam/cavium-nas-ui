@@ -15,7 +15,8 @@ define(function(require){
     var header, volumes, shares, home, disks, usergroups, backup, settings;
     var AppRouter = Backbone.Router.extend({
         routes: {
-          'disks'       : 'showDisks',
+          'disks'       : 'routeDisks',
+          'disks/:id' : 'routeDisks',
           'volumes'     : 'routeVolumes',
           'volumes/:action/:id' : 'routeVolumes',
           'shares'      : 'showShares',
@@ -38,32 +39,39 @@ define(function(require){
             this.on('route', header.render, header);
         },
 
-        showDisks: function() {
-            disks.render();
+        routeDisks: function(action, id) {
+            disks.load();
+            header.render();
         },
 
         routeVolumes: function(action, id) {
             volumes.load();
+            header.render();
         },
 
         showShares: function() {
             shares.render();
+            header.render();
         },
 
         showUserGroups: function() {
             usergroups.render();
+            header.render();
         },
 
         showBackup: function() {
             backup.render();
+            header.render();
         },
 
         showSettings: function() {
             settings.render();
+            header.render();
         },
 
         showHome: function() {
             home.render();
+            header.render();
         }
     });
 

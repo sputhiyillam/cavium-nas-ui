@@ -1,0 +1,25 @@
+<ul class="nav nav-list cav-sidenav">
+  <li class="cav-sidenav-no-txt">
+    <a href="#" >&nbsp;</a>
+  </li>
+</ul>
+<div class="accordion" id="cav-sidebar-accordion">
+    <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#cav-sidebar-accordion" href="#cav-sidebar-disks-items">Drives<i class="icon-chevron-down"></i></a>
+        </div>
+        <div id="cav-sidebar-disks-items" class="accordion-body collapse in">
+            {{#.}}
+            <div class="accordion-inner">
+              <a href="#disks/{{id}}">
+                <b>{{name}}</b>
+                <p>{{size}}</p>
+              </a>
+            </div>
+            {{/.}}
+        </div>
+    </div>
+</div>
+
+<form>
+</form>

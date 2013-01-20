@@ -1,0 +1,65 @@
+[
+  {
+    "id"  : 1,
+    "name"  : "HDD 1",
+    "description" : "Version 1 : some desc",
+    "path"  : "/dev/sda",
+    "size"  : "1000 GB",
+    "uuid"  : "001",
+    "status"  : "Good",
+    "vendor"  : "Seagate",
+    "volumes" : [{
+      "id"  : 2,
+      "name"  : "Volume3",
+      "size": "10 GB",
+     "used" : "25%"
+     
+    },
+    {
+      "id"  : 3,
+      "name"  : "Volume3",
+      "size": "1GB",
+     "used" : "2%"
+    }],
+    "temperature" : "45 C",
+    "serial"  : "ABCD012345",
+    "actions" : {
+      "eject" : false,
+      "claim" : false
+    }
+  },
+  {
+    "id"  : 2,
+    "name"  : "HDD 2",
+    "description" : "Version 2 : some desc",
+    "path"  : "/dev/sdb",
+    "size"  : "2000 GB",
+    "uuid"  : "023",
+    "status"  : "Good",
+    "vendor"  : "Seagate",
+    "volumes" : [],
+    "temperature" : "45 C",
+    "serial"  : "ABCD012347",
+    "actions" : {
+      "eject" : true,
+      "claim" : false
+    }
+  },
+  {
+    "id"  : 3,
+    "name"  : "HDD 3",
+    "description" : "Version 3 : some desc",
+    "path"  : "/dev/sdc",
+    "size"  : "3000 GB",
+    "uuid"  : "005",
+    "status"  : "Foreign",
+    "vendor"  : "Seagate",
+    "volumes" : [],
+    "temperature" : "45 C",
+    "serial"  : "ABCD0123452",
+    "actions" : {
+      "eject" : true,
+      "claim" : true
+    }
+  }
+]

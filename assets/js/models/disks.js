@@ -5,9 +5,6 @@ define(function(require) {
         BaseModel = require('models/base');
 
     var DisksModel = BaseModel.extend({
-        defaults: {
-        },
-
         initialize: function() {
         },
 

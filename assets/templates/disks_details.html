@@ -1,0 +1,102 @@
+<div class="row-fluid cav-module-details">
+	{{#.}}
+	<div class="row-fluid cav-module-details-sec1">
+		<div class="span9">
+			<p><h4>
+				{{name}}
+			</h4></p>
+			<p class="cav-module-item-desc">
+				{{description}}
+			</p>
+		</div>
+		<div class="span3">
+            {{^volumes}}
+            {{#actions.eject}}
+            
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+			    <li>
+			    	<a tabindex="-1" href="#cav-remove-dialog" data-toggle="modal"><i class="icon-minus-sign"></i> Remove</a>
+			    </li>
+                {{/actions.eject}}
+                {{/volumes}}
+                {{#actions.claim}}
+			    <li class="divider"></li>                
+			    <li><a tabindex="-1" href="#cav-claim-dialog" data-toggle="modal" ><i class="icon-info-sign"></i> Claim</a></li>
+			    {{/actions.claim}}
+                
+
+		    </ul>
+		</div>
+		<!-- Bootrap confirmation window -->
+		<div class="modal hide fade" id="cav-remove-dialog">
+		  <div class="modal-header">
+		    <a class="close" data-dismiss="modal" aria-hidden="true">×</a>
+		    <h3>Confirm</h3>
+		  </div>
+		  <div class="modal-body">
+		    Are you sure, you want to remove disk?
+		  </div>
+		  <div class="modal-footer">
+		    <a href="#disks/" id="cav-remove-disk" class="btn btn-danger" >Ok</a>
+		    <a href="#" class="btn btn-cancel" data-dismiss="modal">Cancel</a>
+		  </div>
+		</div>
+        <div class="modal hide fade" id="cav-claim-dialog">
+		  <div class="modal-header">
+		    <a class="close" data-dismiss="modal">×</a>
+		    <h3>Confirm</h3>
+		  </div>
+		  <div class="modal-body">
+		    Are you sure you want to claim the disk?
+		  </div>
+		  <div class="modal-footer">
+		    <a href="#disks/" id="cav-claim-disk" class="btn btn-danger" >Ok</a>
+		    <a href="#" class="btn btn-cancel" data-dismiss="modal">Cancel</a>
+		  </div>
+		</div>
+	</div>
+	<div class="row-fluid cav-module-details-sec2">
+        <ul type="none">
+            <li>
+                <label id="cav-vol-label" class="muted">Volumes :</label>
+                {{#volumes}}
+                <span id="cav-vol"><a><u>{{name}}</u></a></span>
+                <span id="cav-vol-popover-title" class="hide">{{name}}</span>
+                <div id="cav-vol-popover-content" class="hide">
+                    <p>Size : {{size}}</p> <p> Used : {{used}}</p><p> Status : {{status}}</p>
+                </div>
+                {{/volumes}}
+            </li>
+            <li>
+                <label id="cav-size-label" class="muted">Size :</label>
+                <span>{{size}}</span>
+            </li>
+            <li>
+                <label id="cav-status-label" class="muted">Status :</label>
+                <span>{{status}}</span>
+            </li>
+            <li>
+                <label id="cav-des-label" class="muted">Serial :</label>
+                <span>{{serial}}</span>
+            </li>
+            <li>
+                <label id="cav-status-label" class="muted">Vendor :</label>
+                <span>{{vendor}}</span>
+            </li>
+            <li>
+                <label id="cav-des-label" class="muted">Temperature :</label>
+                <span>{{temperature}}</span>
+            </li>
+            <li>
+                <label id="cav-status-label" class="muted">Model:</label>
+                <span>{{model}}</span>
+            </li>
+            <li>
+                <label id="cav-des-label" class="muted">Description :</label>
+                <span>{{description}}</span>
+            </li>
+            
+        </ul>
+	</div>
+	{{/.}}
+</div>
