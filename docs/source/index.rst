@@ -11,6 +11,7 @@ Contents:
 .. toctree::
 
     intro
+    responses
     storage
 
 Indices and tables

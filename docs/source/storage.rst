@@ -91,6 +91,8 @@ The following is a generic storage api::
           "size": "",
           "used": "",
           "status": "",
+          "encrypted": false,
+          "raw": false,
           "additional_info": {
             "rate_of_progress": "",
             "estimated_time": "",
@@ -100,17 +102,26 @@ The following is a generic storage api::
             {
               "name": "",
               "id": "",
-              "status": "",
-              "size": ""
+              "size": "",
+              "used": "",
+              "status": ""
             }
           ],
           "actions": {
             "edit": true,
             "delete" : true,
             "migrate": {
+              "to_raid1": false,
+              "to_raid5": false,
+              "to_raid10": false,
+              "disks": [],
+              "mode": ""
             },
             "extend": {
-            }
+              "disks": [],
+              "mode": ""
+            },
+            "recover": false
           }
         }
       ],
@@ -204,8 +215,7 @@ The following represents a disk object::
       By default all values are strings. If the value is an array or boolean,
       it would be mentioned.
 
-Disk Object Details
---------------------
+**Disk Object Details**
 
 +----------------+----------------------------------------------------------+
 | Name           | Value                                                    |
@@ -230,6 +240,9 @@ Disk Object Details
 | uuid           | Unique hardware id of the disk.                          |
 |                |                                                          |
 +----------------+----------------------------------------------------------+
+|                |                                                          |
+|                | .. _disk-status:                                         |
+|                |                                                          |
 | status         | Status of the disk. Can be one of the four values        |
 |                |                                                          |
 |                | - good                                                   |
@@ -261,22 +274,8 @@ Disk Object Details
 |                | used      | Size of the volume used in bytes.            |
 |                |           |                                              |
 |                +-----------+----------------------------------------------+
-|                | status    | Status of the volume. Can                    |
-|                |           | be one of the seven values                   |
-|                |           |                                              |
-|                |           | - good                                       |
-|                |           |                                              |
-|                |           | - degraded                                   |
-|                |           |                                              |
-|                |           | - failed                                     |
-|                |           |                                              |
-|                |           | - recovering                                 |
-|                |           |                                              |
-|                |           | - resizing                                   |
-|                |           |                                              |
-|                |           | - building                                   |
-|                |           |                                              |
-|                |           | - transferring                               |
+|                | status    | Status of the volume as described in         |
+|                |           | `Volume Status <#vol-status>`_               |
 |                |           |                                              |
 +----------------+-----------+----------------------------------------------+
 | temperature    | Temperature of the disk.                                 |
@@ -390,33 +389,67 @@ Disk Object Details
 +----------------+------------+-----------+---------------------------------+
 | actions        | Actions which can be done on the disk.                   |
 |                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | eject     | **Boolean** value which says whether         |
+|                |           | ejecting this disk is possible.              |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | claim     | **Boolean** value which says whether         |
+|                |           | claiming this disk is possible.              |
+|                |           |                                              |
 +----------------+----------------------------------------------------------+
 
-Get Disks
-----------
+**Error messages**
+
+Error messages will be of the format described in :ref:`error-message`.
+
+=============== =================================================
+    Code                            Description                         
+=============== =================================================
+    100             Operation not allowed. Used for validation,
+                    or blocking an action because another action
+                    is going on.
+    101             Unable to complete the action. Used for
+                    internal errors.
+=============== =================================================
+
+GET - Disks
+------------
 Returns `Disk object <#disk-object-label>`_ containing the disks present
 in the NAS device.
 
-    **Resource URL** http://<nas_box_ip_address>/index.php/disks/api
+    **Resource URL** --> <nas-box-ip-address>/index.php/disks/api
 
-    **HTTP Method** GET
+    **Input** --> None
 
-    **Input** None
+    **Response** --> Array of `Disk objects <#disk-object-label>`_
 
-    **Response** `Disk object <#disk-object-label>`_
+PUT - Claim Disk
+-----------------
+Takes `Disk object <#disk-object-label>`_ containing the disk to claim. The
+API claims the foreign disk. 
 
-Claim Disk
-----------
-Takes `Disk object <#disk-object-label>`_ containing the disks present
-in the NAS device.
+.. note::
+    Operation can be performed only on foreign disks.
 
-    **Resource URL** http://<nas_box_ip_address>/index.php/disks/api
+..
 
-    **HTTP Method** POST
+    **Resource URL** --> <nas_box_ip_address>/index.php/disks/api
 
-    **Input** `Disk object <#disk-object-label>`_
+    **Input** --> `Disk object <#disk-object-label>`_
 
-    **Response** `Disk object <#disk-object-label>`_
+    **Response** --> `Disk object <#disk-object-label>`_ which got claimed.
+
+POST - Eject Disk
+-----------------
+Takes `Disk object <#disk-object-label>`_ containing the disk to eject.
+The API ejects the disk safely.
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/disks/api
+
+    **Input** --> `Disk object <#disk-object-label>`_
+
+    **Response** --> `Disk object <#disk-object-label>`_ which got ejected.
 
 .. _volumes-label:
 
@@ -440,6 +473,8 @@ The following represents a volume object::
         "size": "",
         "used": "",
         "status": "",
+        "encrypted": false,
+        "raw": false,
         "additional_info": {
           "rate_of_progress": "",
           "estimated_time": "",
@@ -449,17 +484,26 @@ The following represents a volume object::
           {
             "name": "",
             "id": "",
-            "status": "",
-            "size": ""
+            "size": "",
+            "used": "",
+            "status": ""
           }
         ],
         "actions": {
           "edit": true,
           "delete" : true,
           "migrate": {
+            "to_raid1": false,
+            "to_raid5": false,
+            "to_raid10": false,
+            "disks": [],
+            "mode": ""
           },
           "extend": {
-          }
+            "disks": [],
+            "mode": ""
+          },
+          "recover": false
         }
       }
     ]
@@ -485,13 +529,15 @@ The following represents a volume object::
 | raid           | Raid type of the volume                                  |
 |                |                                                          |
 +----------------+----------------------------------------------------------+
-| size           | An entity which gives                                    |
-|                | size details of the volume.                              |
-|                | Will follow the semantics                                |
-|                | mentioned in `Volume Size                                |
-|                | <#volume-size-label>`_                                   |
+| size           | Total size of the volume in bytes.                       |
 |                |                                                          |
 +----------------+----------------------------------------------------------+
+| used           | Size of the volume used in bytes.                        |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+|                |                                                          |
+| .. _vol-status:|                                                          |
+|                |                                                          |
 | status         | Status of the volume. Can                                |
 |                | be one of the seven values                               |
 |                |                                                          |
@@ -510,17 +556,54 @@ The following represents a volume object::
 |                | - transferring                                           |
 |                |                                                          |
 +----------------+----------------------------------------------------------+
-| disks          | **Array** containing ids (primary keys                   |
+| additional_in  | Additional information which is got only volume status   |
+| fo             | recovering, transferring, resizing and building.         |
+|                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | rate_of   | Progress rate at which the action is         |
+|                | _progress | happening.                                   |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | estimated | Estimated time of completion of the action.  |
+|                | _time     |                                              |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | disk_spe  | Speed at which the disk spins.               |
+|                | ed        |                                              |
+|                |           |                                              |
++----------------+-----------+----------------------------------------------+
+| disks          | **Array** containing brief information                   |
 |                | of disks used for this volume.                           |
 |                |                                                          |
-+----------------+----------------------------------------------------------+
+|                +-----------+----------------------------------------------+
+|                | name      | The name of the disk.                        |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | id        | The primary key unique id by which           |
+|                |           | disk can be identified.                      |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | size      | Total size of the disk in bytes.             |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | used      | Size of the disk used in bytes.              |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | status    | Status of the disk as described in           |
+|                |           | `Disk Status <#disk-status>`_                |
+|                |           |                                              |
++----------------+-----------+----------------------------------------------+
 | encrypted      | **Boolean** value which says                             |
 |                | whether the volume is                                    |
 |                | encrypted or not.                                        |
 |                |                                                          |
 +----------------+----------------------------------------------------------+
-| actions        |                                                          |
+| raw            | **Boolean** value which says                             |
+|                | whether the volume is                                    |
+|                | raw (without filesystem) or not.                         |
 |                |                                                          |
++----------------+----------------------------------------------------------+
+| actions        | Actions which can be done on the volume.                 |
 |                |                                                          |
 |                +-----------+----------------------------------------------+
 |                | edit      | **Boolean** value which says whether editing |
@@ -535,6 +618,10 @@ The following represents a volume object::
 |                |           | volume.                                      |
 |                |           |                                              |
 |                |           +------------+---------------------------------+
+|                |           | to_raid1   | Boolean - to                    |
+|                |           |            | raid1                           |
+|                |           |            |                                 |
+|                |           +------------+---------------------------------+
 |                |           | to_raid5   | Boolean - to                    |
 |                |           |            | raid5                           |
 |                |           |            |                                 |
@@ -542,6 +629,16 @@ The following represents a volume object::
 |                |           | to_raid10  | Boolean - to                    |
 |                |           |            | raid10                          |
 |                |           |            |                                 |
+|                |           +------------+---------------------------------+
+|                |           | disks      | **Array** of disks ids which    |
+|                |           |            | can be used for migrating.      |
+|                |           |            |                                 |
+|                |           +------------+---------------------------------+
+|                |           | mode       | Mode of migrating. Can be       |
+|                |           |            |                                 |
+|                |           |            | * online                        |
+|                |           |            |                                 |
+|                |           |            | * offline                       |
 |                +-----------+------------+---------------------------------+
 |                | extend    | Details of whether the raid can be extended  |
 |                |           | with additional disks.                       |
@@ -549,45 +646,114 @@ The following represents a volume object::
 |                |           +------------+---------------------------------+
 |                |           | disks      | **Array** of disks ids which    |
 |                |           |            | can be used for extending.      |
-|                |           |            | extending.                      |
+|                |           |            |                                 |
+|                |           +------------+---------------------------------+
+|                |           | mode       | Mode of extending. Can be       |
+|                |           |            |                                 |
+|                |           |            | * online                        |
+|                |           |            |                                 |
+|                |           |            | * offline                       |
 |                |           |            |                                 |
 |                +-----------+------------+---------------------------------+
-|                | recover   |                                              |
-|                |           |                                              |
+|                | recover   | **Boolean** value which says whether the     | 
+|                |           | raid can be recovered.                       |
 |                |           |                                              |
 +----------------+-----------+----------------------------------------------+
-|                |                                                          |
-|                |                                                          |
-|                |                                                          |
-|                |                                                          |
-+----------------+----------------------------------------------------------+
-|                |                                                          |
-|                |                                                          |
-|                |                                                          |
-|                |                                                          |
-+----------------+----------------------------------------------------------+
-|                |                                                          |
-|                |                                                          |
-|                |                                                          |
-|                |                                                          |
-+----------------+----------------------------------------------------------+
-
-.. _volume-size-label:
-
-Volume Size
------------
-Size of the volume.
 
 .. _shares-label:
 
-Get Volumes
+GET Volumes
 ------------
 Returns `Volume object <#volume-object-label>`_ containing the volumes present
 in the NAS device.
 
     **Resource URL** http://<nas_box_ip_address>/index.php/volumes/api
 
-    **HTTP Method** GET
+    **Input** --> None
+
+    **Response** --> Array of `Volume objects <#volume-object-label>`_
+
+POST - Create Volume
+---------------------
+Takes `Volume object <#volume-object-label>`_ containing the volume to create.
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/volumes/api
+
+    **Input** --> `Volume object <#volume-object-label>`_
+
+    **Response** --> `Volume object <#volume-object-label>`_ which got created.
+
+DELETE - Delete Volume
+-----------------------
+Takes `Volume object <#volume-object-label>`_ containing the volume to delete.
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/volumes/api
+
+    **Input** --> `Volume object <#volume-object-label>`_
+
+    **Response** --> `Volume object <#volume-object-label>`_ which got deleted.
+
+PUT - Edit Volume
+---------------------
+Takes `Volume object <#volume-object-label>`_ containing the volume to edit.
+
+.. note::
+      The "edit" boolean attribute in "actions" should be true.
+
+..
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/volumes/api
+
+    **Input** --> `Volume object <#volume-object-label>`_
+
+    **Response** --> `Volume object <#volume-object-label>`_ which got edited.
+
+
+PUT - Migrate Volume
+---------------------
+Takes `Volume object <#volume-object-label>`_ containing the volume to migrate.
+
+.. note::
+      The "migrate" boolean attribute in "actions" should be true.
+
+..
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/volumes/api
+
+    **Input** --> `Volume object <#volume-object-label>`_
+
+    **Response** --> `Volume object <#volume-object-label>`_ which got migrated.
+
+
+PUT - Extend Volume
+--------------------
+Takes `Volume object <#volume-object-label>`_ containing the volume to extend.
+
+.. note::
+      The "extend" boolean attribute in "actions" should be true.
+
+..
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/volumes/api
+
+    **Input** --> `Volume object <#volume-object-label>`_
+
+    **Response** --> `Volume object <#volume-object-label>`_ which got extendd.
+
+PUT - Recover Volume
+---------------------
+Takes `Volume object <#volume-object-label>`_ containing the volume to recover.
+
+.. note::
+      The "recover" boolean attribute in "actions" should be true.
+
+..
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/volumes/api
+
+    **Input** --> `Volume object <#volume-object-label>`_
+
+    **Response** --> `Volume object <#volume-object-label>`_ which got recovered.
 
 Shares
 ======
