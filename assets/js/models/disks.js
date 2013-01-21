@@ -5,6 +5,7 @@ define(function(require) {
         BaseModel = require('models/base');
 
     var DisksModel = BaseModel.extend({
+
         initialize: function() {
         },
 
