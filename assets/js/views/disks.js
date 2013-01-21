@@ -38,6 +38,7 @@ define(function(require) {
         },
         
         fetchCollection: function(self) {
+		if(!$("#cav-remove-dialog,#cav-claim-dialog").hasClass('in')) {
             Disks.fetch({
                 update: true, remove: true,
                 success: _.bind(function() {
@@ -48,6 +49,7 @@ define(function(require) {
                     // TODO: Show growl notification
                 }, self)
             });
+        }
         },
         
         load: function() {
@@ -57,9 +59,9 @@ define(function(require) {
             } else {
                 this.render();
             }
-            //setInterval(function() {
-            //    self.fetchCollection(self);
-            //}, 2000);
+            setInterval(function() {
+                self.fetchCollection(self);
+            }, 6000);
         },
         
         doSync: function(action){

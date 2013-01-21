@@ -44,8 +44,10 @@ class Disks extends REST_Controller
                     
                     $value->description = "----";
                     $value->size = "----";
-                    $value->volumes = "--";
+                    $value->volumes = false;
                     $value->status = "Not Installed";
+                    $value->actions->claim=false;
+                    $value->actions->eject=false;
                 }
             }
             
@@ -62,7 +64,7 @@ class Disks extends REST_Controller
                 if($value->id == $this->put('id')) {
                     
                     $value->status = "Good";
-                    $value->actions->claim="false";
+                    $value->actions->claim=false;
                 }
             }
             

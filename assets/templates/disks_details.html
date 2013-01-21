@@ -11,8 +11,7 @@
 		</div>
 		<div class="span3">
             {{^volumes}}
-            {{#actions.eject}}
-            
+            {{#actions.eject}}   
 			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
 			    <li>
 			    	<a tabindex="-1" href="#cav-remove-dialog" data-toggle="modal"><i class="icon-minus-sign"></i> Remove</a>
@@ -22,9 +21,7 @@
                 {{#actions.claim}}
 			    <li class="divider"></li>                
 			    <li><a tabindex="-1" href="#cav-claim-dialog" data-toggle="modal" ><i class="icon-info-sign"></i> Claim</a></li>
-			    {{/actions.claim}}
-                
-
+			    {{/actions.claim}}   
 		    </ul>
 		</div>
 		<!-- Bootrap confirmation window -->
