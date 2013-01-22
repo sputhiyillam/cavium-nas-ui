@@ -15,17 +15,18 @@ define(function(require){
     var header, volumes, shares, home, disks, usergroups, backup, settings;
     var AppRouter = Backbone.Router.extend({
         routes: {
-          'disks'       : 'showDisks',
-          'volumes'     : 'routeVolumes',
-          'volumes/:id' : 'routeVolumes',
-          'shares'      : 'showShares',
-          'usergroups'  : 'routeUserGroups',
-          'usergroups/user/:id'  : 'routeUserGroups',
-          'usergroups/group/:id'  : 'routeUserGroups',
-          'backup'      : 'showBackup',
-          'settings'    : 'showSettings',
+          'disks'                   : 'showDisks',
+          'volumes'                 : 'routeVolumes',
+          'volumes/:id'             : 'routeVolumes',
+          'shares'                  : 'routeShares',
+          'shares/:id'              : 'routeShares',
+          'shares/:type/:id'        : 'routeShares',
+          'usergroups'              : 'routeUserGroups',
+          'usergroups/:type/:id'    : 'routeUserGroups',
+          'backup'                  : 'showBackup',
+          'settings'                : 'showSettings',
           //Default
-          '*actions'    : 'showHome'
+          '*actions'                : 'showHome'
         },
 
         initialize: function() {
@@ -37,44 +38,37 @@ define(function(require){
             usergroups = new UsergroupsView();
             backup = new BackupView();
             settings = new SettingsView();
-           /* this.on('routes', function(page) {
-                console.log("coming here...");
+            this.on('all', function() {
+                header.render();
             });
-*/
+
         },
         showDisks: function() {
             disks.render();
-            header.render();
         },
 
         routeVolumes: function(id) {
             volumes.load();
-            header.render();
         },
 
         showShares: function() {
-            shares.render();
-            header.render();
+            shares.load();
         },
 
         routeUserGroups: function(catagory,id) {
             usergroups.load();
-            header.render();
         },
 
         showBackup: function() {
             backup.render();
-            header.render();
         },
 
         showSettings: function() {
             settings.render();
-            header.render();
         },
 
         showHome: function() {
             home.render();
-            header.render();
         }
     });
 
