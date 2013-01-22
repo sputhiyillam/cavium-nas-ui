@@ -11,124 +11,6 @@ The storage api encompasses the following sub modules.
 * `Volumes <#volumes-label>`_
 * `Shares <#shares-label>`_
 
-The following is a generic storage api::
-
-    {
-      "disks": [
-        {
-          "id": "",
-          "name": "",
-          "description": "",
-          "path": "",
-          "size": "",
-          "uuid": "",
-          "status": "",
-          "vendor": "",
-          "volumes": [
-            {
-              "name": "",
-              "id": "",
-              "size": "",
-              "used": "",
-              "status": "",
-            }
-          ],
-          "temperature": "",
-          "model": "",
-          "serial": "",
-          "smart" : {
-            "status": "",
-            "short_test": {
-              "status": "",
-              "progress": "",
-              "duration_to_complete": "",
-              "date_of_completion": "",
-              "last_tested": "",
-              "attributes": [
-                {
-                  "name": "",
-                  "flag": "",
-                  "value": {
-                      "normalized": "",
-                      "raw": ""
-                  },
-                  "worst": "",
-                  "threshold": "",
-                  "type": "",
-                  "updated": "",
-                  "failing": "",
-                }
-              ]
-            },
-            "attributes": [
-              {
-                "name": "",
-                "flag": "",
-                "value": {
-                    "normalized": "",
-                    "raw": ""
-                },
-                "worst": "",
-                "threshold": "",
-                "type": "",
-                "updated": "",
-                "failing": "",
-              }
-            ]
-          },
-          "actions": {
-            "eject": true,
-            "claim": true
-          }
-        }
-      ],
-      "volumes": [
-        {
-          "id": "",
-          "name": "",
-          "description": "",
-          "raid": "",
-          "size": "",
-          "used": "",
-          "status": "",
-          "encrypted": false,
-          "raw": false,
-          "additional_info": {
-            "rate_of_progress": "",
-            "estimated_time": "",
-            "disk_speed": ""
-          },
-          "disks": [
-            {
-              "name": "",
-              "id": "",
-              "size": "",
-              "used": "",
-              "status": ""
-            }
-          ],
-          "actions": {
-            "edit": true,
-            "delete" : true,
-            "migrate": {
-              "to_raid1": false,
-              "to_raid5": false,
-              "to_raid10": false,
-              "disks": [],
-              "mode": ""
-            },
-            "extend": {
-              "disks": [],
-              "mode": ""
-            },
-            "recover": false
-          }
-        }
-      ],
-      "iscsi": [
-      ]
-    }
-
 .. _disks-label:
 
 Disks
@@ -159,6 +41,7 @@ The following represents a disk object::
             "size": "",
             "used": "",
             "status": "",
+            "encrypted": false
           }
         ],
         "temperature": "",
@@ -277,10 +160,14 @@ The following represents a disk object::
 |                | status    | Status of the volume as described in         |
 |                |           | `Volume Status <#vol-status>`_               |
 |                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | encrypted | **Boolean** value which says whether a       |
+|                |           | volume is encrypted or not.                  |
+|                |           |                                              |
 +----------------+-----------+----------------------------------------------+
 | temperature    | Temperature of the disk.                                 |
 |                |                                                          |
-+----------------+-----------+----------------------------------------------+
++----------------+----------------------------------------------------------+
 | model          | Model of the disk.                                       |
 |                |                                                          |
 +----------------+----------------------------------------------------------+
@@ -489,6 +376,12 @@ The following represents a volume object::
             "status": ""
           }
         ],
+        "shares": [
+          {
+            "name": "",
+            "id": "",
+          }
+        ],
         "actions": {
           "edit": true,
           "delete" : true,
@@ -593,6 +486,17 @@ The following represents a volume object::
 |                |           | `Disk Status <#disk-status>`_                |
 |                |           |                                              |
 +----------------+-----------+----------------------------------------------+
+| shares         | **Array** containing brief information                   |
+|                | of shares present in this volume.                        |
+|                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | name      | The name of the share.                       |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | id        | The primary key unique id by which           |
+|                |           | share can be identified.                     |
+|                |           |                                              |
++----------------+-----------+----------------------------------------------+
 | encrypted      | **Boolean** value which says                             |
 |                | whether the volume is                                    |
 |                | encrypted or not.                                        |
@@ -659,8 +563,6 @@ The following represents a volume object::
 |                |           | raid can be recovered.                       |
 |                |           |                                              |
 +----------------+-----------+----------------------------------------------+
-
-.. _shares-label:
 
 GET Volumes
 ------------
@@ -755,9 +657,373 @@ Takes `Volume object <#volume-object-label>`_ containing the volume to recover.
 
     **Response** --> `Volume object <#volume-object-label>`_ which got recovered.
 
+.. _shares-label:
+
 Shares
 ======
-The shares api exposes interfaces related to shares present in the the NAS device.
+The shares api exposes interfaces related to shares present in the the NAS device.::
+
+    [
+      {
+        "id": "",
+        "name": "",
+        "description": "",
+        "volume": {
+          "name": "",
+          "id": "",
+          "size": "",
+          "used": "",
+          "status": "",
+          "encrypted": false
+        },
+        "public": false,
+        "cifs": {
+          "enabled": true,
+          "readonly": {
+            "users":[
+              {
+                "name": "",
+                "id": ""
+              }
+            ],
+            "groups": [
+              {
+                "name": "",
+                "id": ""
+              },
+            ]
+          },
+          "fullaccess": {
+            "users":[
+              {
+                "name": "",
+                "id": ""
+              }
+            ],
+            "groups": [
+              {
+                "name": "",
+                "id": ""
+              },
+            ]
+          },
+          "noaccess": {
+            "users":[
+              {
+                "name": "",
+                "id": ""
+              }
+            ],
+            "groups": [
+              {
+                "name": "",
+                "id": ""
+              },
+            ]
+          }
+        },
+        "afp": {
+          "enabled": true,
+          "readonly": {
+            "users":[
+              {
+                "name": "",
+                "id": ""
+              }
+            ],
+            "groups": [
+              {
+                "name": "",
+                "id": ""
+              },
+            ]
+          },
+          "fullaccess": {
+            "users":[
+              {
+                "name": "",
+                "id": ""
+              }
+            ],
+            "groups": [
+              {
+                "name": "",
+                "id": ""
+              },
+            ]
+          },
+          "noaccess": {
+            "users":[
+              {
+                "name": "",
+                "id": ""
+              }
+            ],
+            "groups": [
+              {
+                "name": "",
+                "id": ""
+              },
+            ]
+          }
+        },
+        "nfs": {
+          "enabled": true,
+          "ips": [
+          ""
+          ]
+        },
+        "ftp": {
+          "enabled": true,
+          "users":[
+            {
+              "name": "",
+              "id": ""
+            }
+          ],
+          "groups": [
+            {
+              "name": "",
+              "id": ""
+            },
+          ]
+        },
+        "webdav": {
+          "enabled": true,
+          "readonly": {
+            "users":[
+              {
+                "name": "",
+                "id": ""
+              }
+            ],
+            "groups": [
+              {
+                "name": "",
+                "id": ""
+              },
+            ]
+          },
+          "fullaccess": {
+            "users":[
+              {
+                "name": "",
+                "id": ""
+              }
+            ],
+            "groups": [
+              {
+                "name": "",
+                "id": ""
+              },
+            ]
+          },
+          "noaccess": {
+            "users":[
+              {
+                "name": "",
+                "id": ""
+              }
+            ],
+            "groups": [
+              {
+                "name": "",
+                "id": ""
+              },
+            ]
+          }
+        },
+        "recycle_bin": {
+          "enabled": false
+        },
+        "media_service": {
+          "enabled": false
+        }
+      }
+    ]
+
++----------------+----------------------------------------------------------+
+| Name           | Value                                                    |
+|                |                                                          |
++================+==========================================================+
+| id             | The primary key unique id by which the share can be      |
+|                | identified                                               |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| name           | The name of the share                                    |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| description    | Description of the share                                 |
+|                |                                                          |
++----------------+----------------------------------------------------------+
+| volume         | Brief info of the volume on which the share is created.  |
+|                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | name      | Name of the volume.                          |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | id        | Unique primary key id of the volume.         |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | size      | Size of the volume in bytes.                 |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | used      | Size of the volume used in bytes.            |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | status    | Status of the volume as specified in         |
+|                |           | `Volume Status <#vol-status>`_               |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | encrypted |  **Boolean** value which says whether a      |
+|                |           |  volume is encrypted or not.                 |
+|                |           |                                              |
++----------------+-----------+----------------------------------------------+
+| public         | **Boolean** value which tells whether the share is       |
+|                | public or private.                                       |
++----------------+----------------------------------------------------------+
+| cifs/afp/      | Details of CIFS/AFP/Webdav services in the share.        |
+| webdav         |                                                          |
+|                +-----------+----------------------------------------------+
+|                | enabled   | **Boolean** value which says whether the     |
+|                |           | service is enabled for this share.           |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | readonly  | Details of users and groups with readonly    |
+|                |           | access.                                      |
+|                |           |                                              |
+|                |           +----------+--------+--------------------------+
+|                |           | users    | **Array** of users.               |
+|                |           |          +--------+--------------------------+
+|                |           |          | name   | Name of the user         |
+|                |           |          +--------+--------------------------+
+|                |           |          | id     | Unique id of the user    |
+|                |           |          +--------+--------------------------+
+|                |           | groups   | **Array** of groups.              |
+|                |           |          +--------+--------------------------+
+|                |           |          | name   | Name of the group        |
+|                |           |          +--------+--------------------------+
+|                |           |          | id     | Unique id of the group   |
+|                +-----------+----------+--------+--------------------------+
+|                | fullaccess| Details of users and groups with full access.|
+|                |           |                                              |
+|                |           +----------+--------+--------------------------+
+|                |           | users    | **Array** of users.               |
+|                |           |          +--------+--------------------------+
+|                |           |          | name   | Name of the user         |
+|                |           |          +--------+--------------------------+
+|                |           |          | id     | Unique id of the user    |
+|                |           |          +--------+--------------------------+
+|                |           | groups   | **Array** of groups.              |
+|                |           |          +--------+--------------------------+
+|                |           |          | name   | Name of the group        |
+|                |           |          +--------+--------------------------+
+|                |           |          | id     | Unique id of the group   |
+|                +-----------+----------+--------+--------------------------+
+|                | noaccess  | Details of users and groups with no access.  |
+|                |           |                                              |
+|                |           +----------+--------+--------------------------+
+|                |           | users    | **Array** of users.               |
+|                |           |          +--------+--------------------------+
+|                |           |          | name   | Name of the user         |
+|                |           |          +--------+--------------------------+
+|                |           |          | id     | Unique id of the user    |
+|                |           |          +--------+--------------------------+
+|                |           | groups   | **Array** of groups.              |
+|                |           |          +--------+--------------------------+
+|                |           |          | name   | Name of the group        |
+|                |           |          +--------+--------------------------+
+|                |           |          | id     | Unique id of the group   |
++----------------+-----------+----------+--------+--------------------------+
+| ftp            | Details of FTP services in the share.                    |
+|                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | enabled   | **Boolean** value which says whether FTP     |
+|                |           | service is enabled for this share.           |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | users     | **Array** of users.                          |
+|                |           +--------+-------------------------------------+
+|                |           | name   | Name of the user                    |
+|                |           +--------+-------------------------------------+
+|                |           | id     | Unique id of the user               |
+|                |           +--------+-------------------------------------+
+|                | groups    | **Array** of groups.                         |
+|                |           +--------+-------------------------------------+
+|                |           | name   | Name of the group                   |
+|                |           +--------+-------------------------------------+
+|                |           | id     | Unique id of the group              |
++----------------+-----------+--------+-------------------------------------+
+| nfs            | Details of NFS services in the share.                    |
+|                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | enabled   | **Boolean** value which says whether NFS     |
+|                |           | service is enabled for this share.           |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | readonly  | **Array** of IP addresses with readonly      |
+|                |           | permissions.                                 |
+|                |           |                                              |
+|                +-----------+----------------------------------------------+
+|                | readwrite | **Array** of IP addresses with readwrite     |
+|                |           | permissions.                                 |
+|                |           |                                              |
++----------------+-----------+----------------------------------------------+
+| recycle_bin    | Details of Recycle Bin in the share.                     |
+|                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | enabled   | **Boolean** value which says whether         |
+|                |           | service is enabled for this share.           |
+|                |           |                                              |
++----------------+-----------+----------------------------------------------+
+| media_service  | Details of Media Services in the share.                  |
+|                |                                                          |
+|                +-----------+----------------------------------------------+
+|                | enabled   | **Boolean** value which says whether         |
+|                |           | service is enabled for this share.           |
+|                |           |                                              |
++----------------+-----------+----------------------------------------------+
+
+GET Shares
+------------
+Returns `Share object <#share-object-label>`_ containing the shares present
+in the NAS device.
+
+    **Resource URL** http://<nas_box_ip_address>/index.php/shares/api
+
+    **Input** --> None
+
+    **Response** --> Array of `Share objects <#share-object-label>`_
+
+POST - Create Share 
+---------------------
+Takes `Share object <#share-object-label>`_ containing the share to create.
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/shares/api
+
+    **Input** --> `Share object <#share-object-label>`_
+
+    **Response** --> `Share object <#share-object-label>`_ which got created.
+
+DELETE - Delete Share
+-----------------------
+Takes `Share object <#share-object-label>`_ containing the share to delete.
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/shares/api
+
+    **Input** --> `Share object <#share-object-label>`_
+
+    **Response** --> `Share object <#share-object-label>`_ which got deleted.
+
+PUT - Edit Share
+---------------------
+Takes `Share object <#share-object-label>`_ containing the share to edit.
+
+    **Resource URL** --> <nas_box_ip_address>/index.php/shares/api
+
+    **Input** --> `Share object <#share-object-label>`_
+
+    **Response** --> `Share object <#share-object-label>`_ which got edited.
 
 .. _iscsi-label:
 
