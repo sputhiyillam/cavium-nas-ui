@@ -129,7 +129,6 @@ define(function(require) {
                     var contentView = new VolumesContentView;
                     contentView.render();
                 }
-                this.pollVolume();
                 return this;
             }
         },
@@ -176,12 +175,11 @@ define(function(require) {
             $("#cav-add-model-label").html("Create a New Volume");
             $("#cav-vol-save").show();
             $("#cav-vol-update").hide();
-            $('button').removeClass('disabled');
         },
 
         clearUpdatePanel: function() {
         //To reset add and update panel.
-            this.clearUpdatePanel();
+            $('button').removeClass('disabled');
             $('#cav-vr-name, #cav-vr-desc, #cav-vr-size').val('');
             $('#cav-vr-encr, #cav-vr-raw, input[name = "disks"]').prop("checked", false);
             $('#cav-vr-raid').val('SPAN');
@@ -194,6 +192,7 @@ define(function(require) {
         },
 
         deleteVolume: function() {
+            $('.btn, .close').addClass('disabled').removeAttr('data-dismiss');
             var fragment = Backbone.history.fragment;
             var route = fragment.split("/");
             var self = this;
@@ -203,8 +202,8 @@ define(function(require) {
             url: 'index.php/volumes/api/id/'+ route[1],
             success: function(data) {
                 $('.modal').modal('hide');
+                self._remove(Volumes.get(route[1]));
                 self.fetchCollection(self);
-                Backbone.history.navigate('#volumes', true);
             },
             error: function(data) {
                 alert(data.error);

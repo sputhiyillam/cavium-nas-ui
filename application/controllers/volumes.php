@@ -49,7 +49,7 @@ class Volumes extends REST_Controller
     
     function api_get()
     {
-        sleep(3);
+        //sleep(3);
         $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
         $this->response($volumes, 200);
     }
