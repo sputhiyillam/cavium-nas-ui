@@ -13,6 +13,10 @@ Contents:
     intro
     responses
     storage
+    disks
+    volumes
+    shares
+    usersgroups
 
 Indices and tables
 ==================
