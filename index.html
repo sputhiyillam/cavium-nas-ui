@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Cavium NAS UI API documentation &mdash; Cavium NAS UI API 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Cavium NAS UI API 0.1 documentation" href="#" />
+    <link rel="next" title="Introduction" href="intro.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             accesskey="N">next</a> |</li>
+        <li><a href="#">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="#">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Cavium NAS UI API documentation</a><ul>
+</ul>
+</li>
+<li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+  <h4>Next topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="next chapter">Introduction</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/index.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="cavium-nas-ui-api-documentation">
+<h1>Cavium NAS UI API documentation<a class="headerlink" href="#cavium-nas-ui-api-documentation" title="Permalink to this headline">¶</a></h1>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="responses.html">Status and Responses</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="responses.html#status-code">Status Codes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="responses.html#error-message">Error Messages</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="storage.html#iscsi">iSCSI</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="disks.html">Disks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="disks.html#disk-object">Disk Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="disks.html#get-disks">GET - Disks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="disks.html#put-claim-disk">PUT - Claim Disk</a></li>
+<li class="toctree-l2"><a class="reference internal" href="disks.html#post-eject-disk">POST - Eject Disk</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="volumes.html">Volumes</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="volumes.html#volume-object">Volume Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volumes.html#get-volumes">GET Volumes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volumes.html#post-create-volume">POST - Create Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volumes.html#delete-delete-volume">DELETE - Delete Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volumes.html#put-edit-volume">PUT - Edit Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volumes.html#put-migrate-volume">PUT - Migrate Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volumes.html#put-extend-volume">PUT - Extend Volume</a></li>
+<li class="toctree-l2"><a class="reference internal" href="volumes.html#put-recover-volume">PUT - Recover Volume</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="shares.html">Shares</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="shares.html#share-object">Share Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shares.html#get-shares">GET Shares</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shares.html#post-create-share">POST - Create Share</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shares.html#delete-delete-share">DELETE - Delete Share</a></li>
+<li class="toctree-l2"><a class="reference internal" href="shares.html#put-edit-share">PUT - Edit Share</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usersgroups.html">Users and Groups</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#user-object">User Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#get-users">GET Users</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#post-create-user">POST - Create User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#delete-delete-user">DELETE - Delete User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#put-edit-user">PUT - Edit User</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#group-object">Group Object</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#get-groups">GET Groups</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#post-create-group">POST - Create Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#delete-delete-group">DELETE - Delete Group</a></li>
+<li class="toctree-l2"><a class="reference internal" href="usersgroups.html#put-edit-group">PUT - Edit Group</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
+<li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
+<li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             >next</a> |</li>
+        <li><a href="#">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Bharathwaaj Srinivasan.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>

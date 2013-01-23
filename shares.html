@@ -1,0 +1,530 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Shares &mdash; Cavium NAS UI API 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Cavium NAS UI API 0.1 documentation" href="index.html" />
+    <link rel="next" title="Users and Groups" href="usersgroups.html" />
+    <link rel="prev" title="Volumes" href="volumes.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="usersgroups.html" title="Users and Groups"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="volumes.html" title="Volumes"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Shares</a><ul>
+<li><a class="reference internal" href="#share-object">Share Object</a></li>
+<li><a class="reference internal" href="#get-shares">GET Shares</a></li>
+<li><a class="reference internal" href="#post-create-share">POST - Create Share</a></li>
+<li><a class="reference internal" href="#delete-delete-share">DELETE - Delete Share</a></li>
+<li><a class="reference internal" href="#put-edit-share">PUT - Edit Share</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="volumes.html"
+                        title="previous chapter">Volumes</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usersgroups.html"
+                        title="next chapter">Users and Groups</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/shares.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="shares">
+<span id="shares-label"></span><h1>Shares<a class="headerlink" href="#shares" title="Permalink to this headline">¶</a></h1>
+<p>The shares api exposes interfaces related to shares present in the the NAS device.</p>
+<div class="section" id="share-object">
+<span id="share-object-label"></span><h2>Share Object<a class="headerlink" href="#share-object" title="Permalink to this headline">¶</a></h2>
+<p>The following represents a share object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;description&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;volume&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+      <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+      <span class="s">&quot;size&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+      <span class="s">&quot;used&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+      <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+      <span class="s">&quot;encrypted&quot;</span><span class="p">:</span> <span class="n">false</span>
+    <span class="p">},</span>
+    <span class="s">&quot;public&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s">&quot;cifs&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+      <span class="s">&quot;readonly&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="s">&quot;fullaccess&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="s">&quot;noaccess&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&quot;afp&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+      <span class="s">&quot;readonly&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="s">&quot;fullaccess&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="s">&quot;noaccess&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&quot;nfs&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+      <span class="s">&quot;ips&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="s">&quot;&quot;</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s">&quot;ftp&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+      <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+        <span class="p">{</span>
+          <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+          <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+          <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+        <span class="p">},</span>
+      <span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s">&quot;webdav&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+      <span class="s">&quot;readonly&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="s">&quot;fullaccess&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+        <span class="p">]</span>
+      <span class="p">},</span>
+      <span class="s">&quot;noaccess&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;users&quot;</span><span class="p">:[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">}</span>
+        <span class="p">],</span>
+        <span class="s">&quot;groups&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&quot;recycle_bin&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">false</span>
+    <span class="p">},</span>
+    <span class="s">&quot;media_service&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">false</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Share Object Details</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="16%" />
+<col width="11%" />
+<col width="1%" />
+<col width="11%" />
+<col width="37%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head" colspan="5">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>id</td>
+<td colspan="5">The primary key unique id by which the share can be
+identified</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td colspan="5">The name of the share</td>
+</tr>
+<tr class="row-even"><td>description</td>
+<td colspan="5">Description of the share</td>
+</tr>
+<tr class="row-odd"><td rowspan="7">volume</td>
+<td colspan="5">Brief info of the volume on which the share is created.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td colspan="4">Name of the volume.</td>
+</tr>
+<tr class="row-odd"><td>id</td>
+<td colspan="4">Unique primary key id of the volume.</td>
+</tr>
+<tr class="row-even"><td>size</td>
+<td colspan="4">Size of the volume in bytes.</td>
+</tr>
+<tr class="row-odd"><td>used</td>
+<td colspan="4">Size of the volume used in bytes.</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td colspan="4">Status of the volume as specified in
+<a class="reference internal" href="volumes.html#vol-status"><em>Volume Status</em></a>.</td>
+</tr>
+<tr class="row-odd"><td>encrypted</td>
+<td colspan="4"><strong>Boolean</strong> value which says whether a
+volume is encrypted or not.</td>
+</tr>
+<tr class="row-even"><td>public</td>
+<td colspan="5"><strong>Boolean</strong> value which tells whether the share is
+public or private.</td>
+</tr>
+<tr class="row-odd"><td rowspan="23">cifs/afp/
+webdav</td>
+<td colspan="5">Details of CIFS/AFP/Webdav services in the share.</td>
+</tr>
+<tr class="row-even"><td>enabled</td>
+<td colspan="4"><strong>Boolean</strong> value which says whether the
+service is enabled for this share.</td>
+</tr>
+<tr class="row-odd"><td rowspan="7">readonly</td>
+<td colspan="4">Details of users and groups with readonly
+access.</td>
+</tr>
+<tr class="row-even"><td colspan="2" rowspan="6"><p class="first">users</p>
+<p class="last">groups</p>
+</td>
+<td colspan="2"><strong>Array</strong> of users.</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>Name of the user</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>Unique id of the user</td>
+</tr>
+<tr class="row-odd"><td colspan="2"><strong>Array</strong> of groups.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>Name of the group</td>
+</tr>
+<tr class="row-odd"><td>id</td>
+<td>Unique id of the group</td>
+</tr>
+<tr class="row-even"><td rowspan="7">fullaccess</td>
+<td colspan="4">Details of users and groups with full access.</td>
+</tr>
+<tr class="row-odd"><td colspan="2" rowspan="6"><p class="first">users</p>
+<p class="last">groups</p>
+</td>
+<td colspan="2"><strong>Array</strong> of users.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>Name of the user</td>
+</tr>
+<tr class="row-odd"><td>id</td>
+<td>Unique id of the user</td>
+</tr>
+<tr class="row-even"><td colspan="2"><strong>Array</strong> of groups.</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>Name of the group</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>Unique id of the group</td>
+</tr>
+<tr class="row-odd"><td rowspan="7">noaccess</td>
+<td colspan="4">Details of users and groups with no access.</td>
+</tr>
+<tr class="row-even"><td colspan="2" rowspan="6"><p class="first">users</p>
+<p class="last">groups</p>
+</td>
+<td colspan="2"><strong>Array</strong> of users.</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td>Name of the user</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td>Unique id of the user</td>
+</tr>
+<tr class="row-odd"><td colspan="2"><strong>Array</strong> of groups.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td>Name of the group</td>
+</tr>
+<tr class="row-odd"><td>id</td>
+<td>Unique id of the group</td>
+</tr>
+<tr class="row-even"><td rowspan="8">ftp</td>
+<td colspan="5">Details of FTP services in the share.</td>
+</tr>
+<tr class="row-odd"><td>enabled</td>
+<td colspan="4"><strong>Boolean</strong> value which says whether FTP
+service is enabled for this share.</td>
+</tr>
+<tr class="row-even"><td rowspan="6"><p class="first">users</p>
+<p class="last">groups</p>
+</td>
+<td colspan="4"><strong>Array</strong> of users.</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td colspan="3">Name of the user</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td colspan="3">Unique id of the user</td>
+</tr>
+<tr class="row-odd"><td colspan="4"><strong>Array</strong> of groups.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td colspan="3">Name of the group</td>
+</tr>
+<tr class="row-odd"><td>id</td>
+<td colspan="3">Unique id of the group</td>
+</tr>
+<tr class="row-even"><td rowspan="4">nfs</td>
+<td colspan="5">Details of NFS services in the share.</td>
+</tr>
+<tr class="row-odd"><td>enabled</td>
+<td colspan="4"><strong>Boolean</strong> value which says whether NFS
+service is enabled for this share.</td>
+</tr>
+<tr class="row-even"><td>readonly</td>
+<td colspan="4"><strong>Array</strong> of IP addresses with readonly
+permissions.</td>
+</tr>
+<tr class="row-odd"><td>readwrite</td>
+<td colspan="4"><strong>Array</strong> of IP addresses with readwrite
+permissions.</td>
+</tr>
+<tr class="row-even"><td rowspan="2">recycle_bin</td>
+<td colspan="5">Details of Recycle Bin in the share.</td>
+</tr>
+<tr class="row-odd"><td>enabled</td>
+<td colspan="4"><strong>Boolean</strong> value which says whether
+service is enabled for this share.</td>
+</tr>
+<tr class="row-even"><td rowspan="2">media_service</td>
+<td colspan="5">Details of Media Services in the share.</td>
+</tr>
+<tr class="row-odd"><td>enabled</td>
+<td colspan="4"><strong>Boolean</strong> value which says whether
+service is enabled for this share.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="get-shares">
+<h2>GET Shares<a class="headerlink" href="#get-shares" title="Permalink to this headline">¶</a></h2>
+<p>Returns <a class="reference external" href="#share-object-label">Share object</a> containing the shares present
+in the NAS device.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> <a class="reference external" href="http:/">http:/</a>/&lt;nas_box_ip_address&gt;/index.php/shares/api</p>
+<p><strong>Input</strong> &#8211;&gt; None</p>
+<p><strong>Response</strong> &#8211;&gt; Array of <a class="reference external" href="#share-object-label">Share objects</a></p>
+</div></blockquote>
+</div>
+<div class="section" id="post-create-share">
+<h2>POST - Create Share<a class="headerlink" href="#post-create-share" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#share-object-label">Share object</a> containing the share to create.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/shares/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#share-object-label">Share object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#share-object-label">Share object</a> which got created with a new <cite>id</cite>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="delete-delete-share">
+<h2>DELETE - Delete Share<a class="headerlink" href="#delete-delete-share" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#share-object-label">Share object</a> containing the share to delete.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/shares/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#share-object-label">Share object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#share-object-label">Share object</a> which got deleted.</p>
+</div></blockquote>
+</div>
+<div class="section" id="put-edit-share">
+<h2>PUT - Edit Share<a class="headerlink" href="#put-edit-share" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#share-object-label">Share object</a> containing the share to edit.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/shares/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#share-object-label">Share object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#share-object-label">Share object</a> which got edited.</p>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="usersgroups.html" title="Users and Groups"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="volumes.html" title="Volumes"
+             >previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Bharathwaaj Srinivasan.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>

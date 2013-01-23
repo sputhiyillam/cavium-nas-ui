@@ -1,0 +1,435 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Volumes &mdash; Cavium NAS UI API 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Cavium NAS UI API 0.1 documentation" href="index.html" />
+    <link rel="next" title="Shares" href="shares.html" />
+    <link rel="prev" title="Disks" href="disks.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="shares.html" title="Shares"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="disks.html" title="Disks"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Volumes</a><ul>
+<li><a class="reference internal" href="#volume-object">Volume Object</a></li>
+<li><a class="reference internal" href="#get-volumes">GET Volumes</a></li>
+<li><a class="reference internal" href="#post-create-volume">POST - Create Volume</a></li>
+<li><a class="reference internal" href="#delete-delete-volume">DELETE - Delete Volume</a></li>
+<li><a class="reference internal" href="#put-edit-volume">PUT - Edit Volume</a></li>
+<li><a class="reference internal" href="#put-migrate-volume">PUT - Migrate Volume</a></li>
+<li><a class="reference internal" href="#put-extend-volume">PUT - Extend Volume</a></li>
+<li><a class="reference internal" href="#put-recover-volume">PUT - Recover Volume</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="disks.html"
+                        title="previous chapter">Disks</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="shares.html"
+                        title="next chapter">Shares</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/volumes.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="volumes">
+<span id="volumes-label"></span><h1>Volumes<a class="headerlink" href="#volumes" title="Permalink to this headline">¶</a></h1>
+<p>The volumes api exposes interfaces related to volumes present in the the NAS device.</p>
+<div class="section" id="volume-object">
+<span id="volume-object-label"></span><h2>Volume Object<a class="headerlink" href="#volume-object" title="Permalink to this headline">¶</a></h2>
+<p>The following represents a volume object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;description&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;raid&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;size&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;used&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;encrypted&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s">&quot;raw&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+    <span class="s">&quot;additional_info&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;rate_of_progress&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+      <span class="s">&quot;estimated_time&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+      <span class="s">&quot;disk_speed&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+    <span class="p">},</span>
+    <span class="s">&quot;disks&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;size&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;used&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;shares&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;actions&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;edit&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+      <span class="s">&quot;delete&quot;</span> <span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+      <span class="s">&quot;migrate&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;to_raid1&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+        <span class="s">&quot;to_raid5&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+        <span class="s">&quot;to_raid10&quot;</span><span class="p">:</span> <span class="n">false</span><span class="p">,</span>
+        <span class="s">&quot;disks&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s">&quot;mode&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+      <span class="p">},</span>
+      <span class="s">&quot;extend&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;disks&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="s">&quot;mode&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+      <span class="p">},</span>
+      <span class="s">&quot;recover&quot;</span><span class="p">:</span> <span class="n">false</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default all values are strings. If the value is an array or boolean,
+it would be mentioned.</p>
+</div>
+<p><strong>Volume Object Details</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="15%" />
+<col width="17%" />
+<col width="46%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head" colspan="3">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>id</td>
+<td colspan="3">The primary key unique id by which the volume can be
+identified</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td colspan="3">The name of the volume</td>
+</tr>
+<tr class="row-even"><td>description</td>
+<td colspan="3">Description of the volume</td>
+</tr>
+<tr class="row-odd"><td>raid</td>
+<td colspan="3">Raid type of the volume</td>
+</tr>
+<tr class="row-even"><td>size</td>
+<td colspan="3">Total size of the volume in bytes.</td>
+</tr>
+<tr class="row-odd"><td>used</td>
+<td colspan="3">Size of the volume used in bytes.</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td colspan="3"><p class="first" id="vol-status">Status of the volume. Can
+be one of the seven values</p>
+<ul class="last simple">
+<li>good</li>
+<li>degraded</li>
+<li>failed</li>
+<li>recovering</li>
+<li>resizing</li>
+<li>building</li>
+<li>transferring</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td rowspan="4">additional_in
+fo</td>
+<td colspan="3">Additional information which is got only volume status
+recovering, transferring, resizing and building.</td>
+</tr>
+<tr class="row-even"><td>rate_of
+_progress</td>
+<td colspan="2">Progress rate at which the action is
+happening.</td>
+</tr>
+<tr class="row-odd"><td>estimated
+_time</td>
+<td colspan="2">Estimated time of completion of the action.</td>
+</tr>
+<tr class="row-even"><td>disk_spe
+ed</td>
+<td colspan="2">Speed at which the disk spins.</td>
+</tr>
+<tr class="row-odd"><td rowspan="6">disks</td>
+<td colspan="3"><strong>Array</strong> containing brief information
+of disks used for this volume.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td colspan="2">The name of the disk.</td>
+</tr>
+<tr class="row-odd"><td>id</td>
+<td colspan="2">The primary key unique id by which
+disk can be identified.</td>
+</tr>
+<tr class="row-even"><td>size</td>
+<td colspan="2">Total size of the disk in bytes.</td>
+</tr>
+<tr class="row-odd"><td>used</td>
+<td colspan="2">Size of the disk used in bytes.</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td colspan="2">Status of the disk as described in
+<a class="reference internal" href="disks.html#disk-status"><em>Disk Status</em></a>.</td>
+</tr>
+<tr class="row-odd"><td rowspan="3">shares</td>
+<td colspan="3"><strong>Array</strong> containing brief information
+of shares present in this volume.</td>
+</tr>
+<tr class="row-even"><td>name</td>
+<td colspan="2">The name of the share.</td>
+</tr>
+<tr class="row-odd"><td>id</td>
+<td colspan="2">The primary key unique id by which
+share can be identified.</td>
+</tr>
+<tr class="row-even"><td>encrypted</td>
+<td colspan="3"><strong>Boolean</strong> value which says
+whether the volume is
+encrypted or not.</td>
+</tr>
+<tr class="row-odd"><td>raw</td>
+<td colspan="3"><strong>Boolean</strong> value which says
+whether the volume is
+raw (without filesystem) or not.</td>
+</tr>
+<tr class="row-even"><td rowspan="13">actions</td>
+<td colspan="3">Actions which can be done on the volume.</td>
+</tr>
+<tr class="row-odd"><td>edit</td>
+<td colspan="2"><strong>Boolean</strong> value which says whether editing
+this volume is possible.</td>
+</tr>
+<tr class="row-even"><td>delete</td>
+<td colspan="2"><strong>Boolean</strong> value which says whether deleting
+this volume is possible.</td>
+</tr>
+<tr class="row-odd"><td rowspan="6">migrate</td>
+<td colspan="2">Details of migrations possible in this
+volume.</td>
+</tr>
+<tr class="row-even"><td>to_raid1</td>
+<td>Boolean - to
+raid1</td>
+</tr>
+<tr class="row-odd"><td>to_raid5</td>
+<td>Boolean - to
+raid5</td>
+</tr>
+<tr class="row-even"><td>to_raid10</td>
+<td>Boolean - to
+raid10</td>
+</tr>
+<tr class="row-odd"><td>disks</td>
+<td><strong>Array</strong> of disks ids which
+can be used for migrating.</td>
+</tr>
+<tr class="row-even"><td>mode</td>
+<td><p class="first">Mode of migrating. Can be</p>
+<ul class="last simple">
+<li>online</li>
+<li>offline</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td rowspan="3">extend</td>
+<td colspan="2">Details of whether the raid can be extended
+with additional disks.</td>
+</tr>
+<tr class="row-even"><td>disks</td>
+<td><strong>Array</strong> of disks ids which
+can be used for extending.</td>
+</tr>
+<tr class="row-odd"><td>mode</td>
+<td><p class="first">Mode of extending. Can be</p>
+<ul class="last simple">
+<li>online</li>
+<li>offline</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>recover</td>
+<td colspan="2"><strong>Boolean</strong> value which says whether the
+raid can be recovered.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="get-volumes">
+<h2>GET Volumes<a class="headerlink" href="#get-volumes" title="Permalink to this headline">¶</a></h2>
+<p>Returns <a class="reference external" href="#volume-object-label">Volume object</a> containing the volumes present
+in the NAS device.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> <a class="reference external" href="http:/">http:/</a>/&lt;nas_box_ip_address&gt;/index.php/volumes/api</p>
+<p><strong>Input</strong> &#8211;&gt; None</p>
+<p><strong>Response</strong> &#8211;&gt; Array of <a class="reference external" href="#volume-object-label">Volume objects</a></p>
+</div></blockquote>
+</div>
+<div class="section" id="post-create-volume">
+<h2>POST - Create Volume<a class="headerlink" href="#post-create-volume" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#volume-object-label">Volume object</a> containing the volume to create.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/volumes/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a> which got created with a new <cite>id</cite>.</p>
+</div></blockquote>
+</div>
+<div class="section" id="delete-delete-volume">
+<h2>DELETE - Delete Volume<a class="headerlink" href="#delete-delete-volume" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#volume-object-label">Volume object</a> containing the volume to delete.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/volumes/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a> which got deleted.</p>
+</div></blockquote>
+</div>
+<div class="section" id="put-edit-volume">
+<h2>PUT - Edit Volume<a class="headerlink" href="#put-edit-volume" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#volume-object-label">Volume object</a> containing the volume to edit.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The &#8220;edit&#8221; boolean attribute in &#8220;actions&#8221; should be true.</p>
+</div>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/volumes/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a> which got edited.</p>
+</div></blockquote>
+</div>
+<div class="section" id="put-migrate-volume">
+<h2>PUT - Migrate Volume<a class="headerlink" href="#put-migrate-volume" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#volume-object-label">Volume object</a> containing the volume to migrate.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The &#8220;migrate&#8221; boolean attribute in &#8220;actions&#8221; should be true.</p>
+</div>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/volumes/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a> which got migrated.</p>
+</div></blockquote>
+</div>
+<div class="section" id="put-extend-volume">
+<h2>PUT - Extend Volume<a class="headerlink" href="#put-extend-volume" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#volume-object-label">Volume object</a> containing the volume to extend.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The &#8220;extend&#8221; boolean attribute in &#8220;actions&#8221; should be true.</p>
+</div>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/volumes/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a> which got extendd.</p>
+</div></blockquote>
+</div>
+<div class="section" id="put-recover-volume">
+<h2>PUT - Recover Volume<a class="headerlink" href="#put-recover-volume" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#volume-object-label">Volume object</a> containing the volume to recover.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The &#8220;recover&#8221; boolean attribute in &#8220;actions&#8221; should be true.</p>
+</div>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/volumes/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#volume-object-label">Volume object</a> which got recovered.</p>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="shares.html" title="Shares"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="disks.html" title="Disks"
+             >previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Bharathwaaj Srinivasan.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>

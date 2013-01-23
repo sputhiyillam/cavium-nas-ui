@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Status and Responses &mdash; Cavium NAS UI API 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Cavium NAS UI API 0.1 documentation" href="index.html" />
+    <link rel="next" title="Storage" href="storage.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="storage.html" title="Storage"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Status and Responses</a><ul>
+<li><a class="reference internal" href="#status-code">Status Codes</a></li>
+<li><a class="reference internal" href="#error-message">Error Messages</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="storage.html"
+                        title="next chapter">Storage</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/responses.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="status-and-responses">
+<h1>Status and Responses<a class="headerlink" href="#status-and-responses" title="Permalink to this headline">¶</a></h1>
+<p>Statuses and responses are known via the following:</p>
+<ul class="simple">
+<li><a class="reference external" href="#status-code">Status Codes</a></li>
+<li><a class="reference external" href="#error-message">Error Messages</a></li>
+</ul>
+<div class="section" id="status-code">
+<span id="id1"></span><h2>Status Codes<a class="headerlink" href="#status-code" title="Permalink to this headline">¶</a></h2>
+<p>All APIs should return appropriate <a class="reference external" href="http://en.wikipedia.org/wiki/List_of_HTTP_status_codes">HTTP Status codes</a>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="24%" />
+<col width="33%" />
+<col width="43%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Code</th>
+<th class="head">Text</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>200</td>
+<td>OK</td>
+<td>Success</td>
+</tr>
+<tr class="row-odd"><td>304</td>
+<td>Not Modified</td>
+<td>No new data. (Cached)</td>
+</tr>
+<tr class="row-even"><td>400</td>
+<td>Bad Request</td>
+<td>The request was invalid.
+The response will contain
+an error message
+explaining the same.</td>
+</tr>
+<tr class="row-odd"><td>401</td>
+<td>Unauthorized</td>
+<td>Authentication
+credentials missing or
+invalid.</td>
+</tr>
+<tr class="row-even"><td>403</td>
+<td>Forbidden</td>
+<td>The user does not have
+access to that particular
+resource. The response
+will contain an error
+message explaining the
+same.</td>
+</tr>
+<tr class="row-odd"><td>404</td>
+<td>Not Found</td>
+<td>Invalid URI or resources
+does not exist.</td>
+</tr>
+<tr class="row-even"><td>408</td>
+<td>Request Timeout</td>
+<td>Server was busy in
+processing and timed out.</td>
+</tr>
+<tr class="row-odd"><td>500</td>
+<td>Internal Server
+Error</td>
+<td>Server is broken.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="error-message">
+<span id="id2"></span><h2>Error Messages<a class="headerlink" href="#error-message" title="Permalink to this headline">¶</a></h2>
+<p>Error messages give more detail on the error occurred. They are of the following format:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">{</span>
+  <span class="s">&quot;errors&quot;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span>
+      <span class="s">&quot;message&quot;</span><span class="p">:</span><span class="s">&quot;Sorry, that folder does not exist&quot;</span><span class="p">,</span>
+      <span class="s">&quot;code&quot;</span><span class="p">:</span><span class="mi">234</span>
+    <span class="p">}</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="storage.html" title="Storage"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
+             >previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Bharathwaaj Srinivasan.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>

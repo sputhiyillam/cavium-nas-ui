@@ -1,0 +1,469 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Disks &mdash; Cavium NAS UI API 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Cavium NAS UI API 0.1 documentation" href="index.html" />
+    <link rel="next" title="Volumes" href="volumes.html" />
+    <link rel="prev" title="Storage" href="storage.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="volumes.html" title="Volumes"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="storage.html" title="Storage"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Disks</a><ul>
+<li><a class="reference internal" href="#disk-object">Disk Object</a></li>
+<li><a class="reference internal" href="#get-disks">GET - Disks</a></li>
+<li><a class="reference internal" href="#put-claim-disk">PUT - Claim Disk</a></li>
+<li><a class="reference internal" href="#post-eject-disk">POST - Eject Disk</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="storage.html"
+                        title="previous chapter">Storage</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="volumes.html"
+                        title="next chapter">Volumes</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/disks.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="disks">
+<span id="disks-label"></span><h1>Disks<a class="headerlink" href="#disks" title="Permalink to this headline">¶</a></h1>
+<p>The disks api exposes interfaces related to disks present in the the NAS device.</p>
+<div class="section" id="disk-object">
+<span id="disk-object-label"></span><h2>Disk Object<a class="headerlink" href="#disk-object" title="Permalink to this headline">¶</a></h2>
+<p>The following represents a disk object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;description&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;path&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;size&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;uuid&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;vendor&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;volumes&quot;</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;size&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;used&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;encrypted&quot;</span><span class="p">:</span> <span class="n">false</span>
+      <span class="p">}</span>
+    <span class="p">],</span>
+    <span class="s">&quot;temperature&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;model&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;serial&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+    <span class="s">&quot;smart&quot;</span> <span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+      <span class="s">&quot;attributes&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">{</span>
+          <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+          <span class="s">&quot;flag&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+          <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span>
+              <span class="s">&quot;normalized&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+              <span class="s">&quot;raw&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+          <span class="p">},</span>
+          <span class="s">&quot;worst&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+          <span class="s">&quot;threshold&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+          <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+          <span class="s">&quot;updated&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+          <span class="s">&quot;failing&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+      <span class="p">],</span>
+      <span class="s">&quot;short_test&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;status&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;progress&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;duration_to_complete&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;date_of_completion&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;last_tested&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+        <span class="s">&quot;attributes&quot;</span><span class="p">:</span> <span class="p">[</span>
+          <span class="p">{</span>
+            <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;flag&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;value&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s">&quot;normalized&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+                <span class="s">&quot;raw&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+            <span class="p">},</span>
+            <span class="s">&quot;worst&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;threshold&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;type&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;updated&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+            <span class="s">&quot;failing&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span><span class="p">,</span>
+          <span class="p">}</span>
+        <span class="p">]</span>
+      <span class="p">}</span>
+    <span class="p">},</span>
+    <span class="s">&quot;actions&quot;</span><span class="p">:</span> <span class="p">{</span>
+      <span class="s">&quot;eject&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+      <span class="s">&quot;claim&quot;</span><span class="p">:</span> <span class="n">true</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">By default all values are strings. If the value is an array or boolean,
+it would be mentioned.</p>
+</div>
+<p><strong>Disk Object Details</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="16%" />
+<col width="0%" />
+<col width="16%" />
+<col width="17%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head" colspan="5">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>id</td>
+<td colspan="5">The primary key unique id by which the disk can be
+identified</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td colspan="5">The name of the disk</td>
+</tr>
+<tr class="row-even"><td>description</td>
+<td colspan="5">Description of the disk</td>
+</tr>
+<tr class="row-odd"><td>path</td>
+<td colspan="5">The physical path of the disk in the NAS device.</td>
+</tr>
+<tr class="row-even"><td>size</td>
+<td colspan="5">Total size of the disk in bytes.</td>
+</tr>
+<tr class="row-odd"><td>uuid</td>
+<td colspan="5">Unique hardware id of the disk.</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td colspan="5"><p class="first" id="disk-status">Status of the disk. Can be one of the four values</p>
+<ul class="last simple">
+<li>good</li>
+<li>bad</li>
+<li>foreign</li>
+<li>uninstalled</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>vendor</td>
+<td colspan="5">Manufacturing vendor of the disk.</td>
+</tr>
+<tr class="row-even"><td rowspan="7">volumes</td>
+<td colspan="5"><strong>Array</strong> containing brief information of volumes
+created in this disk.</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td colspan="4">The name of the volume.</td>
+</tr>
+<tr class="row-even"><td>id</td>
+<td colspan="4">The primary key unique id by which
+volume can be identified.</td>
+</tr>
+<tr class="row-odd"><td>size</td>
+<td colspan="4">Total size of the volume in bytes.</td>
+</tr>
+<tr class="row-even"><td>used</td>
+<td colspan="4">Size of the volume used in bytes.</td>
+</tr>
+<tr class="row-odd"><td>status</td>
+<td colspan="4">Status of the volume as described in
+<a class="reference internal" href="volumes.html#vol-status"><em>Volume Status</em></a>.</td>
+</tr>
+<tr class="row-even"><td>encrypted</td>
+<td colspan="4"><strong>Boolean</strong> value which says whether a
+volume is encrypted or not.</td>
+</tr>
+<tr class="row-odd"><td>temperature</td>
+<td colspan="5">Temperature of the disk.</td>
+</tr>
+<tr class="row-even"><td>model</td>
+<td colspan="5">Model of the disk.</td>
+</tr>
+<tr class="row-odd"><td>serial</td>
+<td colspan="5">Disk manufacturer serial
+number.</td>
+</tr>
+<tr class="row-even"><td rowspan="13">smart</td>
+<td colspan="5">Self-Monitoring, Analysis and Reporting Technology
+System details</td>
+</tr>
+<tr class="row-odd"><td colspan="2">status</td>
+<td colspan="3">Overall S. M. A. R. T health status of the
+disk</td>
+</tr>
+<tr class="row-even"><td colspan="2" rowspan="11"><p class="first last" id="attr">attributes</p>
+</td>
+<td colspan="3">Vendor specific attributes</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td colspan="2">Name of the attribute.</td>
+</tr>
+<tr class="row-even"><td>flag</td>
+<td colspan="2">Attribute flag.</td>
+</tr>
+<tr class="row-odd"><td rowspan="3">value</td>
+<td colspan="2">Value of the attribute</td>
+</tr>
+<tr class="row-even"><td>normalized</td>
+<td>Normalized value of
+the attribute.</td>
+</tr>
+<tr class="row-odd"><td>raw</td>
+<td>Raw value of the
+attribute.</td>
+</tr>
+<tr class="row-even"><td>worst</td>
+<td colspan="2">Smallest (closest to failure)
+value that the disk has recorded
+at any time during its lifetime
+when SMART was enabled.</td>
+</tr>
+<tr class="row-odd"><td>threshold</td>
+<td colspan="2">If the Normalized value is less
+than or equal to the Threshold
+value, then the Attribute is
+said to have failed.</td>
+</tr>
+<tr class="row-even"><td>type</td>
+<td colspan="2"><p class="first">Type of the Attribute. Can
+be one of the two values</p>
+<ul class="last simple">
+<li>prefail</li>
+<li>oldage</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>updated</td>
+<td colspan="2"><p class="first">Shows if the SMART Attribute
+values are updated during both
+normal operation and off-line
+testing, or only during
+offline testing. Can be one of
+the two values</p>
+<ul class="last simple">
+<li>always</li>
+<li>offline</li>
+</ul>
+</td>
+</tr>
+<tr class="row-even"><td>failing</td>
+<td colspan="2"><p class="first">Shows whether attribute&#8217;s
+current Normalized value is
+less than or equal to the
+threshold value. Can be one of
+the three values</p>
+<ul class="last simple">
+<li>now</li>
+<li>past</li>
+<li>no</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td rowspan="7">&nbsp;</td>
+<td colspan="2" rowspan="7">short_test</td>
+<td colspan="3">SMART short test output</td>
+</tr>
+<tr class="row-even"><td>status</td>
+<td colspan="2">SMART short test running status</td>
+</tr>
+<tr class="row-odd"><td>progress</td>
+<td colspan="2">SMART short test running status</td>
+</tr>
+<tr class="row-even"><td>duration
+_to
+_complete</td>
+<td colspan="2">Duration to complete short test</td>
+</tr>
+<tr class="row-odd"><td>date_of
+_complet
+ion</td>
+<td colspan="2">Advanced date and time when the
+short test would complete</td>
+</tr>
+<tr class="row-even"><td>last
+_tested</td>
+<td colspan="2">Date and time when the last
+short test was performed</td>
+</tr>
+<tr class="row-odd"><td>attributes</td>
+<td colspan="2">SMART test attributes. Refer
+<a class="reference external" href="#attr">Attributes</a></td>
+</tr>
+<tr class="row-even"><td rowspan="3">actions</td>
+<td colspan="5">Actions which can be done on the disk.</td>
+</tr>
+<tr class="row-odd"><td>eject</td>
+<td colspan="4"><strong>Boolean</strong> value which says whether
+ejecting this disk is possible.</td>
+</tr>
+<tr class="row-even"><td colspan="5"><dl class="first last docutils">
+<dt>claim     | <strong>Boolean</strong> value which says whether</dt>
+<dd><div class="first last line-block">
+<div class="line">claiming this disk is possible.</div>
+<div class="line"><br /></div>
+</div>
+</dd>
+</dl>
+</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Error messages</strong></p>
+<p>Error messages will be of the format described in <a class="reference internal" href="responses.html#error-message"><em>Error Messages</em></a>.</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="23%" />
+<col width="77%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Code</th>
+<th class="head">Description</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>100</td>
+<td>Operation not allowed. Used for validation,
+or blocking an action because another action
+is going on.</td>
+</tr>
+<tr class="row-odd"><td>101</td>
+<td>Unable to complete the action. Used for
+internal errors.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="get-disks">
+<h2>GET - Disks<a class="headerlink" href="#get-disks" title="Permalink to this headline">¶</a></h2>
+<p>Returns <a class="reference external" href="#disk-object-label">Disk object</a> containing the disks present
+in the NAS device.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas-box-ip-address&gt;/index.php/disks/api</p>
+<p><strong>Input</strong> &#8211;&gt; None</p>
+<p><strong>Response</strong> &#8211;&gt; Array of <a class="reference external" href="#disk-object-label">Disk objects</a></p>
+</div></blockquote>
+</div>
+<div class="section" id="put-claim-disk">
+<h2>PUT - Claim Disk<a class="headerlink" href="#put-claim-disk" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#disk-object-label">Disk object</a> containing the disk to claim. The
+API claims the foreign disk.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Operation can be performed only on foreign disks.</p>
+</div>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/disks/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#disk-object-label">Disk object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#disk-object-label">Disk object</a> which got claimed.</p>
+</div></blockquote>
+</div>
+<div class="section" id="post-eject-disk">
+<h2>POST - Eject Disk<a class="headerlink" href="#post-eject-disk" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#disk-object-label">Disk object</a> containing the disk to eject.
+The API ejects the disk safely.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/disks/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#disk-object-label">Disk object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#disk-object-label">Disk object</a> which got ejected.</p>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="volumes.html" title="Volumes"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="storage.html" title="Storage"
+             >previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Bharathwaaj Srinivasan.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>
