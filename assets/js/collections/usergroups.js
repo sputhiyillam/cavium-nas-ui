@@ -6,7 +6,7 @@ define(function(require) {
 
     var UsergroupsCollection = Backbone.Collection.extend({
         model: Usergroups,
-        url: '/shares',
+        url: 'index.php/usergroups/api',
         initialize: function() {
         }
 

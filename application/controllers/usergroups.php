@@ -8,12 +8,12 @@
 // This can be removed if you use __autoload() in config.php
 require(APPPATH.'/libraries/REST_Controller.php');
 
-class Volumes extends REST_Controller
+class Usergroups extends REST_Controller
 {
     function api_post()
     {
         sleep(4);
-        $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
+       /* $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
         $new_volumes = array();
         $i = 0 ;
         foreach ($volumes as $key => $value) { 
@@ -22,7 +22,7 @@ class Volumes extends REST_Controller
         }
         $new_volumes[$i] = $this->post();
         file_put_contents('assets/json/volumes.json', json_encode($new_volumes));
-
+*/
         $message = array('message' => 'Successfully Added!!');
         
         $this->response($message, 200); // 200 being the HTTP response code
@@ -31,7 +31,7 @@ class Volumes extends REST_Controller
     function api_delete()
     {
         sleep(3);
-        $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
+    /*    $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
         $new_volumes = array();
         $i = 0 ;
         foreach ($volumes as $key => $value) {
@@ -41,7 +41,7 @@ class Volumes extends REST_Controller
             }
         }
         file_put_contents('assets/json/volumes.json', json_encode($new_volumes));
-
+    */
         $message = array('id' => $this->get('id'), 'message' => 'Successfully deleted!!');
         
         $this->response($message, 200); // 200 being the HTTP response code
@@ -49,7 +49,7 @@ class Volumes extends REST_Controller
     
     function api_get()
     {
-        //sleep(3);
+        //  sleep(5);
         $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
         $this->response($volumes, 200);
     }
@@ -57,7 +57,7 @@ class Volumes extends REST_Controller
     public function api_put()
     {
         sleep(4);
-        json_encode($this->put());
+        //json_encode($this->put());
         $message = array('message' => 'Successfully updated !!');
         $this->response($message, 200); // 200 being the HTTP response code
     }

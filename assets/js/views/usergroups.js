@@ -5,15 +5,18 @@ define(function(require) {
         Mustache = require('mustache'),
         BaseView = require('views/base'),
         SidebarTemplate = require('text!templates/usergroups_side.html'),
-        ContentTemplate = require('text!templates/usergroups_main.html'),
+        HelpTemplate = require('text!templates/usergroups_help.html'),
+        ContentTemplate = require('text!templates/usergroups_details.html'),
         Usergroups = require('collections/usergroups');
 
     var UsergroupsView = BaseView.extend({
         sidebarTemplate: Mustache.compile(SidebarTemplate),
+        helpTemplate: Mustache.compile(HelpTemplate),
         contentTemplate: Mustache.compile(ContentTemplate),
 
         events: {
-          "click #create-usergroups": "create"
+          //"click #create-usergroups": "create"
+            "click #cav-ug-add-user" : "resetAddPanel"
         },
 
         initialize: function (options) {
@@ -31,9 +34,86 @@ define(function(require) {
             Usergroups.on('all',    this.all,       this);
         },
 
-        render: function() {
+        load: function() {
+            //TODO : refresh stops when user revisits previously visited from another page.
+            if (Usergroups.isEmpty()) {
+                this.fetchCollection(this);
+            } else {
+                this.render();
+            }
         },
 
+        pollUsergroups: function(){
+            var route = Backbone.history.fragment.split('/');
+            if(route[0] === 'usergroups') {
+                // to poll collections
+                var self = this;
+                setTimeout(function() {
+                    self.fetchCollection(self);
+                }, 10000);
+            }
+        },
+
+        clearAllTimeout: function() {
+            //to clear previous setTimeout events.
+            var highest_timeout_id = setTimeout(";");
+            for(var j=0; j<highest_timeout_id; j++){
+                clearTimeout(j);
+            }
+        },
+
+        fetchCollection: function(self) {
+            if(!$(".modal").hasClass('in')) {
+            // if any modal window opened then stop from fetch() operation.
+                Usergroups.fetch({
+                    update: true,
+                    success: _.bind(function() {
+                        self.render();
+                        self.pollUsergroups();
+                        // TODO: Show growl notification
+                    }, self),
+                    error: _.bind(function() {
+                        self.pollUsergroups();
+                        // TODO: Show growl notification
+                    }, self)
+                });
+            } else {
+                console.log("Coming inside else fetchCollection !!");
+                // calling pollVolume callback again, if modal window opened.
+                self.pollUsergroups();
+            }
+        },
+
+        render: function() {
+            var route = Backbone.history.fragment.split('/');
+            if(route[0] === 'usergroups') {
+                if(!$(".modal").hasClass('in')) {
+                    // If modal window opened stop updating views
+                    this.$('#sidebar').html(this.sidebarTemplate());
+                    var fragment = Backbone.history.fragment;
+                    var route = fragment.split("/");
+                    $('#cav-sidebar-vr-items a[href$="#'+fragment+'"]').parent().addClass('cav-active');
+                    var id = route[1], object = {}, mainTemplate = null;
+                    if( id === undefined) {
+                        mainTemplate = this.helpTemplate;
+                    } else if(id !== '') {
+                        mainTemplate = this.contentTemplate;
+                        object = Volumes.get(id).toJSON();
+                    }
+                    this.$('#main-content').html(mainTemplate(object));     
+                    return this;
+                }
+            }
+        },
+
+        resetAddPanel: function() {
+            $("#cav-ug-add-edit-model-label").html("Create User");
+            $("#cav-ug-user-save").show();
+            $("#cav-ug-user-update").hide();
+        },
+        clearUpdatePanel: function(){
+
+        },
         create: function() {
         },
 
