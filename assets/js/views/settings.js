@@ -4,8 +4,8 @@ define(function(require) {
         Backbone = require('backbone'),
         Mustache = require('mustache'),
         BaseView = require('views/base'),
-        SidebarTemplate = require('text!templates/settings_side.html'),
-        ContentTemplate = require('text!templates/settings_main.html'),
+        SidebarTemplate = require('text!templates/settings/side.html'),
+        ContentTemplate = require('text!templates/settings/main.html'),
         Settings = require('collections/settings');
 
     var SettingsView = BaseView.extend({

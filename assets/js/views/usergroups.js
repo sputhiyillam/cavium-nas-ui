@@ -4,8 +4,8 @@ define(function(require) {
         Backbone = require('backbone'),
         Mustache = require('mustache'),
         BaseView = require('views/base'),
-        SidebarTemplate = require('text!templates/usergroups_side.html'),
-        ContentTemplate = require('text!templates/usergroups_main.html'),
+        SidebarTemplate = require('text!templates/usergroups/side.html'),
+        ContentTemplate = require('text!templates/usergroups/main.html'),
         Usergroups = require('collections/usergroups');
 
     var UsergroupsView = BaseView.extend({

@@ -15,15 +15,18 @@ define(function(require){
     var header, volumes, shares, home, disks, usergroups, backup, settings;
     var AppRouter = Backbone.Router.extend({
         routes: {
-          'disks'       : 'showDisks',
-          'volumes'     : 'routeVolumes',
-          'volumes/:action/:id' : 'routeVolumes',
-          'shares'      : 'showShares',
-          'usergroups'  : 'showUserGroups',
-          'backup'      : 'showBackup',
-          'settings'    : 'showSettings',
+          'disks'                   : 'showDisks',
+          'volumes'                 : 'routeVolumes',
+          'volumes/:id'             : 'routeVolumes',
+          'shares'                  : 'routeShares',
+          'shares/:id'              : 'routeShares',
+          'shares/:type/:id'        : 'routeShares',
+          'usergroups'              : 'routeUserGroups',
+          'usergroups/:type/:id'    : 'routeUserGroups',
+          'backup'                  : 'showBackup',
+          'settings'                : 'showSettings',
           //Default
-          '*actions'    : 'showHome'
+          '*actions'                : 'showHome'
         },
 
         initialize: function() {
@@ -42,16 +45,16 @@ define(function(require){
             disks.render();
         },
 
-        routeVolumes: function(action, id) {
+        routeVolumes: function(id) {
             volumes.load();
         },
 
         showShares: function() {
-            shares.render();
+            shares.load();
         },
 
-        showUserGroups: function() {
-            usergroups.render();
+        routeUserGroups: function(catagory,id) {
+            usergroups.load();
         },
 
         showBackup: function() {

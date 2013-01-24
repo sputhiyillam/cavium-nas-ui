@@ -4,8 +4,8 @@ define(function(require) {
         Backbone = require('backbone'),
         Mustache = require('mustache'),
         BaseView = require('views/base'),
-        SidebarTemplate = require('text!templates/backup_side.html'),
-        ContentTemplate = require('text!templates/backup_main.html'),
+        SidebarTemplate = require('text!templates/backup/side.html'),
+        ContentTemplate = require('text!templates/backup/main.html'),
         Backup = require('collections/backup');
 
     var BackupView = BaseView.extend({

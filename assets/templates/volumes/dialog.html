@@ -1,0 +1,76 @@
+<!-- Adding model for add and edit panel -->
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  <h4 id="cav-add-model-label">Create a New Volume</h4>
+</div>
+<div class="modal-body">
+  <div class="control-group">
+    <label class="control-label" for="cav-vr-name">Name</label>
+    <div class="controls">
+      <input type="text" id="cav-vr-name" name="name" value="{{name}}" placeholder="Volume Name">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="cav-vr-desc">Description</label>
+    <div class="controls">
+      <input type="text" id="cav-vr-desc" name="description" value="{{description}}" placeholder="Description">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="cav-vr-disks">Disks</label>
+    <div class="controls">
+      {{#disks}}
+        <label class="checkbox inline">
+          <input type="checkbox" {{#checked}}checked="checked"{{/checked}} name="disks" value="{{id}}"> {{name}}
+        </label>
+      {{/disks}}
+    </div>
+  </div>      
+  <div class="control-group">
+    <label class="control-label" for="cav-vr-raid">RAID Type</label>
+    <div class="controls">
+      <select id="cav-vr-raid" name="raid">
+        {{#raid}}
+          <option value="{{value}}" {{#selected}}selected="selected"{{/selected}}>{{text}}</option>
+        {{/raid}}
+      </select>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="cav-vr-encr">Volume Encryption</label>
+    <div class="controls">
+      {{#encryption}}
+        <input type="checkbox" id="cav-vr-encr" name="encryption" checked="checked">
+      {{/encryption}}
+      {{^encryption}}
+        <input type="checkbox" id="cav-vr-encr" name="encryption">
+      {{/encryption}}
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="cav-vr-raw">RAW Volume</label>
+    <div class="controls">
+      {{#raw}}
+        <input type="checkbox" name="raw" id="cav-vr-raw" checked="checked">
+      {{/raw}}
+      {{^raw}}
+        <input type="checkbox" name="raw" id="cav-vr-raw" >
+      {{/raw}}
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="cav-vr-size">Volume Size</label>
+    <div class="controls ">
+      <div class="input-append">
+        <input class="span5" id="cav-vr-size" name="size" value="{{size}}" type="text">
+        <span class="add-on">Bytes</span>
+      </div>
+    </div>
+  </div>      
+</div>
+<div class="modal-footer">
+  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  <button type="button" class="btn btn-primary" id="cav-vol-save">Save</button>
+  <button type="button" class="btn btn-primary" id="cav-vol-update">Update</button>
+</div>

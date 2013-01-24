@@ -4,8 +4,8 @@ define(function(require) {
         Backbone = require('backbone'),
         Mustache = require('mustache'),
         BaseView = require('views/base'),
-        SidebarTemplate = require('text!templates/shares_side.html'),
-        ContentTemplate = require('text!templates/shares_main.html'),
+        SidebarTemplate = require('text!templates/shares/side.html'),
+        ContentTemplate = require('text!templates/shares/main.html'),
         Shares = require('collections/shares');
 
     var SharesView = BaseView.extend({

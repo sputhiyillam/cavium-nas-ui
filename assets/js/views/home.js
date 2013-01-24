@@ -4,8 +4,8 @@ define(function(require) {
         Backbone = require('backbone'),
         Mustache = require('mustache'),
         BaseView = require('views/base'),
-        SidebarTemplate = require('text!templates/home_side.html'),
-        ContentTemplate = require('text!templates/home_main.html'),
+        SidebarTemplate = require('text!templates/home/side.html'),
+        ContentTemplate = require('text!templates/home/main.html'),
         Home = require('collections/home');
 
     var HomeView = BaseView.extend({

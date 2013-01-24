@@ -12,45 +12,53 @@ class Volumes extends REST_Controller
 {
     function api_post()
     {
-        //$this->some_model->updateUser( $this->get('id') );
-        $message = array('id' => $this->get('id'), 'name' => $this->post('name'), 'desc' => $this->post('email'), 'message' => 'ADDED!');
+        sleep(4);
+        $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
+        $new_volumes = array();
+        $i = 0 ;
+        foreach ($volumes as $key => $value) { 
+            $new_volumes[$i] =  $value;
+            $i++;
+        }
+        $new_volumes[$i] = $this->post();
+        file_put_contents('assets/json/volumes.json', json_encode($new_volumes));
+
+        $message = array('message' => 'Successfully Added!!');
         
         $this->response($message, 200); // 200 being the HTTP response code
     }
     
     function api_delete()
     {
-        echo "coming here"; exit;
-        //$this->some_model->deletesomething( $this->get('id') );
-        $message = array('id' => $this->get('id'), 'message' => 'DELETED!');
+        sleep(3);
+        $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
+        $new_volumes = array();
+        $i = 0 ;
+        foreach ($volumes as $key => $value) {
+            if((string)$value->id !== $this->get('id')) {  
+                $new_volumes[$i] =  $value;
+                $i++;
+            }
+        }
+        file_put_contents('assets/json/volumes.json', json_encode($new_volumes));
+
+        $message = array('id' => $this->get('id'), 'message' => 'Successfully deleted!!');
         
         $this->response($message, 200); // 200 being the HTTP response code
     }
     
     function api_get()
     {
-
+        //sleep(3);
         $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
-        
-        if($volumes)
-        {
-            $this->response($volumes, 200); // 200 being the HTTP response code
-        }
-
-        else
-        {
-            $this->response(array('error' => 'Couldn\'t find any volumes!'), 404);
-        }
+        $this->response($volumes, 200);
     }
 
-    public function send_post()
+    public function api_put()
     {
-        var_dump($this->request->body);
-    }
-
-
-    public function send_put()
-    {
-        var_dump($this->put('foo'));
+        sleep(4);
+        json_encode($this->put());
+        $message = array('message' => 'Successfully updated !!');
+        $this->response($message, 200); // 200 being the HTTP response code
     }
 }
