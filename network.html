@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Network &mdash; Cavium NAS UI API 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="_static/solar.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="top" title="Cavium NAS UI API 0.1 documentation" href="index.html" />
+    <link rel="prev" title="Users and Groups" href="usersgroups.html" /><link href='http://fonts.googleapis.com/css?family=Source+Code+Pro|Open+Sans:300italic,400italic,700italic,400,300,700' rel='stylesheet' type='text/css'>
+<link href="_static/solarized-dark.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="usersgroups.html" title="Users and Groups"
+             accesskey="P">previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Network</a><ul>
+<li><a class="reference internal" href="#network-object">Network Object</a></li>
+<li><a class="reference internal" href="#get-network">GET Network</a></li>
+<li><a class="reference internal" href="#put-edit-network">PUT - Edit Network</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="usersgroups.html"
+                        title="previous chapter">Users and Groups</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="_sources/network.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="network">
+<span id="network-label"></span><h1>Network<a class="headerlink" href="#network" title="Permalink to this headline">¶</a></h1>
+<p>The network api exposes interfaces related to network present in the the NAS device.</p>
+<div class="section" id="network-object">
+<span id="network-object-label"></span><h2>Network Object<a class="headerlink" href="#network-object" title="Permalink to this headline">¶</a></h2>
+<p>The following represents a network object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="p">[</span>
+  <span class="p">{</span>
+    <span class="s">&quot;id&quot;</span><span class="p">:</span> <span class="s">&quot;eth0&quot;</span><span class="p">,</span>
+    <span class="s">&quot;name&quot;</span><span class="p">:</span> <span class="s">&quot;LAN 1&quot;</span><span class="p">,</span>
+    <span class="s">&quot;active&quot;</span> <span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s">&quot;dhcp&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+    <span class="s">&quot;ip&quot;</span> <span class="p">:</span> <span class="s">&quot;192.168.0.10&quot;</span><span class="p">,</span>
+    <span class="s">&quot;netmask&quot;</span> <span class="p">:</span> <span class="s">&quot;255.255.255.0&quot;</span><span class="p">,</span>
+    <span class="s">&quot;default_gw&quot;</span><span class="p">:</span> <span class="s">&quot;192.168.0.1&quot;</span><span class="p">,</span>
+    <span class="s">&quot;dns&quot;</span> <span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;auto&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+        <span class="s">&quot;servers&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s">&quot;&quot;</span><span class="p">]</span>
+    <span class="p">},</span>
+    <span class="s">&quot;aggregation&quot;</span><span class="p">:</span> <span class="p">{</span>
+        <span class="s">&quot;enabled&quot;</span><span class="p">:</span> <span class="n">true</span><span class="p">,</span>
+        <span class="s">&quot;mode&quot;</span><span class="p">:</span> <span class="s">&quot;&quot;</span>
+    <span class="p">},</span>
+    <span class="s">&quot;mtu&quot;</span> <span class="p">:</span> <span class="mi">1500</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+<p><strong>Network Object Details</strong></p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="22%" />
+<col width="15%" />
+<col width="63%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Name</th>
+<th class="head" colspan="2">Value</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>id</td>
+<td colspan="2"><p class="first">The primary key unique id by which the network can be
+identified. Can be one of the two values:</p>
+<ul class="last simple">
+<li>eth0</li>
+<li>eth1</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>name</td>
+<td colspan="2">The name of the network.</td>
+</tr>
+<tr class="row-even"><td>active</td>
+<td colspan="2"><strong>Boolean</strong> value which says whether the current
+interface is enabled or not.</td>
+</tr>
+<tr class="row-odd"><td>dhcp</td>
+<td colspan="2"><strong>Boolean</strong> value which says whether IP address is dhcp
+or static.</td>
+</tr>
+<tr class="row-even"><td>ip</td>
+<td colspan="2">IP address of the interface.</td>
+</tr>
+<tr class="row-odd"><td>netmask</td>
+<td colspan="2">Netmask of the interface.</td>
+</tr>
+<tr class="row-even"><td>default_gw</td>
+<td colspan="2">Default gateway of the interface.</td>
+</tr>
+<tr class="row-odd"><td>dns</td>
+<td colspan="2">DNS server details of the interface.</td>
+</tr>
+<tr class="row-even"><td rowspan="2">&nbsp;</td>
+<td colspan="2"><dl class="first last docutils">
+<dt>auto      | <strong>Boolean</strong> value which says whether dns</dt>
+<dd><div class="first last line-block">
+<div class="line">servers should be applied automatically.</div>
+<div class="line"><br /></div>
+</div>
+</dd>
+</dl>
+</td>
+</tr>
+<tr class="row-odd"><td>servers</td>
+<td><strong>Array</strong> containing IP addresses of DNS
+servers.</td>
+</tr>
+<tr class="row-even"><td rowspan="3">aggregation</td>
+<td colspan="2">Details of aggregation/bonding of the interfaces.</td>
+</tr>
+<tr class="row-odd"><td>enabled</td>
+<td><strong>Boolean</strong> value which says whether the
+service is enabled for this interface.</td>
+</tr>
+<tr class="row-even"><td>mode</td>
+<td><p class="first">Details of aggregation bonding mode. Can be
+one of the two values.</p>
+<ul class="last simple">
+<li>roundrobin</li>
+<li>failover</li>
+</ul>
+</td>
+</tr>
+<tr class="row-odd"><td>mtu</td>
+<td colspan="2">Maximum transmission unit value.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="get-network">
+<h2>GET Network<a class="headerlink" href="#get-network" title="Permalink to this headline">¶</a></h2>
+<p>Returns <a class="reference external" href="#network-object-label">Network object</a> containing the interfaces present
+in the NAS device.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> <a class="reference external" href="http:/">http:/</a>/&lt;nas_box_ip_address&gt;/index.php/network/api</p>
+<p><strong>Input</strong> &#8211;&gt; None</p>
+<p><strong>Response</strong> &#8211;&gt; Array of <a class="reference external" href="#network-object-label">Network objects</a></p>
+</div></blockquote>
+</div>
+<div class="section" id="put-edit-network">
+<h2>PUT - Edit Network<a class="headerlink" href="#put-edit-network" title="Permalink to this headline">¶</a></h2>
+<p>Takes <a class="reference external" href="#network-object-label">Network object</a> containing the interface to edit.</p>
+<blockquote>
+<div><p><strong>Resource URL</strong> &#8211;&gt; &lt;nas_box_ip_address&gt;/index.php/network/api</p>
+<p><strong>Input</strong> &#8211;&gt; <a class="reference external" href="#network-object-label">Network object</a></p>
+<p><strong>Response</strong> &#8211;&gt; <a class="reference external" href="#network-object-label">Network object</a> which got edited.</p>
+</div></blockquote>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="usersgroups.html" title="Users and Groups"
+             >previous</a> |</li>
+        <li><a href="index.html">Cavium NAS UI API 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2013, Bharathwaaj Srinivasan.
+    Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.Theme by <a href="http://github.com/vkvn">vkvn</a>
+    </div>
+  </body>
+</html>
