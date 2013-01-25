@@ -17,6 +17,7 @@ Contents:
     volumes
     shares
     usersgroups
+    network
 
 Indices and tables
 ==================
