@@ -95,24 +95,8 @@ define(function(require) {
         },
 
         show: function(event) {
-            var volume = {};
-            this.clear();
-            var target = $(event.currentTarget).attr("id");
-            if (target == 'cav-vr-add-vol') {
-                $("#cav-add-model-label").html("Create a New Volume");
-                $("#cav-vol-save").show();
-                $("#cav-vol-update").hide();
-            } else {
-                $("#cav-add-model-label").html("Update Volume");
-                $("#cav-vol-save").hide();
-                $("#cav-vol-update").show();
-                var route = Backbone.history.fragment.split('/');
-                volume = Volumes.get(route[1]).toJSON();
-            }
-
-            //TODO Elegant way of adding 'checked' attribute
-            //using underscore methods
-            var disks = { "disks": Disks.toJSON() };
+            var route = Backbone.history.fragment.split('/');
+            var volume = {} , disks = {};
             var raid = { "raid": [
                 { "value": "span",   "text": "SPAN"   },
                 { "value": "raid0",  "text": "RAID 0"  },
@@ -120,10 +104,34 @@ define(function(require) {
                 { "value": "raid5",  "text": "RAID 5"  },
                 { "value": "raid10", "text": "RAID 10" }
             ]};
+
+            this.clear();
+            var target = $(event.currentTarget).attr("id");
+            if (target == 'cav-vr-add-vol') {
+                disks = { "disks": Disks.toJSON() };
+            } else {
+                volume = Volumes.get(route[1]).toJSON();
+                disks = { "disks": function(){
+                    Disks.each(function(disk){
+                        var found = false;
+                        _.each(Volumes.get(route[1]).get('disks'),function(d){
+                            if(String(disk.id) === d.id){
+                                found = true;
+                                return;
+                            }
+                        });
+                        if(found) {
+                            disk.set({checked : 'checked'});
+                        }
+                    });
+                    return Disks.toJSON();
+                    } 
+                };
+            }
+            
             var context = _.extend(volume, disks, raid);
             var htmlText = this.dialogTemplate(context);
-            //FIXME Change this to this.$el
-            $('#cav-vr-add-edit-modal').html(htmlText);
+            $(this.$el.selector).html(htmlText);
             return this;
         },
 
@@ -132,6 +140,9 @@ define(function(require) {
             $('#cav-vr-name, #cav-vr-desc, #cav-vr-size').val('');
             $('#cav-vr-encr, #cav-vr-raw, input[name = "disks"]').prop("checked", false);
             $('#cav-vr-raid').val('SPAN');
+            Disks.each(function(disk){
+                disk.set({checked : ''});
+            })
         }
     });
 
@@ -221,6 +232,8 @@ define(function(require) {
                 disk_arr += $(this).is(':checked') ? "'"+$(this).val()+"' : true ," :  "'"+$(this).val()+"' : false ,";
             });
             disk_arr += "]";
+            console.log(disks);
+            return ;
             var volume = new Volumes.model({
                 "name"  : $("#cav-vr-name").val(),
                 "description" : $("#cav-vr-desc").val(),

@@ -6,7 +6,7 @@ define(function(require) {
 
     var DisksCollection = Backbone.Collection.extend({
         model: Disks,
-        url: '/shares',
+        url: 'index.php/disks/api',
         initialize: function() {
         }
 

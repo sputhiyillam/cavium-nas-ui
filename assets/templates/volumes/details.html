@@ -16,6 +16,7 @@
 			</p>
 		</div>
 		<div class="span3">
+			{{#actions}}
 			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
 				{{#actions.edit}}
 			    <li>
@@ -27,6 +28,7 @@
 			    <li><a tabindex="-1" href="#cav-confirm-dialog" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Delete</a></li>
 			    {{/actions.delete}}
 		    </ul>
+		    {{/actions}}
 		</div>
 		<!-- Bootrap confirmation window -->
 		<div class="modal hide fade" id="cav-confirm-dialog">

@@ -2,7 +2,12 @@
 
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  <h4 id="cav-add-model-label">Create a New Volume</h4>
+  {{#id}}
+    <h4 id="cav-add-model-label">Update Volume</h4>
+  {{/id}}
+  {{^id}}
+    <h4 id="cav-add-model-label">Create a New Volume</h4>
+  {{/id}}
 </div>
 <div class="modal-body">
   <div class="control-group">
@@ -24,7 +29,7 @@
         <label class="checkbox inline">
           <input type="checkbox" {{#checked}}checked="checked"{{/checked}} name="disks" value="{{id}}"> {{name}}
         </label>
-      {{/disks}}
+      {{/disks}}    
     </div>
   </div>      
   <div class="control-group">
@@ -71,6 +76,10 @@
 </div>
 <div class="modal-footer">
   <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-  <button type="button" class="btn btn-primary" id="cav-vol-save">Save</button>
+  {{#id}}
   <button type="button" class="btn btn-primary" id="cav-vol-update">Update</button>
+  {{/id}}
+  {{^id}}
+    <button type="button" class="btn btn-primary" id="cav-vol-save">Save</button>
+  {{/id}}
 </div>

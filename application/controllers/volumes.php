@@ -50,8 +50,21 @@ class Volumes extends REST_Controller
     function api_get()
     {
         //sleep(3);
-        $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
-        $this->response($volumes, 200);
+    //$volumes = json_decode(file_get_contents("assets/json/volumes.json"));
+
+    $this->load->model('cav_process_socket');
+    $arr = array(
+        'api'   => 'get_volume_object',
+        'args' => null
+    );
+    $args = array( 'request' => $arr,
+            'sync' => true
+             );
+    //$new_args = json_encode($args);
+
+    $message = $this->cav_process_socket->test($args);
+
+    $this->response($message, 200);
     }
 
     public function api_put()
