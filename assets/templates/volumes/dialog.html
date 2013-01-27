@@ -2,9 +2,15 @@
 
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  {{#id}}
+  {{#viewEdit}}
     <h4 id="cav-add-model-label">Update Volume</h4>
-  {{/id}}
+  {{/viewEdit}}
+  {{#viewMigrate}}
+    <h4 id="cav-add-model-label">Migrate Volume</h4>
+  {{/viewMigrate}}
+  {{#viewExtend}}
+    <h4 id="cav-add-model-label">Extend Volume</h4>
+  {{/viewExtend}}
   {{^id}}
     <h4 id="cav-add-model-label">Create a New Volume</h4>
   {{/id}}
@@ -13,43 +19,47 @@
   <div class="control-group">
     <label class="control-label" for="cav-vr-name">Name</label>
     <div class="controls">
-      <input type="text" id="cav-vr-name" name="name" value="{{name}}" placeholder="Volume Name">
+      <input type="text" id="cav-vr-name" name="name" value="{{name}}" {{#disabled}}disabled = "disabled"{{/disabled}} placeholder="Volume Name">
     </div>
   </div>
+  {{^id}}
   <div class="control-group">
     <label class="control-label" for="cav-vr-desc">Description</label>
     <div class="controls">
-      <input type="text" id="cav-vr-desc" name="description" value="{{description}}" placeholder="Description">
+      <input type="text" id="cav-vr-desc" name="description" value="{{description}}" {{#disabled}}disabled = "disabled"{{/disabled}} placeholder="Description">
     </div>
   </div>
+  {{/id}}
   <div class="control-group">
     <label class="control-label" for="cav-vr-disks">Disks</label>
     <div class="controls">
       {{#disks}}
         <label class="checkbox inline">
-          <input type="checkbox" {{#checked}}checked="checked"{{/checked}} name="disks" value="{{id}}"> {{name}}
+          <input type="checkbox" {{#disabled}}{{^viewMigrate}} {{^viewExtend}} checked="checked" disabled = "disabled" {{/viewExtend}} {{/viewMigrate}} {{/disabled}} name="disks" value="{{id}}"> {{name}}
         </label>
-      {{/disks}}    
+      {{/disks}}
     </div>
   </div>      
   <div class="control-group">
     <label class="control-label" for="cav-vr-raid">RAID Type</label>
     <div class="controls">
-      <select id="cav-vr-raid" name="raid">
+      <select id="cav-vr-raid" name="raid" {{#id}}{{^viewEdit}} disabled="disabled" {{/viewEdit}}{{/id}}>
         {{#raid}}
           <option value="{{value}}" {{#selected}}selected="selected"{{/selected}}>{{text}}</option>
         {{/raid}}
       </select>
+      {{}}
     </div>
   </div>
+  {{^id}}
   <div class="control-group">
     <label class="control-label" for="cav-vr-encr">Volume Encryption</label>
     <div class="controls">
       {{#encryption}}
-        <input type="checkbox" id="cav-vr-encr" name="encryption" checked="checked">
+        <input type="checkbox" id="cav-vr-encr" name="encryption" {{#disabled}}disabled = "disabled"{{/disabled}} checked="checked">
       {{/encryption}}
       {{^encryption}}
-        <input type="checkbox" id="cav-vr-encr" name="encryption">
+        <input type="checkbox" id="cav-vr-encr" name="encryption" {{#disabled}}disabled = "disabled"{{/disabled}}>
       {{/encryption}}
     </div>
   </div>
@@ -57,10 +67,10 @@
     <label class="control-label" for="cav-vr-raw">RAW Volume</label>
     <div class="controls">
       {{#raw}}
-        <input type="checkbox" name="raw" id="cav-vr-raw" checked="checked">
+        <input type="checkbox" name="raw" id="cav-vr-raw" {{#disabled}}disabled = "disabled"{{/disabled}} checked="checked">
       {{/raw}}
       {{^raw}}
-        <input type="checkbox" name="raw" id="cav-vr-raw" >
+        <input type="checkbox" name="raw" id="cav-vr-raw" {{#disabled}}disabled = "disabled"{{/disabled}} >
       {{/raw}}
     </div>
   </div>
@@ -68,17 +78,55 @@
     <label class="control-label" for="cav-vr-size">Volume Size</label>
     <div class="controls ">
       <div class="input-append">
-        <input class="span5" id="cav-vr-size" name="size" value="{{size}}" type="text">
+        <input class="span5" id="cav-vr-size" name="size" {{#disabled}}disabled = "disabled"{{/disabled}} value="{{size}}" type="text">
         <span class="add-on">Bytes</span>
       </div>
     </div>
-  </div>      
+  </div>
+  {{/id}}
+  {{#viewMigrate}}
+  <div class="control-group">
+    <label class="control-label" for="cav-vr-raid">Migrate To</label>
+    <div class="controls">
+      <select id="cav-vr-migrate-raid" name="raid" >
+        {{#actions.migrate.to_raid1}}
+          <option value="raid1">RAID 1</option>
+        {{/actions.migrate.to_raid1}}
+        {{#actions.migrate.to_raid5}}
+          <option value="raid5">RAID 5</option>
+        {{/actions.migrate.to_raid5}}
+        {{#actions.migrate.to_raid10}}
+          <option value="raid10">RAID 10</option>
+        {{/actions.migrate.to_raid10}}
+      </select>
+    </div>
+  </div>
+  {{/viewMigrate}}
+  {{#viewExtend}}
+  <div class="control-group">
+    <label class="control-label" >Extend Mode</label>
+    <div class="controls">
+        <label class="radio inline">
+          <input type="radio" name="vr-extend-mode" value="online" checked /> Online
+        </label>
+        <label class="radio inline">
+          <input type="radio" name="vr-extend-mode" value="offline" /> Offline
+        </label>
+    </div>
+  </div>
+  {{/viewExtend}}
 </div>
 <div class="modal-footer">
   <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-  {{#id}}
-  <button type="button" class="btn btn-primary" id="cav-vol-update">Update</button>
-  {{/id}}
+  {{#viewMigrate}}
+    <button type="button" class="btn btn-primary" id="cav-vol-migrate">Migrate Now</button>
+  {{/viewMigrate}}
+  {{#viewEdit}}
+    <button type="button" class="btn btn-primary" id="cav-vol-update">Update</button>
+  {{/viewEdit}}
+  {{#viewExtend}}
+    <button type="button" class="btn btn-primary" id="cav-vol-extend">Extend Now</button>
+  {{/viewExtend}}
   {{^id}}
     <button type="button" class="btn btn-primary" id="cav-vol-save">Save</button>
   {{/id}}

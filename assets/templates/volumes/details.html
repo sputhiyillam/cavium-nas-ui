@@ -20,13 +20,34 @@
 			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
 				{{#actions.edit}}
 			    <li>
-			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="cav-vr-edit-vol" data-toggle="modal"><i class="icon-edit"></i>&nbsp;Edit</a>
+			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-edit-vol" data-toggle="modal"><i class="icon-edit"></i>&nbsp;Edit</a>
 			    </li>
 			    <li class="divider"></li>
 			    {{/actions.edit}}
+			    {{#actions.migrate}}
+			    <li>
+			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-migrate-vol" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Migrate</a>
+			    </li>
+			    <li class="divider"></li>
+			    {{/actions.migrate}}
+			    {{#actions.recovery}}
+			    <li>
+			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-recovery-vol" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Recovery</a>
+			    </li>
+			    <li class="divider"></li>
+			    {{/actions.recovery}}
+			    {{#actions.extend}}
+			    <li>
+			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-extend-vol" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Extend</a>
+			    </li>
+			    <li class="divider"></li>
+			    {{/actions.extend}}
 			    {{#actions.delete}}
-			    <li><a tabindex="-1" href="#cav-confirm-dialog" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Delete</a></li>
+			    <li>
+			    	<a tabindex="-1" href="#cav-confirm-dialog" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Delete</a>
+			    </li>
 			    {{/actions.delete}}
+			    
 		    </ul>
 		    {{/actions}}
 		</div>

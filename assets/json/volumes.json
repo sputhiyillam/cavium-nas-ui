@@ -1,1 +1,135 @@
-[{"id":1,"name":"Volume1","description":"some description","raid":"SPAN","size":"15 GB","used":"10 GB","status":"Good","raw":false,"encryption":false,"additional_info":{"rate_of_progress":"","estimated_time":"","disk_speed":""},"disks":[{"name":"HDD1","id":"1","status":"Good","size":"500 GB"}],"actions":{"edit":true,"delete":true,"migrate":{},"extend":{}}},{"id":2,"name":"Volume2","description":"some description volume2","raid":"RAID 1","size":"35 GB","used":"10 GB","status":"Good","raw":false,"encryption":true,"additional_info":{"rate_of_progress":"","estimated_time":"","disk_speed":""},"disks":[{"name":"HDD2","id":"2","status":"Good","size":"500 GB"}],"actions":{"edit":true,"delete":true,"migrate":{},"extend":{}}},{"id":3,"name":"Volume3","description":"some description3","raid":"RAID 5","size":"75 GB","used":"20 GB","status":"Good","raw":true,"encryption":false,"additional_info":{"rate_of_progress":"","estimated_time":"","disk_speed":""},"disks":[{"name":"HDD1","id":"1","status":"Good","size":"500 GB"},{"name":"HDD2","id":"2","status":"Good","size":"500 GB"}],"actions":{"edit":true,"delete":true,"migrate":{},"extend":{}}},{"name":"","description":"","used":"0 GB","size":"","raid":"span","disks":"[]","raw":false,"encryption":false}]
+[
+{
+	"id":1,
+	"name":"Volume1",
+	"description":"some description",
+	"raid":"span",
+	"size":"15 GB",
+	"used":"10 GB",
+	"status":"Good",
+	"raw":false,
+	"encryption":false,
+	"additional_info":{"rate_of_progress":"","estimated_time":"","disk_speed":""},
+	"disks":[
+		{
+			"name":"HDD1",
+			"id":"1",
+			"status":"Good",
+			"size":"500 GB"
+		}],
+	"actions":{
+		"edit":false,
+		"delete":true,
+		"migrate": false,
+		"extend":false,
+		"recovery" : false
+		}
+	},
+	{
+		"id":2,
+		"name":"Volume2",
+		"description":"some description volume2",
+		"raid":"raid1",
+		"size":"35 GB",
+		"used":"10 GB",
+		"status":"Good",
+		"raw":false,
+		"encryption":true,
+		"additional_info":{"rate_of_progress":"","estimated_time":"","disk_speed":""},
+		"disks":[
+			{"name":"HDD 2","id":2,"status":"Good","size":"500 GB"}
+		],
+		"actions":{
+			"edit":true,
+			"delete":true,
+			"recovery": false,
+			"migrate":{
+				"to_raid1"	: false,
+				"to_raid5"	: true,
+				"to_raid10"	: true,
+				"disks"	:	[
+					{
+						"id"		: 1,
+						"name"		: "HDD 1",
+						"status"	: "Good"
+					},
+					{
+						"id"		: 3,
+						"name"		: "HDD 3",
+						"status"	: "Good"
+					},
+					{
+						"id"		: 4,
+						"name"		: "HDD 4",
+						"status"	: "Good"
+					}
+				]
+				},
+			"extend":{
+				"disks" : [
+					{
+						"id"		: 1,
+						"name"		: "HDD 1",
+						"status"	: "Good"
+					},
+					{
+						"id"		: 3,
+						"name"		: "HDD 3",
+						"status"	: "Good"
+					},
+					{
+						"id"		: 4,
+						"name"		: "HDD 4",
+						"status"	: "Good"
+					}
+				],
+				"mode"	: [ "online","offline"]
+			}
+		}
+	},
+	{
+		"id":3,
+		"name":"Volume3",
+		"description":"some description3",
+		"raid":"raid5",
+		"size":"75 GB",
+		"used":"20 GB",
+		"status":"Good",
+		"raw":true,
+		"encryption":false,
+		"additional_info":{"rate_of_progress":"","estimated_time":"","disk_speed":""},
+		"disks":[
+			{"name":"HDD 1","id":1,"status":"Good","size":"500 GB"},
+			{"name":"HDD 2","id":2,"status":"Good","size":"500 GB"},
+			{"name":"HDD 3","id":3,"status":"Good","size":"500 GB"}
+			],
+		"actions":
+		{
+			"edit":true,
+			"delete":true,
+			"recovery" : false,
+			"migrate":{
+				"to_raid1"	: false,
+				"to_raid5"	: false,
+				"to_raid10"	: true,
+				"disks"	:	[
+					{
+						"id"		: 4,
+						"name"		: "HDD 4",
+						"status"	: "Good"
+					}
+				]
+			},
+			"extend":{
+				"disks" : [
+					{
+						"id"		: 4,
+						"name"		: "HDD 4",
+						"status"	: "Good"
+					}
+				],
+				"mode"	: [ "online","offline"]
+			}
+		}
+	}
+]
