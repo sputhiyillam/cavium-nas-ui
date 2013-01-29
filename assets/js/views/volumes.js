@@ -24,7 +24,7 @@ define(function(require) {
 
         render: function() {
             //var accordion = this.accordionTemplate(Volumes.toJSON());
-            this.$el.html(SidebarTemplate);
+            this.$el.append(SidebarTemplate);
             //$(this.items).html(accordion);
             return this;
         },
@@ -96,13 +96,13 @@ define(function(require) {
 
         show: function(event) {
             var route = Backbone.history.fragment.split('/');
-            var volume = {} , disks = {}, target_raid = '', other = {};
+            var volume = {} , disks = {}, target_raid = '', misc = {};
             var raid = { "raid": [
                 { "value": "span",   "text": "SPAN"   },
-                { "value": "raid0",  "text": "RAID 0"  },
-                { "value": "raid1",  "text": "RAID 1"  },
-                { "value": "raid5",  "text": "RAID 5"  },
-                { "value": "raid10", "text": "RAID 10" }
+                { "value": "raid0",  "text": "RAID0"  },
+                { "value": "raid1",  "text": "RAID1"  },
+                { "value": "raid5",  "text": "RAID5"  },
+                { "value": "raid10", "text": "RAID10" }
             ]};
 
             this.clear();
@@ -112,23 +112,25 @@ define(function(require) {
             } else if(target == 'vr-edit-vol') {
                 volume = Volumes.get(route[1]).toJSON();
                 target_raid = volume.raid;
-                other = {"viewEdit":true, "disabled" : true};
+                misc = {"viewEdit":true, "disabled" : true};
             } else if(target == 'vr-migrate-vol') {
                 volume = Volumes.get(route[1]).toJSON();
                 target_raid = volume.raid;
                 disks = { "disks" : volume.actions.migrate.disks };
-                other = {"viewMigrate":true, "disabled" : true};
+                misc = {"viewMigrate":true, "disabled" : true};
             } else if(target == 'vr-extend-vol') {
                 volume = Volumes.get(route[1]).toJSON();
                 target_raid = volume.raid;
                 disks = { "disks" : volume.actions.extend.disks };
-                other = {"viewExtend":true, "disabled" : true};
+                misc = {"viewExtend":true, "disabled" : true};
             } else {
                 //To Recovery..
-                alert("Recovery implementation is not yet..!!");
-                return;
+                volume = Volumes.get(route[1]).toJSON();
+                target_raid = volume.raid;
+                disks = { "disks" : volume.actions.recovery.disks };
+                misc = {"viewRecovery":true, "disabled" : true};
             }
-            var context = _.extend(volume, disks, raid, other);
+            var context = _.extend(volume, disks, raid, misc);
             var htmlText = this.dialogTemplate(context);
             $(this.$el.selector).html(htmlText);
             target_raid !== '' ? $('#cav-vr-raid').val(target_raid) : $('#cav-vr-raid').val('span');
@@ -149,10 +151,12 @@ define(function(require) {
 
     var VolumesView = BaseView.extend({
         events: {
-            "click #cav-vol-save"       : "_create",
-            "click #cav-vol-update"     : "_edit",
-            "click #cav-vol-delete"     : "_delete",
-            "click #av-vol-migrate"     : "_migrate",
+            "click #cav-vol-save"                       : "_create",
+            "click #cav-vol-update"                     : "_edit",
+            "click #cav-vol-delete"                     : "_delete",
+            "click #cav-vol-migrate"                    : "_migrate",
+            "click #cav-vol-extend"                     : "_extend",
+            "click #cav-vol-recovery"                   : "_recovery",
             "click a[href='#cav-vr-add-edit-modal']"    : "showDialog",
         },
 
@@ -165,6 +169,7 @@ define(function(require) {
 
         load: function() {
             var self = this;
+            $(".cav-sidebar").hide();
             if (Volumes.isEmpty()) {
                 sidebar.render();
                 var success = function() {
@@ -180,7 +185,22 @@ define(function(require) {
                 var error = function() {
                 };
                 this.fetch(success, error);
+            } else if($("#sidebar-volume").length === 0) {
+                sidebar.render();
+                Volumes.on('add', self.add, this);
+                Volumes.on('remove', self.remove, this);
+                Volumes.each(function(item){
+                    sidebar.add(item);
+                });
+                var fragment = Backbone.history.fragment;
+                var route = fragment.split('/');
+                if (route[1] !== undefined ) {
+                    sidebar.navigate(fragment);
+                    content.render();
+                }
             }
+            $("#sidebar-volume").show();
+            this.poll();
             this.render();
         },
 
@@ -219,8 +239,8 @@ define(function(require) {
         poll: function(){
             var self = this;
             setTimeout(function() {
-                self.fetchCollection(self);
-            }, 10000);
+               Volumes.fetch();
+            }, 60000);
         },
         
         _create: function() {
@@ -228,27 +248,37 @@ define(function(require) {
             var disk_obj = [];
             var self = this;
             disks.each(function(){
-              obj = {};
-              obj['id'] = $(this).val();
-              disk_obj.push(obj);
+              disk_obj.push($(this).val());
             });
             var volume = new Volumes.model({
-                "name"          : $("#cav-vr-name").val(),
-                "description"   : $("#cav-vr-desc").val(),
-                "size"          : $("#cav-vr-size").val(),
-                "raid"          : $("#cav-vr-raid").val(),
-                "disks"         : disk_obj,
-                "raw"           : $("#cav-vr-raw").is(':checked'),
-                "encryption"    : $("#cav-vr-encr").is(":checked")
+                "name"           : $("#cav-vr-name").val(),
+                "description"    : $("#cav-vr-desc").val(),
+                "size"           : $("#cav-vr-size").val(),
+                "type"           : $("#cav-vr-raid option:selected").text(),
+                "disks"          : disk_obj,
+                "raw"            : $("#cav-vr-raw").is(':checked'),
+                "encrypted"      : $("#cav-vr-encr").is(":checked")
             });
             $('button').addClass('disabled');
-            volume.save();
+            console.log(volume);
+            volume.save({success: function(){
+                $('#cav-vr-add-edit-modal').modal('hide');
+                self.poll();
+            }});
         },
 
         _delete: function() {
             var fragment = Backbone.history.fragment;
             var route = fragment.split('/');
-            Volumes.get(route[1]).destroy();
+            var self = this;
+            var vol = new Volumes.model({
+                id: route[1]
+            });
+            vol.destroy({success: function(){
+                $('#cav-vr-add-edit-modal').modal('hide');
+                self.poll();
+                }
+            });
         },
 
         showDialog: function(event) {
@@ -286,22 +316,71 @@ define(function(require) {
 
         _migrate: function(){
             var route = Backbone.history.fragment.split('/');
-            vol_id = route[1];
 
-            var disks = $("input[name = 'disks']"),disk_obj=[];
+            var disks = $("input[name = 'disks']:checked"), disk_obj=[], self = this;
             disks.each(function(){
-              obj = {};
-              obj['id'] = $(this).val();
-              disk_obj.push(obj);
+                disk_obj.push($(this).val());
             });
 
             var volume = new Volumes.model({
-                "id"  : vol_id,
-                "raid" : $("#cav-vr-raid :selected").val(),
+                "id"    : route[1],
+                "raid"  : $("#cav-vr-raid option:selected").text(),
                 "disks" : disk_obj,
+                "size"  : Volumes.get(route[1]).toJSON().size,
+                "action": "migrate", 
             });
 
-            console.log(volume);
+            volume.save({success: function(){
+                $('#cav-vr-add-edit-modal').modal('hide');
+                self.poll();
+                }
+            });
+        },
+
+        _extend: function() {
+            var route = Backbone.history.fragment.split('/');
+
+            var disks = $("input[name = 'disks']:checked"), disk_obj=[], self = this;
+            disks.each(function(){
+                disk_obj.push($(this).val());
+            });
+
+            var volume = new Volumes.model({
+                "id"    : route[1],
+                "raid"  : $("#cav-vr-raid option:selected").text(),
+                "disks" : disk_obj,
+                "size"  : Volumes.get(route[1]).toJSON().size,
+                "action": "extend", 
+            });
+
+            volume.save({success: function(){
+                $('#cav-vr-add-edit-modal').modal('hide');
+                self.poll();
+                }
+            });
+        },
+
+        _recovery: function(){
+            var route = Backbone.history.fragment.split('/');
+
+            var disks = $("input[name = 'disks']:checked"), disk_obj=[], self = this;
+            disks.each(function(){
+                disk_obj.push($(this).val());
+            });
+
+            var volume = new Volumes.model({
+                "id"    : route[1],
+                "raid"  : $("#cav-vr-raid option:selected").text(),
+                "disks" : disk_obj,
+                "size"  : Volumes.get(route[1]).toJSON().size,
+                "action": "recovery", 
+            });
+
+            volume.save({success: function(){
+                $('#cav-vr-add-edit-modal').modal('hide');
+                self.poll();
+                }
+            });
         }
     });
 

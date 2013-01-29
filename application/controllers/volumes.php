@@ -12,66 +12,94 @@ class Volumes extends REST_Controller
 {
     function api_post()
     {
-        sleep(4);
-        $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
-        $new_volumes = array();
-        $i = 0 ;
-        foreach ($volumes as $key => $value) { 
-            $new_volumes[$i] =  $value;
-            $i++;
-        }
-        $new_volumes[$i] = $this->post();
-        file_put_contents('assets/json/volumes.json', json_encode($new_volumes));
-
-        $message = array('message' => 'Successfully Added!!');
+        $arr = array(
+            'api'   => 'create_volume',
+            'args' => $this->post()
+        );
+        $args = array( 
+            'request' => $arr,
+            'sync' => false
+        );
         
+        $this->load->model('cav_process_socket');
+        $message = $this->cav_process_socket->test($args);
         $this->response($message, 200); // 200 being the HTTP response code
     }
     
-    function api_delete()
+    function api_delete($id = 0)
     {
-        sleep(3);
-        $volumes = json_decode(file_get_contents("assets/json/volumes.json"));
-        $new_volumes = array();
-        $i = 0 ;
-        foreach ($volumes as $key => $value) {
-            if((string)$value->id !== $this->get('id')) {  
-                $new_volumes[$i] =  $value;
-                $i++;
-            }
-        }
-        file_put_contents('assets/json/volumes.json', json_encode($new_volumes));
+        $arr = array(
+            'api'   => 'delete_volume',
+            'args' => array(
+                'id'    => (int)$id
+                )
+        );
+        $args = array( 
+            'request' => $arr,
+            'sync' => false
+        );
 
-        $message = array('id' => $this->get('id'), 'message' => 'Successfully deleted!!');
-        
+        $this->load->model('cav_process_socket');
+        $message = $this->cav_process_socket->test($args);
         $this->response($message, 200); // 200 being the HTTP response code
     }
     
     function api_get()
     {
         //sleep(3);
-    //$volumes = json_decode(file_get_contents("assets/json/volumes.json"));
+        $message = json_decode(file_get_contents("assets/json/volumes.json"));
 
-    $this->load->model('cav_process_socket');
-    $arr = array(
-        'api'   => 'get_volume_object',
-        'args' => null
-    );
-    $args = array( 'request' => $arr,
-            'sync' => true
-             );
-    //$new_args = json_encode($args);
+      /*  $this->load->model('cav_process_socket');
+        $arr = array(
+            'api'   => 'get_volume_object',
+            'args' => null
+        );
+        $args = array( 'request' => $arr,
+                'sync' => true
+                 );
+        //$new_args = json_encode($args);
 
-    $message = $this->cav_process_socket->test($args);
-
-    $this->response($message, 200);
+        $message = $this->cav_process_socket->test($args);
+        */ 
+        $this->response($message, 200);
     }
 
     public function api_put()
     {
-        sleep(4);
-        json_encode($this->put());
-        $message = array('message' => 'Successfully updated !!');
+        $args = array();
+        if($this->put('action') === 'migrate') {
+            $arr = array(
+                'api'   => 'migrate_volume',
+                'args' => $this->put()
+            );
+            $args = array( 
+                'request' => $arr,
+                'sync' => false
+            );
+        } else if($this->put('action') === 'extend') {
+            $arr = array(
+                'api'   => 'extend_volume',
+                'args' => $this->put()
+            );
+            $args = array( 
+                'request' => $arr,
+                'sync' => false
+            );
+            
+        } else {
+            $arr = array(
+                'api'   => 'recover_volume',
+                'args' => $this->put()
+            );
+            $args = array( 
+                'request' => $arr,
+                'sync' => false
+            );
+        }
+        
+       
+        $this->load->model('cav_process_socket');
+        $message = $this->cav_process_socket->test($args);
         $this->response($message, 200); // 200 being the HTTP response code
     }
 }

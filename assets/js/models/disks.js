@@ -5,8 +5,7 @@ define(function(require) {
         BaseModel = require('models/base');
 
     var DisksModel = BaseModel.extend({
-        defaults: {
-        },
+        urlRoot: '/index.php/disks/api',
 
         initialize: function() {
         },

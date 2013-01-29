@@ -13,7 +13,7 @@
 	"disks":[
 		{
 			"name":"HDD1",
-			"id":"1",
+			"id":1,
 			"status":"Good",
 			"size":"500 GB"
 		}],
@@ -90,6 +90,63 @@
 	{
 		"id":3,
 		"name":"Volume3",
+		"description":"some description3",
+		"raid":"raid5",
+		"size":"75 GB",
+		"used":"20 GB",
+		"status":"Good",
+		"raw":true,
+		"encryption":false,
+		"additional_info":{"rate_of_progress":"","estimated_time":"","disk_speed":""},
+		"disks":[
+			{"name":"HDD 1","id":1,"status":"Good","size":"500 GB"},
+			{"name":"HDD 2","id":2,"status":"Good","size":"500 GB"},
+			{"name":"HDD 3","id":3,"status":"Good","size":"500 GB"}
+			],
+		"actions":
+		{
+			"edit":true,
+			"delete":true,
+			"recovery" : {
+				"disks" : [{
+						"id"	:	3,
+						"name"	: "HDD 4",
+						"status": "Good"
+					},
+					{
+						"id"	:	4,
+						"name"	: "HDD 4",
+						"status": "Good"
+					}
+					]
+			},
+			"migrate":{
+				"to_raid1"	: false,
+				"to_raid5"	: false,
+				"to_raid10"	: true,
+				"disks"	:	[
+					{
+						"id"		: 4,
+						"name"		: "HDD 4",
+						"status"	: "Good"
+					}
+				]
+			},
+			"extend":{
+				"disks" : [
+					{
+						"id"		: 4,
+						"name"		: "HDD 4",
+						"status"	: "Good"
+					}
+				],
+				"mode"	: [ "online","offline"]
+			}
+		}
+	},
+	{
+		"id":4,
+		"name":"Volume4",
 		"description":"some description3",
 		"raid":"raid5",
 		"size":"75 GB",
