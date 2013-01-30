@@ -14,20 +14,19 @@ class Disks extends REST_Controller
     function api_get()
     {
         //sleep(2);
-        $message = json_decode(file_get_contents("assets/json/disks.json"));
-/*
+       // $message = json_decode(file_get_contents("assets/json/disks.json"));
+
         $this->load->model('cav_process_socket');
         $arr = array(
             'api'   => 'get_disk_object',
             'args' => null
         );
         $args = array( 'request' => $arr,
-                'sync' => true
-                 );
-        //$new_args = json_encode($args);
+            'sync' => true
+        );
 
         $message = $this->cav_process_socket->test($args);
-  */  
+       
         $this->response($message, 200);
     }
 
@@ -46,7 +45,6 @@ class Disks extends REST_Controller
         );
         $this->load->model('cav_process_socket');
         $message = $this->cav_process_socket->test($args);
-        //sleep(20);
         $this->response($message, 200); // 200 being the HTTP response code
     }
 }

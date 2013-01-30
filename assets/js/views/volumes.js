@@ -40,7 +40,7 @@ define(function(require) {
         },
 
         remove: function(model) {
-            $(this.items).find('a[href$="#volumes/'+model.get('id')+'"]').parent().remove();  
+            $(this.items).find('a[href$="/volumes/'+model.get('id')+'"]').parent().remove();  
         }
     });
 
@@ -58,6 +58,7 @@ define(function(require) {
 
         render: function() {
             var route = Backbone.history.fragment.split('/');
+            console.log(Volumes.get(route[1]).toJSON());
             this.$el.html(this.contentTemplate(Volumes.get(route[1]).toJSON()));
             return this;
         },
@@ -65,7 +66,11 @@ define(function(require) {
         add: function() {
         },
 
-        remove: function() {
+        remove: function(model) {
+            var route = Backbone.history.fragment.split('/');
+            if(parseInt(model.get('id'), 10) === parseInt(route[1],10)){
+                help.render();
+            }
         },
     });
 
@@ -158,6 +163,8 @@ define(function(require) {
             "click #cav-vol-extend"                     : "_extend",
             "click #cav-vol-recovery"                   : "_recovery",
             "click a[href='#cav-vr-add-edit-modal']"    : "showDialog",
+            "mouseover .cav-popover"                    : "showPopover",
+            "mouseout .cav-popover"                     : "hidePopover",
         },
 
         initialize: function (options) {
@@ -171,7 +178,9 @@ define(function(require) {
             var self = this;
             $(".cav-sidebar").hide();
             if (Volumes.isEmpty()) {
-                sidebar.render();
+                if($("#cav-sidebar-vr-items").length === 0){
+                    sidebar.render();
+                }
                 var success = function() {
                     Volumes.on('add', self.add, this);
                     Volumes.on('remove', self.remove, this);
@@ -181,12 +190,18 @@ define(function(require) {
                         sidebar.navigate(fragment);
                         content.render();
                     }
+                    self.load();
                 };
                 var error = function() {
+                    setTimeout(function(){
+                        self.load();
+                    }, 10000);
                 };
                 this.fetch(success, error);
             } else if($("#sidebar-volume").length === 0) {
-                sidebar.render();
+                if($("#cav-sidebar-vr-items").length === 0){
+                    sidebar.render();
+                }
                 Volumes.on('add', self.add, this);
                 Volumes.on('remove', self.remove, this);
                 Volumes.each(function(item){
@@ -200,12 +215,14 @@ define(function(require) {
                 }
             }
             $("#sidebar-volume").show();
-            this.poll();
             this.render();
         },
 
         fetch: function(success, error) {
-            Disks.fetch();
+            Disks.fetch({
+                update: true,
+                error: error
+            });
             Volumes.fetch({
                 update: true,
                 success: success,
@@ -239,8 +256,20 @@ define(function(require) {
         poll: function(){
             var self = this;
             setTimeout(function() {
-               Volumes.fetch();
-            }, 60000);
+                Disks.fetch({
+                    update: true,
+                    error: function() {
+                        console.log("No valid response for Disks");
+                    }
+                });
+                Volumes.fetch({
+                    update: true,
+                    error: function() {
+                        console.log("No valid response for Volumes");
+                    }
+                });
+                self.poll();
+            }, 20000); //TODO need to handle efficiently..!!
         },
         
         _create: function() {
@@ -260,10 +289,10 @@ define(function(require) {
                 "encrypted"      : $("#cav-vr-encr").is(":checked")
             });
             $('button').addClass('disabled');
-            console.log(volume);
             volume.save({success: function(){
                 $('#cav-vr-add-edit-modal').modal('hide');
-                self.poll();
+            },error: function(){
+                $('#cav-vr-add-edit-modal').modal('hide');
             }});
         },
 
@@ -276,7 +305,6 @@ define(function(require) {
             });
             vol.destroy({success: function(){
                 $('#cav-vr-add-edit-modal').modal('hide');
-                self.poll();
                 }
             });
         },
@@ -332,7 +360,6 @@ define(function(require) {
 
             volume.save({success: function(){
                 $('#cav-vr-add-edit-modal').modal('hide');
-                self.poll();
                 }
             });
         },
@@ -355,7 +382,6 @@ define(function(require) {
 
             volume.save({success: function(){
                 $('#cav-vr-add-edit-modal').modal('hide');
-                self.poll();
                 }
             });
         },
@@ -378,10 +404,19 @@ define(function(require) {
 
             volume.save({success: function(){
                 $('#cav-vr-add-edit-modal').modal('hide');
-                self.poll();
                 }
             });
-        }
+        },
+
+        showPopover: function(e){
+            $(e.currentTarget).popover('show');
+        },
+
+        hidePopover: function(e) {
+            $(e.currentTarget).popover('hide');  
+        },
+
+
     });
 
     return VolumesView;

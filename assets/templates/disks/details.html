@@ -37,17 +37,13 @@
 			</div>
 			<div class="row-fluid span9 offset1">
 				<div class="span3 cav-module-title">Model Name</div>
-				<div class="span6">{{modelname}}</div>
-			</div>
-			<div class="row-fluid span9 offset1">
-				<div class="span3 cav-module-title">Temperature</div>
-				<div class="span6">{{temperature}}</div>
+				<div class="span6">{{model}}</div>
 			</div>
 			<div class="row-fluid span9 offset1">
 				<div class="span3 cav-module-title">Volumes</div>
 				<div class="span6" style="width: 300px;word-wrap: break-word">
 					{{^volumes}} -- {{/volumes}}
-					{{#volumes}}<a href="/volumes/{{id}}">{{name}}</a>&nbsp;{{/volumes}}
+					{{#volumes}}<a href="/volumes/{{id}}" class="cav-popover" data-original-title="{{name}}" rel="popover" data-placement="top" data-html="true" data-content="<b>Size:</b> {{size}}<br/><b>Used:</b> {{used}} <br/> <b>Status:</b> {{status}}<br/> <b>Description:</b> {{description}}" >{{name}}</a>&nbsp;{{/volumes}}
 				</div>
 			</div>
 		</div>

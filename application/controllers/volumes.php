@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Shares Controller
+ * Volumes Controller
  *
 */
 
@@ -47,9 +47,9 @@ class Volumes extends REST_Controller
     function api_get()
     {
         //sleep(3);
-        $message = json_decode(file_get_contents("assets/json/volumes.json"));
+       // $message = json_decode(file_get_contents("assets/json/volumes.json"));
 
-      /*  $this->load->model('cav_process_socket');
+        $this->load->model('cav_process_socket');
         $arr = array(
             'api'   => 'get_volume_object',
             'args' => null
@@ -60,7 +60,6 @@ class Volumes extends REST_Controller
         //$new_args = json_encode($args);
 
         $message = $this->cav_process_socket->test($args);
-        */ 
         $this->response($message, 200);
     }
 
@@ -97,7 +96,6 @@ class Volumes extends REST_Controller
             );
         }
         
-       
         $this->load->model('cav_process_socket');
         $message = $this->cav_process_socket->test($args);
         $this->response($message, 200); // 200 being the HTTP response code

@@ -19,7 +19,8 @@ define(function(require) {
         accordionTemplate : Mustache.compile(AccordionTemplate),
         initialize: function() {
             Disks.on('add',    this.add, this);
-            Disks.on('change', this.remove, this);
+            Disks.on('change', this.change, this);
+            Disks.on('remove', this.remove, this);
         },
 
         render: function() {
@@ -33,7 +34,7 @@ define(function(require) {
         },
 
         change: function(model, options){
-            console.log("Model has changed ,please update model..!!");
+            $('.accordion-inner').find('a[href="/disks/'+model.get('id')+'"] p').html("Total Size "+ model.get('size'));
         },
 
         add: function(model) {
@@ -42,7 +43,7 @@ define(function(require) {
         },
 
         remove: function(model) {
-            $(this.items).find('a[href$="#disks/'+model.get('id')+'"]').parent().remove();  
+            $(this.items).find('a[href$="/disks/'+model.get('id')+'"]').parent().remove();  
         }
         
     });
@@ -55,8 +56,8 @@ define(function(require) {
         },
 
         initialize: function (options) {
-            //Volumes.on('add',    this.add, this);
-            //Volumes.on('remove', this.remove, this);
+            Disks.on('change',    this.change, this);
+            Disks.on('remove', this.remove, this);
         },
 
         render: function() {
@@ -69,6 +70,10 @@ define(function(require) {
                     obj = {}; 
                     obj['id'] = item.get('id');
                     obj['name'] = item.get('name');
+                    obj['description'] = item.get('description');
+                    obj['size'] = item.get('size');
+                    obj['used'] = item.get('used');
+                    obj['status'] = item.get('status');
                     if(_.contains(id, parseInt(route[1], 10))) {
                         volume.push(obj);
                     }
@@ -80,12 +85,25 @@ define(function(require) {
             }
 
             volume = { "volumes" : volume};
-            
             var context = _.extend(Obj, volume, misc);
-            console.log(context);
             this.$el.html(this.contentTemplate( context ));
             return this;
+        },
+
+        change: function(model, options){
+            var route = Backbone.history.fragment.split('/');
+            if(parseInt(model.get('id'), 10) === parseInt(route[1],10)){
+                this.render();
+            }
+        },
+
+        remove: function(model){
+            var route = Backbone.history.fragment.split('/');
+            if(parseInt(model.get('id'), 10) === parseInt(route[1],10)){
+                help.render();
+            }  
         }
+
     });
 
     var HelpView = BaseView.extend({
@@ -107,7 +125,9 @@ define(function(require) {
         events: {
             "click a[href='#disk-confirm-dialog']"  : "showConfirm", 
             "click #disk-confirm-claim"             : "claimDisk",
-            "click #disk-confirm-eject"             : "ejectDisk"
+            "click #disk-confirm-eject"             : "ejectDisk",
+            "mouseover .cav-popover"                : "showPopover",
+            "mouseout .cav-popover"                 : "hidePopover"
         },
 
         initialize: function (options) {
@@ -120,10 +140,10 @@ define(function(require) {
             var self = this;
             $(".cav-sidebar").hide();
             if (Disks.isEmpty()) {
-                sidebar.render();
+                if($('#sidebar-disk-items').length === 0){
+                    sidebar.render();
+                }
                 var success = function() {
-                    Disks.on('change', self.change, this);
-                    //Disks.on('remove', self.remove, this);
                     var fragment = Backbone.history.fragment;
                     var route = fragment.split('/');
                     if (route[1] !== undefined ) {
@@ -133,12 +153,17 @@ define(function(require) {
                     self.poll();
                 };
                 var error = function() {
-                    self.poll();
+                    setTimeout(function() {
+                        console.log("Disks failed to load!!");
+                        self.load();
+                    }, 10000);
                 };
                 this.fetch(success, error);
             } else if($("#sidebar-disk").length === 0) { //if disks collection is already full...
-                sidebar.render();
-                Disks.on('change', self._change, this);
+                if($('#sidebar-disk-items').length === 0){
+                    sidebar.render();
+                }
+                //Disks.on('change', self._change, this);
                 Disks.each(function(item){
                     sidebar.add(item);
                 });
@@ -148,24 +173,27 @@ define(function(require) {
                     sidebar.navigate(fragment);
                     content.render();
                 }
-                self.poll();
             }
             $("#sidebar-disk").show();
             this.render();
         },
 
         fetch: function(success, error) {
-            Volumes.fetch();
             Disks.fetch({
                 update: true,
                 success: success,
                 error: error
             });
+
+            Volumes.fetch({
+                error: function(){
+                    console.log("Volumes failed to load..")
+                }
+            });
         },
 
         _change: function(model, options) {
             console.log(model);
-            console.log("model changed!!");
         },
 
         add: function(model, collection, options) {
@@ -176,6 +204,14 @@ define(function(require) {
         remove: function(model, collection, options) {
             // TODO: Show growl notification
             // when a model is removed from a collection.
+        },
+
+        showPopover: function(e){
+            $(e.currentTarget).popover('show');
+        },
+
+        hidePopover: function(e) {
+            $(e.currentTarget).popover('hide');  
         },
 
         render: function() {
@@ -194,18 +230,14 @@ define(function(require) {
         poll: function(){
             var self = this;
             setTimeout(function() {
-                //self.fetchCollection(self);
-                //Issue in calling volumes fetch..
-                //Volumes.fetch();
-            /*    Disks.fetch({
-                        success: function(){
-                            self.poll();
-                        },
-                        error: function(){
-                            self.poll();  
-                        }
-                    }); */
-            }, 10000);
+                Volumes.fetch({update: true});
+                Disks.fetch({update: true,success: function(){
+                    self.poll();
+                }, error: function(){
+                    self.poll();
+                }
+                });
+            }, 20000); //TODO Need to handle efficiently...
         },
         
         showConfirm: function(event) {
@@ -233,13 +265,13 @@ define(function(require) {
             var self = this;
             disk.save(null,{
                 success: function(){
-                    //Volumes.fetch();
                     Disks.fetch({
+                        update: true,
                         success: function(){
-                            self.poll();
+                            $('#disk-confirm-dialog').modal('hide');
                         },
                         error: function(){
-                            self.poll();  
+                            $('#disk-confirm-dialog').modal('hide');  
                         }
                     });
                 }
@@ -257,13 +289,13 @@ define(function(require) {
             var self = this;
             disk.save(null,{
                 success: function(){
-                    //Volumes.fetch();
                     Disks.fetch({
+                        update: true,
                         success: function(){
-                            self.poll();
+                            $('#disk-confirm-dialog').modal('hide');  
                         },
                         error: function(){
-                            self.poll();  
+                            $('#disk-confirm-dialog').modal('hide');  
                         }
                     });
                 }
