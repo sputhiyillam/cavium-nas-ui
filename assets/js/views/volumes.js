@@ -58,8 +58,10 @@ define(function(require) {
 
         render: function() {
             var route = Backbone.history.fragment.split('/');
-            console.log(Volumes.get(route[1]).toJSON());
-            this.$el.html(this.contentTemplate(Volumes.get(route[1]).toJSON()));
+            if (route[0] === 'volumes'){
+                var volume = Volumes.get(route[1]).toJSON();
+                this.$el.html(this.contentTemplate(volume));
+            }
             return this;
         },
 
@@ -84,7 +86,10 @@ define(function(require) {
         initialize: function (options) {
         },
         render: function() {
-            this.$el.html(this.helpTemplate(Volumes.toJSON()));
+            var route = Backbone.history.fragment.split('/');
+            if (route[0] === 'volumes'){
+                this.$el.html(this.helpTemplate(Volumes.toJSON()));
+            }
             return this;
         },
 
@@ -103,11 +108,11 @@ define(function(require) {
             var route = Backbone.history.fragment.split('/');
             var volume = {} , disks = {}, target_raid = '', misc = {};
             var raid = { "raid": [
-                { "value": "span",   "text": "SPAN"   },
-                { "value": "raid0",  "text": "RAID0"  },
-                { "value": "raid1",  "text": "RAID1"  },
-                { "value": "raid5",  "text": "RAID5"  },
-                { "value": "raid10", "text": "RAID10" }
+                { "value": "SPAN",   "text": "SPAN"   },
+                { "value": "RAID0",  "text": "RAID 0"  },
+                { "value": "RAID1",  "text": "RAID 1"  },
+                { "value": "RAID5",  "text": "RAID 5"  },
+                { "value": "RAID10", "text": "RAID 10" }
             ]};
 
             this.clear();
@@ -138,7 +143,7 @@ define(function(require) {
             var context = _.extend(volume, disks, raid, misc);
             var htmlText = this.dialogTemplate(context);
             $(this.$el.selector).html(htmlText);
-            target_raid !== '' ? $('#cav-vr-raid').val(target_raid) : $('#cav-vr-raid').val('span');
+            target_raid !== '' ? $('#cav-vr-raid').val(target_raid) : $('#cav-vr-raid').val('SPAN');
             //TODO : To edit an volume, raid selection is based on number of disks.
             return this;
         },
@@ -283,7 +288,7 @@ define(function(require) {
                 "name"           : $("#cav-vr-name").val(),
                 "description"    : $("#cav-vr-desc").val(),
                 "size"           : $("#cav-vr-size").val(),
-                "type"           : $("#cav-vr-raid option:selected").text(),
+                "type"           : $("#cav-vr-raid option:selected").val(),
                 "disks"          : disk_obj,
                 "raw"            : $("#cav-vr-raw").is(':checked'),
                 "encrypted"      : $("#cav-vr-encr").is(":checked")
@@ -352,7 +357,7 @@ define(function(require) {
 
             var volume = new Volumes.model({
                 "id"    : route[1],
-                "raid"  : $("#cav-vr-raid option:selected").text(),
+                "raid"  : $("#cav-vr-migrate-raid option:selected").val(),
                 "disks" : disk_obj,
                 "size"  : Volumes.get(route[1]).toJSON().size,
                 "action": "migrate", 

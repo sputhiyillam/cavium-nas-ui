@@ -27,6 +27,10 @@
 				<div class="span6">{{status}}</div>
 			</div>
 			<div class="row-fluid span9 offset1">
+				<div class="span3 cav-module-title">Raid</div>
+				<div class="span6">{{raid}}</div>
+			</div>
+			<div class="row-fluid span9 offset1">
 				<div class="span3 cav-module-title">Disks</div>
 				<div class="span6" style="width: 300px;word-wrap: break-word;">
 					{{#disks}}
@@ -40,6 +44,7 @@
 			</div>
 		</div>
 		<div class="span3">
+			{{#actions.delete}}
 			{{#actions}}
 			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
 				{{#actions.edit}}
@@ -48,12 +53,14 @@
 			    </li>
 			    <li class="divider"></li>
 			    {{/actions.edit}}
+			    {{^actions.migrate.delete}}
 			    {{#actions.migrate}}
 			    <li>
 			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-migrate-vol" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Migrate</a>
 			    </li>
 			    <li class="divider"></li>
 			    {{/actions.migrate}}
+			    {{/actions.migrate.delete}}
 			    {{#actions.recovery}}
 			    <li>
 			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-recovery-vol" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Recovery</a>
@@ -74,6 +81,7 @@
 			    
 		    </ul>
 		    {{/actions}}
+		    {{/actions.delete}}
 		</div>
 		<!-- Bootrap confirmation window -->
 		<div class="modal hide fade" id="cav-confirm-dialog">

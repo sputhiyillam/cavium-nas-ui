@@ -29,8 +29,11 @@ define(function(require) {
         },
 
         navigate: function(fragment) {
-            $(this.items).find('.cav-active').removeClass('cav-active');
-            $(this.items).find('a[href$="/'+fragment+'"]').parent().addClass('cav-active');
+            var route = Backbone.history.fragment.split('/');
+            if (route[0] === 'disks'){
+                $(this.items).find('.cav-active').removeClass('cav-active');
+                $(this.items).find('a[href$="/'+fragment+'"]').parent().addClass('cav-active');
+            }
         },
 
         change: function(model, options){
@@ -86,7 +89,9 @@ define(function(require) {
 
             volume = { "volumes" : volume};
             var context = _.extend(Obj, volume, misc);
-            this.$el.html(this.contentTemplate( context ));
+            if (route[0] === 'disks'){
+                this.$el.html(this.contentTemplate( context ));
+            }
             return this;
         },
 
@@ -115,7 +120,10 @@ define(function(require) {
         initialize: function (options) {
         },
         render: function() {
-            this.$el.html(this.helpTemplate(Disks.toJSON()));
+            var route = Backbone.history.fragment.split('/');
+            if (route[0] === 'disks'){
+                this.$el.html(this.helpTemplate(Disks.toJSON()));
+            }
             return this;
         },
 
