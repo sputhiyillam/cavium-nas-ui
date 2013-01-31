@@ -67,6 +67,7 @@ define(function(require) {
         },
 
         render: function() {
+            var route = Backbone.history.fragment.split('/');
             if (route[0] === 'disks'){
                 var route = Backbone.history.fragment.split('/');
                 var Obj = Disks.get(route[1]).toJSON();
