@@ -6,7 +6,7 @@ define(function(require) {
 
     var SettingsCollection = Backbone.Collection.extend({
         model: Settings,
-        url: '/shares',
+        url: '/index.php/settings/api',
         initialize: function() {
         }
 

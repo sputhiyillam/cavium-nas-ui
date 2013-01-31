@@ -25,7 +25,8 @@ define(function(require){
           'usergroups'              : 'routeUserGroups',
           'usergroups/:type/:id'    : 'routeUserGroups',
           'backup'                  : 'showBackup',
-          'settings'                : 'showSettings',
+          'settings'                : 'routeSettings',
+          'settings/:id'            : 'routeSettings',
           //Default
           '*actions'                : 'showHome'
         },
@@ -62,8 +63,8 @@ define(function(require){
             backup.render();
         },
 
-        showSettings: function() {
-            settings.render();
+        routeSettings: function() {
+            settings.load();
         },
 
         showHome: function() {

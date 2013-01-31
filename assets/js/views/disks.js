@@ -83,7 +83,7 @@ define(function(require) {
             
             var context = _.extend(Obj, volume, misc);
             console.log(context);
-            this.$el.html(this.contentTemplate( context ));
+           // this.$el.html(this.contentTemplate( context ));
             return this;
         }
     });
@@ -120,13 +120,16 @@ define(function(require) {
             var self = this;
             $(".cav-sidebar").hide();
             if (Disks.isEmpty()) {
+                alert("am  empty");
                 sidebar.render();
                 var success = function() {
                     Disks.on('change', self.change, this);
                     //Disks.on('remove', self.remove, this);
                     var fragment = Backbone.history.fragment;
                     var route = fragment.split('/');
+                    alert(route[1]);
                     if (route[1] !== undefined ) {
+                        alert("am here");
                         sidebar.navigate(fragment);
                         content.render();
                     }
@@ -137,6 +140,7 @@ define(function(require) {
                 };
                 this.fetch(success, error);
             } else if($("#sidebar-disk").length === 0) { //if disks collection is already full...
+                alert("non");
                 sidebar.render();
                 Disks.on('change', self._change, this);
                 Disks.each(function(item){
@@ -155,6 +159,7 @@ define(function(require) {
         },
 
         fetch: function(success, error) {
+            alert("am in fetch succes error");
             Volumes.fetch();
             Disks.fetch({
                 update: true,

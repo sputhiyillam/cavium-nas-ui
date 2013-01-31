@@ -5,10 +5,10 @@ define(function(require) {
         BaseModel = require('models/base');
 
     var SettingsModel = BaseModel.extend({
-        defaults: {
-        },
+       urlRoot: '/index.php/settings/api',
 
         initialize: function() {
+            
         },
 
         edit: function() {

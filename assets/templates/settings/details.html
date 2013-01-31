@@ -1,0 +1,82 @@
+<div class="row-fluid cav-module-details">
+	{{#.}}
+	<div class="row-fluid cav-module-details-sec1">
+		<div class="span10">
+			<span class="cav-spinner">
+				<i class="icon-refresh"></i>
+			</span>
+			<div class="cav-module-title">
+				Network
+			</div><br>
+			<p class="cav-module-item-name" value={{name}} id="nw-lan">{{name}}</p><br>
+            <form class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label muted"></label>
+                    <div class="controls">
+                       <select id="nw-network-aggregation-mode"><option id="nw-rrlan">Round Robin LAN</option><option id="nw-fovlan">Fail Over LAN</option></select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label muted" for="nw-network-mode">Network Mode</label>
+                    <div class="controls">
+                        <input type="hidden" value={{dhcp}} id=dhcp-tf />
+                        <select id="nw-network-mode"><option id="nw-dhcp">DHCP Client</option><option id="nw-static">Static</option></select>
+                    </div>
+                </div>     
+                <div class="control-group">
+                    <label class="control-label muted" for="nw-ip">IP Address</label>
+                    <div class="controls">
+                        <input type="text" id="nw-ip" value={{ip}} >
+                    </div>
+                </div> 
+                <div class="control-group">
+                    <label class="control-label muted" for="nw-netmask">Netmask</label>
+                    <div class="controls">
+                        <select id="nw-netmask"><option>{{netmask}}</option></select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label muted" for="nw-gateway">Default Gateway</label>
+                    <div class="controls">
+                        <input type="hidden" value={{status}} id="nw-status">
+                        <input type="text" id="nw-gateway" value={{default_gw}} >
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label muted">DNS Servers:</label>
+                    <div class="controls">
+                        <label class="checkbox" for="nw-dns">
+                            <input type="checkbox" id="nw-dns" checked={{dns.auto}}> Obtain DNS server address automatically
+                        </label>
+                    </div>
+                </div> 
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <input type="hidden" id="dns-server" value={{dns.servers}} >
+                        <input type="text" id="nw-dns_ip1_addr" value="" >
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label"></label>
+                    <div class="controls">
+                        <input type="text" id="nw-dns_ip2_addr" value="" >
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label muted" for="nw-mtu">MTU Size (bytes)</label>
+                    <div class="controls">
+                        <input type="text" id="nw-mtu" value={{mtu}} class="input-small" >
+                    </div>
+                </div>
+            </form>
+            <span class="form-horizontal">
+                <div class="control-group">
+                    <div class="controls">
+                        <button class="btn" id="nw-save">Save</button>
+                    </div>
+                </div>
+            </span>
+        </div>
+	{{/.}}
+</div>
