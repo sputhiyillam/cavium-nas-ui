@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "name": "Bharath",
+    "fullname": "Bharath S",
+    "email": "Bharath.s@gmail.com",
+    "password": "123456",
+    "admin": true,
+    "groups": [
+      {
+        "id": 1,
+        "name": "admin_group"
+      },
+      {
+        "id" : 2,
+        "name" : "facebook"
+      }
+    ]
+  },
+    {
+    "id": 2,
+    "name": "Murtuza",
+    "fullname": "Murtuza Loka",
+    "email": "Murtuza.s@gmail.com",
+    "password": "123456",
+    "admin": true,
+    "groups": [
+      {
+        "id": 1,
+        "name": "facebook"
+      },
+      {
+        "id" : 2,
+        "name" : "linkdin"
+      }
+    ]
+  },
+    {
+    "id": 3,
+    "name": "Anand",
+    "fullname": "Anand S",
+    "email": "Anand.s@gmail.com",
+    "password": "123456",
+    "admin": false,
+    "groups": [
+      {
+        "id" : 2,
+        "name" : "facebook"
+      }
+    ]
+  }
+]
