@@ -1,0 +1,36 @@
+<div id="sidebar-usergroups" class="cav-sidebar">
+  <ul class="nav nav-list cav-sidenav">
+    <li class="cav-sidenav-no-txt">
+      <a href="#" >&nbsp;</a>
+    </li>
+    <li>
+      <a href="#ug-add-edit-modal" id="ug-add-user" data-toggle="modal">
+        <i class="icon-user icon-white"></i>Create New User
+      </a>
+    </li>
+    <li>
+      <a href="#ug-add-edit-modal" id="ug-add-group" data-toggle="modal">
+        <i class="icon-th-list icon-white"></i>Create New Group
+      </a>
+    </li>
+  </ul>
+  <div class="accordion" id="cav-sidebar-accordion">
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#ug-sidebar-accordion" href="#sidebar-user-items">Users<i class="icon-chevron-down"></i></a>
+      </div>
+      <div id="sidebar-user-items" class="accordion-body collapse in"></div>
+    </div>
+    <div class="accordion-group">
+      <div class="accordion-heading">
+        <a class="accordion-toggle" data-toggle="collapse" data-parent="#ug-sidebar-accordion" href="#sidebar-group-items">Groups<i class="icon-chevron-down"></i></a>
+      </div>
+      <div id="sidebar-group-items" class="accordion-body collapse in"></div>
+    </div>
+  </div>
+</div>
+
+<form class="form-horizontal" style="margin: 0px;" >
+  <div id="ug-add-edit-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="ug-model-label" aria-hidden="true">
+  </div>
+</form>

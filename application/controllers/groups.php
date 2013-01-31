@@ -1,14 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
- * Volumes Controller
+ * Shares Controller
  *
 */
 
 // This can be removed if you use __autoload() in config.php
 require(APPPATH.'/libraries/REST_Controller.php');
 
-class Volumes extends REST_Controller
+class Groups extends REST_Controller
 {
     function api_post()
     {
@@ -47,7 +47,7 @@ class Volumes extends REST_Controller
     function api_get()
     {
         //sleep(3);
-       // $message = json_decode(file_get_contents("assets/json/volumes.json"));
+        //$message = json_decode(file_get_contents("assets/json/groups.json"));
 
         $this->load->model('cav_process_socket');
         $arr = array(
@@ -55,8 +55,9 @@ class Volumes extends REST_Controller
             'args' => null
         );
         $args = array( 'request' => $arr,
-            'sync' => true
-        );
+                'sync' => true
+                 );
+        //$new_args = json_encode($args);
 
         $message = $this->cav_process_socket->test($args);
         $this->response($message, 200);
@@ -64,38 +65,14 @@ class Volumes extends REST_Controller
 
     public function api_put()
     {
-        $args = array();
-        if($this->put('action') === 'migrate') {
-            $arr = array(
-                'api'   => 'migrate_volume',
-                'args' => $this->put()
-            );
-            $args = array( 
-                'request' => $arr,
-                'sync' => false
-            );
-        } else if($this->put('action') === 'extend') {
-            $arr = array(
-                'api'   => 'extend_volume',
-                'args' => $this->put()
-            );
-            $args = array( 
-                'request' => $arr,
-                'sync' => false
-            );
-            
-        } else {
-            $arr = array(
-                'api'   => 'recover_volume',
-                'args' => $this->put()
-            );
-            $args = array( 
-                'request' => $arr,
-                'sync' => false
-            );
-        }
-        
         $this->load->model('cav_process_socket');
+        $arr = array(
+            'api'   => 'get_volume_object',
+            'args' => $this->put()
+        );
+        $args = array( 'request' => $arr,
+            'sync' => true
+        );
         $message = $this->cav_process_socket->test($args);
         $this->response($message, 200); // 200 being the HTTP response code
     }

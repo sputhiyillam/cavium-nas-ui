@@ -2,9 +2,6 @@
 
 <div class="modal-header">
   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-  {{#viewRecovery}}
-    <h4 id="cav-add-model-label">Recover Volume</h4>
-  {{/viewRecovery}}
   {{#viewEdit}}
     <h4 id="cav-add-model-label">Update Volume</h4>
   {{/viewEdit}}
@@ -38,7 +35,7 @@
     <div class="controls">
       {{#disks}}
         <label class="checkbox inline">
-          <input type="checkbox" {{#disabled}}{{^viewMigrate}} {{^viewExtend}}{{^viewRecovery}} checked="checked" disabled = "disabled"{{/viewRecovery}} {{/viewExtend}} {{/viewMigrate}} {{/disabled}} name="disks" value="{{name}}"> {{name}}
+          <input type="checkbox" {{#disabled}}{{^viewMigrate}} {{^viewExtend}} checked="checked" disabled = "disabled" {{/viewExtend}} {{/viewMigrate}} {{/disabled}} name="disks" value="{{id}}"> {{name}}
         </label>
       {{/disks}}
     </div>
@@ -51,6 +48,7 @@
           <option value="{{value}}" {{#selected}}selected="selected"{{/selected}}>{{text}}</option>
         {{/raid}}
       </select>
+      {{}}
     </div>
   </div>
   {{^id}}
@@ -80,8 +78,8 @@
     <label class="control-label" for="cav-vr-size">Volume Size</label>
     <div class="controls ">
       <div class="input-append">
-        <input class="span3" id="cav-vr-size" name="size" {{#disabled}}disabled = "disabled"{{/disabled}} value="{{size}}" type="text">
-        <span class="add-on">GB</span>
+        <input class="span5" id="cav-vr-size" name="size" {{#disabled}}disabled = "disabled"{{/disabled}} value="{{size}}" type="text">
+        <span class="add-on">Bytes</span>
       </div>
     </div>
   </div>
@@ -92,13 +90,13 @@
     <div class="controls">
       <select id="cav-vr-migrate-raid" name="raid" >
         {{#actions.migrate.to_raid1}}
-          <option value="RAID1">RAID 1</option>
+          <option value="raid1">RAID 1</option>
         {{/actions.migrate.to_raid1}}
         {{#actions.migrate.to_raid5}}
-          <option value="RAID5">RAID 5</option>
+          <option value="raid5">RAID 5</option>
         {{/actions.migrate.to_raid5}}
         {{#actions.migrate.to_raid10}}
-          <option value="RAID10">RAID 10</option>
+          <option value="raid10">RAID 10</option>
         {{/actions.migrate.to_raid10}}
       </select>
     </div>
@@ -123,9 +121,6 @@
   {{#viewMigrate}}
     <button type="button" class="btn btn-primary" id="cav-vol-migrate">Migrate Now</button>
   {{/viewMigrate}}
-  {{#viewRecovery}}
-    <button type="button" class="btn btn-primary" id="cav-vol-recovery">Recover Now</button>
-  {{/viewRecovery}}
   {{#viewEdit}}
     <button type="button" class="btn btn-primary" id="cav-vol-update">Update</button>
   {{/viewEdit}}

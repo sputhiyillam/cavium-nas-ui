@@ -1,0 +1,88 @@
+<div class="row-fluid cav-module-details">
+	{{#.}}
+	<div class="row-fluid cav-module-details-sec1">
+		<div class="span9">
+			<span class="cav-spinner">
+				<i class="icon-refresh"></i>
+			</span>
+			<div class="cav-module-title">
+				{{#email}}Users{{/email}}
+				{{^email}}Groups{{/email}}
+			</div>
+			<p class="cav-module-item-name">
+				{{name}}
+			</p>
+			{{#email}}
+			<div class="row-fluid span11">
+				<div class="span4 cav-module-title">Full Name</div>
+				<div class="span7">{{fullname}}</div>
+			</div>
+			<div class="row-fluid span11">
+				<div class="span4 cav-module-title">E-mail</div>
+				<div class="span7">{{email}}</div>
+			</div>
+			<div class="row-fluid span11">
+				<div class="span4 cav-module-title">Administrative Rights</div>
+				<div class="span7">{{#admin}}<i class="icon-star"></i> &nbsp;Yes{{/admin}}{{^admin}}<i class="icon-star-empty"></i>&nbsp;No{{/admin}}</div>
+			</div>
+			{{/email}}
+			{{^email}}
+			<div class="row-fluid span11">
+				<div class="span4 cav-module-title" >Description</div>
+				<div class="span7" style="word-break:normal;">{{description}}</div>
+			</div>
+			{{/email}}
+			<div class="row-fluid span11">
+				{{#email}}
+				<div class="span4 cav-module-title">Groups</div>
+				<div class="span7">
+					{{#groups}}
+					<div class="row-fluid"><i class="icon-ok"></i>&nbsp;<a href="/usergroups/groups/{{id}}">{{name}}</a></div>
+					{{/groups}}
+					{{^groups}}
+					--
+					{{/groups}}
+				</div>
+				{{/email}}
+				{{^email}}
+				<div class="span4 cav-module-title">Users</div>
+				<div class="span7">
+					{{#users}}
+					<div class="row-fluid"><i class="icon-ok"></i>&nbsp;<a href="/usergroups/users/{{id}}">{{name}}</a>
+					</div>
+					{{/users}}
+					{{^users}}
+					--
+					{{/users}}
+				</div>
+				{{/email}}
+			</div>
+		</div>
+		<div class="span3">
+			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
+			    <li>
+			    	<a tabindex="-1" href="#ug-add-edit-modal" id="{{#email}}ug-edit-user{{/email}}{{^email}}ug-edit-group{{/email}}" data-toggle="modal"><i class="icon-edit"></i>&nbsp;Edit</a>
+			    </li>
+			    <li class="divider"></li>
+			    <li>
+			    	<a tabindex="-1" href="#ug-confirm-dialog" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Delete</a>
+			    </li>
+		    </ul>
+		</div>
+		<!-- Bootrap confirmation window -->
+		<div class="modal hide fade" id="ug-confirm-dialog">
+		  <div class="modal-header">
+		    <a class="close" data-dismiss="modal">×</a>
+		    <h3>Confirm</h3>
+		  </div>
+		  <div class="modal-body">
+		    Are you sure, you want to delete {{#email}}user{{/email}}{{^email}}group{{/email}} {{name}} ?
+		  </div>
+		  <div class="modal-footer">
+		    <a href="javascript:void(0)" id="ug-delete" class="btn btn-danger" >Ok</a>
+		    <a class="btn btn-cancel" data-dismiss="modal">Cancel</a>
+		  </div>
+		</div>
+	</div>
+	{{/.}}
+</div>

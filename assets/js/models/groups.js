@@ -4,8 +4,10 @@ define(function(require) {
         Backbone = require('backbone'),
         BaseModel = require('models/base');
 
-    var DisksModel = BaseModel.extend({
-        urlRoot: '/index.php/disks/api',
+    var GroupsModel = BaseModel.extend({
+        urlRoot: '/index.php/groups/api',
+        defaults: {
+        },
 
         initialize: function() {
         },
@@ -20,5 +22,5 @@ define(function(require) {
         }
     });
 
-    return DisksModel;
+    return GroupsModel;
 });

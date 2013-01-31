@@ -1,0 +1,8 @@
+{{#.}}
+<div class="accordion-inner">
+	<a href="/usergroups/{{#email}}users{{/email}}{{^email}}groups{{/email}}/{{id}}">
+	  <b>{{name}}</b>
+	  {{#admin}}<p>Administrator</p>{{/admin}}
+	</a>
+</div>
+{{/.}}

@@ -1,0 +1,183 @@
+<!-- Adding model for add and edit panel -->
+
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+  {{#user}}
+    {{#id}}
+      <h4 id="ug-model-label">Edit User</h4>
+    {{/id}}
+    {{^id}}
+      <h4 id="ug-model-label">Add User</h4>
+    {{/id}}
+  {{/user}}
+  {{^user}}
+    {{#id}}
+      <h4 id="ug-model-label">Add Group</h4>
+    {{/id}}
+    {{^id}}
+      <h4 id="ug-model-label">Edit Group</h4>
+    {{/id}}
+  {{/user}}
+</div>
+<div class="modal-body">
+  {{#user}}
+    <div class="control-group">
+      <label class="control-label" for="ug-name">Username</label>
+      <div class="controls">
+        <input type="text" id="ug-name" {{#name}} value="{{name}}" {{/name}} placeholder="Enter Username">
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="ug-fullname">Full Name</label>
+      <div class="controls">
+        <input type="text" id="ug-fullname" placeholder="Enter Full Name" {{#fullname}} value="{{fullname}}" {{/fullname}}>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="ug-email">E-mail</label>
+      <div class="controls">
+        <input type="text" id="ug-email" placeholder="Enter Email Address" {{#email}} value="{{email}}" {{/email}}>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="ug-pwd">Password</label>
+      <div class="controls">
+        <input type="password" id="ug-pwd" placeholder="Enter Password" >
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="ug-conf-pwd">Confirm Password</label>
+      <div class="controls">
+        <input type="password" id="ug-conf-pwd" placeholder="Enter Confirm Password">
+      </div>
+    </div>
+    <h5>Privileges</h5>
+    <hr />
+    <div class="control-group">
+      <div class="controls">
+        <label class="checkbox" ><input type="checkbox" id="ug-allow-admin" {{#admin}} checked="checked" {{/admin}}> Allow user to administer this device</label>
+      </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" >Add to groups</label>
+      <div class="controls">
+        {{#allgroups}}
+        <label class="checkbox">
+          <input type="checkbox" class="ug-groups" value="{{id}}" {{#checked}} checked="checked" {{/checked}} >
+          {{name}}
+        </label>
+        {{/allgroups}}
+        {{^allgroups}}
+        <label class="checkbox alert">
+           Not available !!
+        </label>
+        {{/allgroups}}
+      </div>
+    </div>
+    {{^id}}
+    {{#private_share}}
+      <h5>Private Shared Folder</h5>
+      <hr />
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox" ><input type="checkbox" id="ug-private-sf">Create a private shared folder for this user.</label>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="ug-volume">On Volume</label>
+        <div class="controls">
+          <select id="ug-volume" >
+            <option value="" >-Select-</option>
+            {{#volumes}}
+                <option value="{{id}}">{{name}}</option>
+            {{/volumes}}
+          </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" >Allow File Protocols</label>
+        <div class="controls">
+          <label class="checkbox">
+            <input type="checkbox" id="ug-http" >
+            HTTP
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="ug-https" >
+            HTTPS
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="ug-ftp" >
+            FTP
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="ug-ftp-ssl" >
+            FTP SSL/TLS
+          </label>
+          <label class="checkbox">
+            <input type="checkbox" id="ug-nfs" >
+            NFS
+          </label>          
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <label class="checkbox" for="ug-sf-encr"><input type="checkbox" id="ug-sf-encr" >Encrypt this folder</label>
+        </div>
+      </div>
+    {{/private_share}}
+    {{/id}}
+  {{/user}}
+  {{^user}}
+    <div class="control-group">
+      <label class="control-label" for="ug-name">Name</label>
+        <div class="controls">
+          <input type="text" id="ug-name" {{#name}} value="{{name}}" {{/name}} placeholder="Enter Group">
+        </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" for="ug-description">Description</label>
+        <div class="controls">
+          <input type="text" id="ug-description" {{#description}} value="{{description}}" {{/description}} placeholder="Enter Description">
+        </div>
+    </div>
+    <div class="control-group">
+      <label class="control-label" >Add Users</label>
+      <div class="controls">
+        {{#usersExist}}
+        <label class="select">
+          <select id="ug-users" multiple="multiple" size="5" >
+            {{#users}}
+              <option value="{{id}}" {{#selected}} selected {{/selected}} size="7" >{{name}}</option>
+            {{/users}}
+          </select>
+        </label>
+        {{/usersExist}}
+        {{^usersExist}}
+        <label class="checkbox alert">
+           Not available !!
+        </label>
+        {{/usersExist}}
+      </div>
+    </div>  
+  {{/user}}
+</div>
+<div class="modal-footer">
+  <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  {{#user}}
+    {{^id}}
+      <button type="button" class="btn btn-primary" id="ug-user-save">Create User</button>
+    {{/id}}
+    {{#id}}
+      <button type="button" class="btn btn-primary" id="ug-user-update">Update User</button>
+    {{/id}}
+  {{/user}}
+  {{^user}}
+    {{^id}}
+      <button type="button" class="btn btn-primary" id="ug-gp-save">Create Group</button>
+    {{/id}}
+    {{#id}}
+      <button type="button" class="btn btn-primary" id="ug-gp-update">Update Group</button>
+    {{/id}}
+  {{/user}}
+</div>
+

@@ -4,7 +4,8 @@ define(function(require) {
         Backbone = require('backbone'),
         BaseModel = require('models/base');
 
-    var UsergroupsModel = BaseModel.extend({
+    var UsersModel = BaseModel.extend({
+        urlRoot: '/index.php/users/api',
         defaults: {
         },
 
@@ -21,5 +22,5 @@ define(function(require) {
         }
     });
 
-    return UsergroupsModel;
+    return UsersModel;
 });

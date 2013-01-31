@@ -16,6 +16,7 @@ define(function(require){
     var AppRouter = Backbone.Router.extend({
         routes: {
           'disks'                   : 'showDisks',
+          'disks/:id'               : 'showDisks',
           'volumes'                 : 'routeVolumes',
           'volumes/:id'             : 'routeVolumes',
           'shares'                  : 'routeShares',
@@ -41,8 +42,8 @@ define(function(require){
             this.on('route', header.render, header);
         },
 
-        showDisks: function() {
-            disks.render();
+        showDisks: function(id) {
+            disks.load();
         },
 
         routeVolumes: function(id) {

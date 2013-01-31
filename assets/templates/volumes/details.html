@@ -14,19 +14,74 @@
 			<p class="cav-module-item-desc">
 				{{description}}
 			</p>
+			<div class="row-fluid span9 offset1">
+				<div class="span3 cav-module-title">Size</div>
+				<div class="span6">{{size}}</div>
+			</div>
+			<div class="row-fluid span9 offset1">
+				<div class="span3 cav-module-title">Used</div>
+				<div class="span6">{{used}}</div>
+			</div>
+			<div class="row-fluid span9 offset1">
+				<div class="span3 cav-module-title">Status</div>
+				<div class="span6">{{status}}</div>
+			</div>
+			<div class="row-fluid span9 offset1">
+				<div class="span3 cav-module-title">Raid</div>
+				<div class="span6">{{raid}}</div>
+			</div>
+			<div class="row-fluid span9 offset1">
+				<div class="span3 cav-module-title">Disks</div>
+				<div class="span6" style="width: 300px;word-wrap: break-word;">
+					{{#disks}}
+					<a href="/disks/{{id}}" class="cav-popover" data-original-title="{{name}}" rel="popover" data-placement="top" data-html="true" data-content="<b>Size:</b> {{size}}<br/> <b>Status:</b> {{status}}" >{{name}}</a>&nbsp;
+					{{/disks}}
+				</div>
+			</div>
+			<div class="row-fluid span9 offset1">
+				<div class="span3 cav-module-title">Encrypted</div>
+				<div class="span6">{{#encrypted}}Yes{{/encrypted}}{{^encrypted}}No{{/encrypted}}</div>
+			</div>
 		</div>
 		<div class="span3">
+			{{#actions.delete}}
+			{{#actions}}
 			<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu">
 				{{#actions.edit}}
 			    <li>
-			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="cav-vr-edit-vol" data-toggle="modal"><i class="icon-edit"></i>&nbsp;Edit</a>
+			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-edit-vol" data-toggle="modal"><i class="icon-edit"></i>&nbsp;Edit</a>
 			    </li>
 			    <li class="divider"></li>
 			    {{/actions.edit}}
+			    {{^actions.migrate.delete}}
+			    {{#actions.migrate}}
+			    <li>
+			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-migrate-vol" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Migrate</a>
+			    </li>
+			    <li class="divider"></li>
+			    {{/actions.migrate}}
+			    {{/actions.migrate.delete}}
+			    {{#actions.recovery}}
+			    <li>
+			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-recovery-vol" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Recovery</a>
+			    </li>
+			    <li class="divider"></li>
+			    {{/actions.recovery}}
+			    {{#actions.extend}}
+			    <li>
+			    	<a tabindex="-1" href="#cav-vr-add-edit-modal" id="vr-extend-vol" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Extend</a>
+			    </li>
+			    <li class="divider"></li>
+			    {{/actions.extend}}
 			    {{#actions.delete}}
-			    <li><a tabindex="-1" href="#cav-confirm-dialog" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Delete</a></li>
+			    <li>
+			    	<a tabindex="-1" href="#cav-confirm-dialog" data-toggle="modal" ><i class="icon-minus-sign"></i>&nbsp;Delete</a>
+			    </li>
 			    {{/actions.delete}}
+			    
 		    </ul>
+		    {{/actions}}
+		    {{/actions.delete}}
 		</div>
 		<!-- Bootrap confirmation window -->
 		<div class="modal hide fade" id="cav-confirm-dialog">

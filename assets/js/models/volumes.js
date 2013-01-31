@@ -5,7 +5,7 @@ define(function(require) {
         BaseModel = require('models/base');
 
     var VolumesModel = BaseModel.extend({
-        url: '/index.php/volumes/api',
+        urlRoot: '/index.php/volumes/api',
         initialize: function() {
         },
 
