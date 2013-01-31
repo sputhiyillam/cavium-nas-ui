@@ -24,7 +24,10 @@ define(function(require) {
         },
 
         render: function() {
-            this.$el.append(SidebarTemplate);
+            var route = Backbone.history.fragment.split('/');
+            if (route[0] === 'disks'){
+                this.$el.append(SidebarTemplate);
+            }
             return this;
         },
 
@@ -64,32 +67,33 @@ define(function(require) {
         },
 
         render: function() {
-            var route = Backbone.history.fragment.split('/');
-            var Obj = Disks.get(route[1]).toJSON();
-            var volume = [], misc = { "show_actions" : false};
-            if(!Volumes.isEmpty()){
-                Volumes.each(function(item){
-                    var id = _.pluck(item.get('disks'), 'id');
-                    obj = {}; 
-                    obj['id'] = item.get('id');
-                    obj['name'] = item.get('name');
-                    obj['description'] = item.get('description');
-                    obj['size'] = item.get('size');
-                    obj['used'] = item.get('used');
-                    obj['status'] = item.get('status');
-                    if(_.contains(id, parseInt(route[1], 10))) {
-                        volume.push(obj);
-                    }
-                });
-            }
-
-            if(Obj.actions.claim || Obj.actions.eject){
-                misc = { "show_actions" : true};
-            }
-
-            volume = { "volumes" : volume};
-            var context = _.extend(Obj, volume, misc);
             if (route[0] === 'disks'){
+                var route = Backbone.history.fragment.split('/');
+                var Obj = Disks.get(route[1]).toJSON();
+                var volume = [], misc = { "show_actions" : false};
+                if(!Volumes.isEmpty()){
+                    Volumes.each(function(item){
+                        var id = _.pluck(item.get('disks'), 'id');
+                        obj = {}; 
+                        obj['id'] = item.get('id');
+                        obj['name'] = item.get('name');
+                        obj['description'] = item.get('description');
+                        obj['size'] = item.get('size');
+                        obj['used'] = item.get('used');
+                        obj['status'] = item.get('status');
+                        if(_.contains(id, parseInt(route[1], 10))) {
+                            volume.push(obj);
+                        }
+                    });
+                }
+
+                if(Obj.actions.claim || Obj.actions.eject){
+                    misc = { "show_actions" : true};
+                }
+
+                volume = { "volumes" : volume};
+                var context = _.extend(Obj, volume, misc);
+            
                 this.$el.html(this.contentTemplate( context ));
             }
             return this;
@@ -97,7 +101,7 @@ define(function(require) {
 
         change: function(model, options){
             var route = Backbone.history.fragment.split('/');
-            if(parseInt(model.get('id'), 10) === parseInt(route[1],10)){
+            if(parseInt(model.get('id'), 10) === parseInt(route[1],10) && route[0] === 'disks'){
                 this.render();
             }
         },
@@ -147,13 +151,13 @@ define(function(require) {
         load: function() {
             var self = this;
             $(".cav-sidebar").hide();
+            var fragment = Backbone.history.fragment;
+            var route = fragment.split('/');
             if (Disks.isEmpty()) {
-                if($('#sidebar-disk-items').length === 0){
+                if($('#sidebar-disk-items').length === 0 && route[0] === 'disks'){
                     sidebar.render();
                 }
                 var success = function() {
-                    var fragment = Backbone.history.fragment;
-                    var route = fragment.split('/');
                     if (route[1] !== undefined ) {
                         sidebar.navigate(fragment);
                         content.render();
@@ -162,8 +166,8 @@ define(function(require) {
                 };
                 var error = function() {
                     setTimeout(function() {
-                        console.log("Disks failed to load!!");
-                        self.load();
+                        alert("Disks failed to load!!");
+                        //self.load();
                     }, 10000);
                 };
                 this.fetch(success, error);
@@ -195,7 +199,7 @@ define(function(require) {
 
             Volumes.fetch({
                 error: function(){
-                    console.log("Volumes failed to load..")
+                    alert("Volumes failed to load..");
                 }
             });
         },
@@ -250,7 +254,6 @@ define(function(require) {
         
         showConfirm: function(event) {
             $(".btn").removeClass("disabled");
-            console.log($(event.currentTarget).attr('id'));
             if($(event.currentTarget).attr('id') === 'disk-claim'){
                 $("#disk-confirm-claim").show();
                 $("#disk-confirm-eject").hide();

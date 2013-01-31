@@ -55,9 +55,8 @@ class Volumes extends REST_Controller
             'args' => null
         );
         $args = array( 'request' => $arr,
-                'sync' => true
-                 );
-        //$new_args = json_encode($args);
+            'sync' => true
+        );
 
         $message = $this->cav_process_socket->test($args);
         $this->response($message, 200);

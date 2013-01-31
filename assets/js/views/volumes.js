@@ -23,9 +23,10 @@ define(function(require) {
         },
 
         render: function() {
-            //var accordion = this.accordionTemplate(Volumes.toJSON());
-            this.$el.append(SidebarTemplate);
-            //$(this.items).html(accordion);
+            var route = Backbone.history.fragment.split('/');
+            if (route[0] === 'volumes'){
+                this.$el.append(SidebarTemplate);
+            }
             return this;
         },
 
@@ -198,9 +199,7 @@ define(function(require) {
                     self.load();
                 };
                 var error = function() {
-                    setTimeout(function(){
-                        self.load();
-                    }, 10000);
+                    alert("Failed to retrive get data..!!");
                 };
                 this.fetch(success, error);
             } else if($("#sidebar-volume").length === 0) {
@@ -264,13 +263,13 @@ define(function(require) {
                 Disks.fetch({
                     update: true,
                     error: function() {
-                        console.log("No valid response for Disks");
+                        alert("No valid response from Disks API");
                     }
                 });
                 Volumes.fetch({
                     update: true,
                     error: function() {
-                        console.log("No valid response for Volumes");
+                        alert("No valid response from Volumes API");
                     }
                 });
                 self.poll();
@@ -278,6 +277,7 @@ define(function(require) {
         },
         
         _create: function() {
+            $("button").addClass("disabled");
             var disks = $("input[name = 'disks']:checked");
             var disk_obj = [];
             var self = this;
@@ -302,6 +302,7 @@ define(function(require) {
         },
 
         _delete: function() {
+            $("button").addClass("disabled");
             var fragment = Backbone.history.fragment;
             var route = fragment.split('/');
             var self = this;
@@ -315,10 +316,12 @@ define(function(require) {
         },
 
         showDialog: function(event) {
+            $("button").removeClass("disabled");
             dialog.show(event);
         },
 
         _edit: function() {
+            $("button").addClass("disabled");
             var route = Backbone.history.fragment.split('/');
             vol_id = route[1];
             var disks = $("input[name = 'disks']"),disk_obj=[];
@@ -348,6 +351,7 @@ define(function(require) {
         },
 
         _migrate: function(){
+            $("button").addClass("disabled");
             var route = Backbone.history.fragment.split('/');
 
             var disks = $("input[name = 'disks']:checked"), disk_obj=[], self = this;
@@ -371,7 +375,7 @@ define(function(require) {
 
         _extend: function() {
             var route = Backbone.history.fragment.split('/');
-
+            $("button").addClass("disabled");
             var disks = $("input[name = 'disks']:checked"), disk_obj=[], self = this;
             disks.each(function(){
                 disk_obj.push($(this).val());
@@ -393,7 +397,7 @@ define(function(require) {
 
         _recovery: function(){
             var route = Backbone.history.fragment.split('/');
-
+            $("button").addClass("disabled");
             var disks = $("input[name = 'disks']:checked"), disk_obj=[], self = this;
             disks.each(function(){
                 disk_obj.push($(this).val());
