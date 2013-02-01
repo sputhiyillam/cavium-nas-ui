@@ -83,7 +83,7 @@ define(function(require) {
             if($("#dhcp-tf").val() === "false"){
                 $("#nw-network-mode").val("Static")
             }
-            if($("#nw-status").val() === "down"){
+            if($("#nw-status").val() === "down" &&  $('#nw-lan').text() != "Bond 1" ){
                 $("#nw-save").attr('disabled',true);
             }else{
                 $("#nw-save").attr('disabled',false);
@@ -225,7 +225,7 @@ define(function(require) {
                     update: true,
                     
                     error: function() {
-                        alert("No valid response from Setting API");
+                        alert("No valid response from Setting API"); //here timeout will ocme to redirect new ip
                     }
                 });
                 self.poll();
